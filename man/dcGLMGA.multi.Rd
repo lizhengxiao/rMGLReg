@@ -23,7 +23,8 @@ d-dimensional MGL copula
 \examples{
 dcGLMGA.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 10, log = FALSE)
 dcGLMGA.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = T)
+pcGLMGA.multi(u = cbind(c(0.5, 0.5), c(0.01, 0.9)), pars = 3)
 
-
-
+Usim <- rcGLMGA.multi(n = 1000, d = 2, param = 1)
+Usim
 }

@@ -7,6 +7,10 @@
 rcGLMGA.multi(n, d, param)
 }
 \arguments{
+\item{n}{number of observations. If length(n) > 1, the length is taken to be the number required.}
+
+\item{d}{d-dimensions}
+
 \item{u}{d-dimensional matrix}
 
 \item{pars}{copula parameter, denoted by delta}
@@ -17,7 +21,9 @@ rcGLMGA.multi(n, d, param)
 d-dimensional MGL copula
 }
 \examples{
+dcGLMGA.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 10, log = FALSE)
+dcGLMGA.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = T)
+pcGLMGA.multi(u = cbind(c(0.5, 0.5), c(0.01, 0.9)), pars = 3)
 Usim <- rcGLMGA.multi(n = 1000, d = 2, param = 1)
 Usim
-
 }
