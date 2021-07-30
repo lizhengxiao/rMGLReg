@@ -1,15 +1,18 @@
-#' Density, distribution function, quantile function and random generation for the GLMGA distribution with parameters sigma, a and b.
+#' The GLMGA distribution
 #'
-#' @param y
-#' @param sigma
-#' @param a
-#' @param b
+#' @param y,q  vector of quantiles.
+#' @param p vector of probabilities.
+#' @param sigma parameter
+#' @param a parameter
+#' @param b parameter
 #' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
 #'
-#' @return
+#' @return Density, distribution function, quantile function and random generation for the GLMGA distribution with parameters sigma, a and b.
 #' @export
 #'
-#' @examples dLMGA(c(0.5,0.1), sigma = 2, a = 2, b = 3, log = FALSE) # density function at value 0.5 and 0.1
+#' @examples
+#' density function at value 0.5 and 0.1
+#' dLMGA(c(0.5,0.1), sigma = 2, a = 2, b = 3, log = FALSE)
 #'
 dLMGA <- function(y, sigma, a, b, log = FALSE) {
   if( log == FALSE){
@@ -21,18 +24,21 @@ dLMGA <- function(y, sigma, a, b, log = FALSE) {
 
 
 
-#' Density, distribution function, quantile function and random generation for the GLMGA distribution with parameters sigma, a and b.
+#' The GLMGA distribution
 #'
-#' @param y
-#' @param sigma
-#' @param a
-#' @param b
+#' @param y,q  vector of quantiles.
+#' @param p vector of probabilities.
+#' @param sigma parameter
+#' @param a parameter
+#' @param b parameter
 #' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
 #'
-#' @return
+#' @return Density, distribution function, quantile function and random generation for the GLMGA distribution with parameters sigma, a and b.
 #' @export
 #'
-#' @examples pLMGA(c(10,20), sigma = 2, a = 2, b = 3) # cdf at value 10 and 20.
+#' @examples
+#' cdf at value 10 and 20.
+#' pLMGA(c(10,20), sigma = 2, a = 2, b = 3)
 pLMGA <- function(y, sigma, a, b) {
   z <- y^(-1/sigma)/(y^(-1/sigma) + 2*b)
   p <- 1- pbeta(z, shape1 = 0.5, shape2 = a)
@@ -40,17 +46,21 @@ pLMGA <- function(y, sigma, a, b) {
 }
 
 
-#' Density, distribution function, quantile function and random generation for the GLMGA distribution with parameters sigma, a and b.
+#' The GLMGA distribution
 #'
-#' @param u
-#' @param sigma
-#' @param a
-#' @param b
+#' @param y,q  vector of quantiles.
+#' @param p vector of probabilities.
+#' @param sigma parameter
+#' @param a parameter
+#' @param b parameter
+#' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
 #'
-#' @return
+#' @return Density, distribution function, quantile function and random generation for the GLMGA distribution with parameters sigma, a and b.
 #' @export
 #'
-#' @examples qLMGA(c(0.5,0.1), sigma = 2, a = 2, b = 3) # quantile function at level 50% and 10%
+#' @examples
+#' quantile function at level 50% and 10%
+#' qLMGA(c(0.5,0.1), sigma = 2, a = 2, b = 3)
 qLMGA <- function(u, sigma, a, b) {
   c <- (2*b)^(-sigma)
   #I <- pbeta(u, shape1 = 0.5, shape2 = a)
@@ -60,17 +70,21 @@ qLMGA <- function(u, sigma, a, b) {
 
 
 
-#' Density, distribution function, quantile function and random generation for the GLMGA distribution with parameters sigma, a and b.
+#' The GLMGA distribution
 #'
-#' @param n
-#' @param sigma
-#' @param a
-#' @param b
+#' @param y,q  vector of quantiles.
+#' @param p vector of probabilities.
+#' @param sigma parameter
+#' @param a parameter
+#' @param b parameter
+#' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
 #'
-#' @return
+#' @return Density, distribution function, quantile function and random generation for the GLMGA distribution with parameters sigma, a and b.
 #' @export
 #'
-#' @examples rLMGA(n = 10, sigma = 2, a = 2, b = 3) # simulate the data from GLMGA distribution
+#' @examples
+#' simulate 10 samples from GLMGA distribution with parameters (2, 2, 3)
+#' rLMGA(n = 10, sigma = 2, a = 2, b = 3)
 rLMGA <- function(n, sigma, a, b) {
   u <- runif(n, min = 0, max = 1)
   qLMGA <- Vectorize(qLMGA)
