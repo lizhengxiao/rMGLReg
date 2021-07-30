@@ -21,9 +21,6 @@ dLMGA <- function(y, sigma, a, b, log = FALSE) {
     -0.5*log(2*pi) - log(sigma) + a*log(b) + lgamma(a + 0.5) - lgamma(a) - (1/(2*sigma)+1)*log(y) - (a + 0.5)*log(0.5*(1/y)^(1/sigma) + b)
   }
 }
-
-
-
 #' The GLMGA distribution
 #'
 #' @param y,q  vector of quantiles.
@@ -44,7 +41,6 @@ pLMGA <- function(y, sigma, a, b) {
   p <- 1- pbeta(z, shape1 = 0.5, shape2 = a)
   p
 }
-
 
 #' The GLMGA distribution
 #'
@@ -67,8 +63,6 @@ qLMGA <- function(u, sigma, a, b) {
   Iinv <- qbeta(1- u, shape1 = 0.5, shape2 = a)
   c*(Iinv/(1 - Iinv))^(-sigma)
 }
-
-
 
 #' The GLMGA distribution
 #'
