@@ -1,4 +1,30 @@
-
+#'
+#' Bivarite MGL copula
+#'
+#' @param u_1,u_2 numeric vectors of equal length with values in [0,1].
+#' @param pars copula parameter, denoted by delta
+#' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
+#' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
+#'
+#' @return Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
+#' @export
+#'
+#' @examples
+#' dcMGL.bivar(u1 = 0.001, u2 = 0.999, pars = 1)
+#' pcMGL.bivar(u1 = c(0.6, 0.1, 0.7), u2 = c(0.3, 0.6, 0.9), pars = 5)
+dcGLMGA.multi <- function(u, pars, log = FALSE){
+  # 1. coding as a matrix
+  dim <- ncol(u)
+  a <- 1/pars[1]
+  q <- (qbeta(1-u, shape1 = 0.5, shape2 = a)/(1 - qbeta(1-u, shape1 = 0.5, shape2 = a)))
+  logdc <- 0
+  for(i in 1:nrow(u)){
+    logdc[i] <- (dim - 1)*lgamma(a) + lgamma(a + dim/2) - dim*lgamma(a + 0.5) + (a + 0.5)*sum(log(q[i,] + 1)) - (a + dim/2)*log(sum(q[i,]) + 1)
+  }
+  dc <- exp(logdc)
+  dc[which(q == Inf)] <- 0
+  if(log == TRUE) {logdc} else {dc}
+}
 
 #'
 #' Bivarite MGL copula

@@ -54,7 +54,7 @@ pcMGL180.bivar <- function(u1, u2, pars) {
 #' @examples
 #' dcMGL180.bivar(u1 = 0.001, u2 = 0.999, pars = 1)
 #' pcMGL180.bivar(u1 = c(0.6, 0.1, 0.7), u2 = c(0.3, 0.6, 0.9), pars = 5)
-#' Usim <- rcMGL180.bivar(5000, param = 7)
+#' Usim <- rcMGL180.bivar(5000, param = 3)
 #' plot(Usim)
 #'
 rcMGL180.bivar <- function(n, param){
