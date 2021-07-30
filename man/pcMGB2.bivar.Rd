@@ -19,7 +19,7 @@ pcMGB2.bivar(u1, u2, pars1, pars2, pars3)
 Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
 }
 \description{
-Bivarite MGL copula
+Density (dCopula), distribution function (pCopula), and random generation (rCopula) for a copula object.
 }
 \examples{
 dcMGB2.bivar(u1 = c(0, 0.5), u2 = c(0.9, 0), pars1 = 0.5, pars2 = 0.5, pars3 = 1.5)

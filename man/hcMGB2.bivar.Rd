@@ -7,6 +7,8 @@
 hcMGB2.bivar(u1, u2, pars1, pars2, pars3)
 }
 \arguments{
+\item{u1, u2}{numeric vectors of equal length with values in \link{0,1}.}
+
 \item{pars1, pars2, pars3}{copula parameters, denoted by p_1, p_2, q}
 }
 \description{
