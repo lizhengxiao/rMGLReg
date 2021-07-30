@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' density function at value 0.5 and 0.1
+#' # density function at value 0.5 and 0.1
 #' dLMGA(c(0.5,0.1), sigma = 2, a = 2, b = 3, log = FALSE)
 #'
 dGLMGA <- function(y, sigma, a, b, log = FALSE) {
@@ -37,7 +37,7 @@ dGLMGA <- function(y, sigma, a, b, log = FALSE) {
 #' @export
 #'
 #' @examples
-#' cdf at value 10 and 20.
+#' # cdf at value 10 and 20.
 #' pLMGA(c(10,20), sigma = 2, a = 2, b = 3)
 pGLMGA <- function(y, sigma, a, b) {
   z <- y^(-1/sigma)/(y^(-1/sigma) + 2*b)
@@ -59,7 +59,7 @@ pGLMGA <- function(y, sigma, a, b) {
 #' @export
 #'
 #' @examples
-#' quantile function at level 50% and 10%
+#' # quantile function at level 50% and 10%
 #' qLMGA(c(0.5,0.1), sigma = 2, a = 2, b = 3)
 qGLMGA <- function(u, sigma, a, b) {
   c <- (2*b)^(-sigma)
@@ -83,7 +83,7 @@ qGLMGA <- function(u, sigma, a, b) {
 #' @export
 #'
 #' @examples
-#' simulate 10 samples from GLMGA distribution with parameters (2, 2, 3)
+#' # simulate 10 samples from GLMGA distribution with parameters (2, 2, 3)
 #' rLMGA(n = 10, sigma = 2, a = 2, b = 3)
 rGLMGA <- function(n, sigma, a, b) {
   u <- runif(n, min = 0, max = 1)
