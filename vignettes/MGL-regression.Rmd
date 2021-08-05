@@ -102,62 +102,62 @@ p0
 ```
 
 
-<!-- ### fitting copulas withtout covariates -->
+### fitting copulas withtout covariates
 
-<!-- ```{r} -->
-<!--   X <- model.matrix( ~ 1, data = dtnew) -->
+```{r}
+  X <- model.matrix( ~ 1, data = dtnew)
 
-<!--   # survival MGL copual regression -->
-<!--   m.MGL180 <- MGL.reg(U = U, copula = "MGL180", -->
-<!--                                  method = "Brent", -->
-<!--                                  lower = -5, upper = 5, -->
-<!--                                  X = X, -->
-<!--                                  control = list(maxit = 100000, -->
-<!--                                                 fnscale = -1), -->
-<!--                                  initpar = c(0.01) -->
-<!--   ) -->
-<!--   # survival MGL-EV copual regression -->
-<!--   m.MGLEV180 <- MGL.reg(U = U, copula = "MGL-EV180", -->
-<!--                          method = "Brent", -->
-<!--                         lower = -5, upper = 5, -->
-<!--                          X = X, -->
-<!--                          control = list(maxit = 100000, -->
-<!--                                         fnscale = -1), -->
-<!--                          initpar = c(0.01) -->
-<!--   ) -->
-<!--   # survival MGL-EV copual regression -->
-<!--   m.gumbel <- MGL.reg(U = U, copula = "Gumbel", -->
-<!--                          method = "Brent", -->
-<!--                          lower = -5, upper = 5, -->
-<!--                          X = X, -->
-<!--                          control = list(maxit = 100000, -->
-<!--                                         fnscale = -1), -->
-<!--                          initpar = c(0.01) -->
-<!--   ) -->
-<!--   # show the estimates and stardard errors for the models -->
-<!--   modout <- function(m) { -->
-<!--     Hessian <- -m$hessian -->
-<!--     se <- sqrt(diag(solve(Hessian)))                  ## stardard error -->
-<!--     Z <- m$par/se                                             ##  Z statistic -->
-<!--     p <- ifelse(Z>=0, pnorm(Z, lower=F)*2, pnorm(Z)*2)           ## p value -->
-<!--     summarytable <- data.frame(m$par, se, Z, p) -->
-<!--     LL <- m$value -->
-<!--     NLL <- -m$value  # - loglikelihood value -->
-<!--     AIC <- 2*length(m$par) + 2*NLL -->
-<!--     BIC <- log(nrow(U))*length(m$par) + 2*NLL -->
-<!--     list(summary = summarytable, ll =  m$value, AIC = AIC, BIC = BIC) -->
-<!--   } -->
+  # survival MGL copual regression
+  m.MGL180 <- MGL.reg(U = U, copula = "MGL180",
+                                 method = "Brent",
+                                 lower = -5, upper = 5,
+                                 X = X,
+                                 control = list(maxit = 100000,
+                                                fnscale = -1),
+                                 initpar = c(0.01)
+  )
+  # survival MGL-EV copual regression
+  m.MGLEV180 <- MGL.reg(U = U, copula = "MGL-EV180",
+                         method = "Brent",
+                        lower = -5, upper = 5,
+                         X = X,
+                         control = list(maxit = 100000,
+                                        fnscale = -1),
+                         initpar = c(0.01)
+  )
+  # survival MGL-EV copual regression
+  m.gumbel <- MGL.reg(U = U, copula = "Gumbel",
+                         method = "Brent",
+                         lower = -5, upper = 5,
+                         X = X,
+                         control = list(maxit = 100000,
+                                        fnscale = -1),
+                         initpar = c(0.01)
+  )
+  # show the estimates and stardard errors for the models
+  modout <- function(m) {
+    Hessian <- -m$hessian
+    se <- sqrt(diag(solve(Hessian)))                  ## stardard error
+    Z <- m$par/se                                             ##  Z statistic
+    p <- ifelse(Z>=0, pnorm(Z, lower=F)*2, pnorm(Z)*2)           ## p value
+    summarytable <- data.frame(m$par, se, Z, p)
+    LL <- m$value
+    NLL <- -m$value  # - loglikelihood value
+    AIC <- 2*length(m$par) + 2*NLL
+    BIC <- log(nrow(U))*length(m$par) + 2*NLL
+    list(summary = summarytable, ll =  m$value, AIC = AIC, BIC = BIC)
+  }
 
-<!--   estimates.copula <- c(exp(m.MGL180$par), exp(m.MGLEV180$par), exp(m.gumbel$par) + 1) -->
-<!--   sd.copula <- c(sqrt(-1/m.MGL180$hessian)*exp(m.MGL180$par), sqrt(-1/m.MGLEV180$hessian)*exp(m.MGLEV180$par), sqrt(-1/m.gumbel$hessian)*exp(m.gumbel$par)) -->
-<!--   ll.copula <- c(modout(m.MGL180)$ll, modout(m.MGLEV180)$ll, modout(m.gumbel)$ll) -->
-<!--   AIC.copula <- c(modout(m.MGL180)$AIC, modout(m.MGLEV180)$AIC, modout(m.gumbel)$AIC) -->
-<!--   BIC.copula <- c(modout(m.MGL180)$BIC, modout(m.MGLEV180)$BIC, modout(m.gumbel)$BIC) -->
+  estimates.copula <- c(exp(m.MGL180$par), exp(m.MGLEV180$par), exp(m.gumbel$par) + 1)
+  sd.copula <- c(sqrt(-1/m.MGL180$hessian)*exp(m.MGL180$par), sqrt(-1/m.MGLEV180$hessian)*exp(m.MGLEV180$par), sqrt(-1/m.gumbel$hessian)*exp(m.gumbel$par))
+  ll.copula <- c(modout(m.MGL180)$ll, modout(m.MGLEV180)$ll, modout(m.gumbel)$ll)
+  AIC.copula <- c(modout(m.MGL180)$AIC, modout(m.MGLEV180)$AIC, modout(m.gumbel)$AIC)
+  BIC.copula <- c(modout(m.MGL180)$BIC, modout(m.MGLEV180)$BIC, modout(m.gumbel)$BIC)
 
-<!--   table1 <- cbind(estimates.copula, sd.copula, ll.copula, AIC.copula, BIC.copula) -->
-<!--   row.names(table1) <- c('MGL', 'survival MGL', 'Gumbel') -->
-<!--   knitr::kable(table1, digits = 3) -->
-<!-- ``` -->
+  table1 <- cbind(estimates.copula, sd.copula, ll.copula, AIC.copula, BIC.copula)
+  row.names(table1) <- c('MGL', 'survival MGL', 'Gumbel')
+  knitr::kable(table1, digits = 3)
+```
 
 
 ### survival MGL copual and survival MGL-EV regression

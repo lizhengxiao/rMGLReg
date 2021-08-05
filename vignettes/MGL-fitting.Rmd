@@ -88,8 +88,7 @@ res.all <- round(cbind(recap(m.norm),
                        recap(m.MGLEV180)
 ), 4)
 out.com <- t(res.all)
-out.com[order(out.com[,8]),]
-out.com[order(out.com[,9]),]
-
+out.com <- out.com[order(out.com[,9], decreasing = T),]
+knitr::kable(out.com, digits = 2)
 
 ```
