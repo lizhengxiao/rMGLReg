@@ -2,9 +2,18 @@
 % Please edit documentation in R/MGL.multi.r
 \name{dcMGL.multi}
 \alias{dcMGL.multi}
+\alias{pcMGL.multi}
+\alias{rcMGL.multi}
+\alias{rcMGL180.multi}
 \title{d-dimensional MGL copula}
 \usage{
 dcMGL.multi(u, pars, log = FALSE)
+
+pcMGL.multi(u, pars = 1.2)
+
+rcMGL.multi(n, d, param)
+
+rcMGL180.multi(n, d, param)
 }
 \arguments{
 \item{u}{d-dimensional matrix}
@@ -27,7 +36,8 @@ Density (dCopula), distribution function (pCopula), and random generation (rCopu
 dcMGL.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 10, log = FALSE)
 dcMGL.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = T)
 pcMGL.multi(u = cbind(c(0.5, 0.5), c(0.01, 0.9)), pars = 3)
-
 Usim <- rcMGL.multi(n = 1000, d = 2, param = 1)
+plot(Usim)
+Usim <- rcMGL180.multi(n = 1000, d = 2, param = 1)
 plot(Usim)
 }

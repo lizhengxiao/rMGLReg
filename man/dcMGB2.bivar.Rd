@@ -2,14 +2,20 @@
 % Please edit documentation in R/MGB2.bivariate.r
 \name{dcMGB2.bivar}
 \alias{dcMGB2.bivar}
+\alias{pcMGB2.bivar}
+\alias{hcMGB2.bivar}
 \title{Bivarite MGL copula}
 \usage{
 dcMGB2.bivar(u1, u2, pars1, pars2, pars3)
+
+pcMGB2.bivar(u1, u2, pars1, pars2, pars3)
+
+pcMGB2.bivar(u1, u2, pars1, pars2, pars3)
 }
 \arguments{
 \item{pars1, pars2, pars3}{copula parameters, denoted by p_1, p_2, q}
 
-\item{u_1, u_2}{numeric vectors of equal length with values in \link{0,1}.}
+\item{$u_1$, $u_2$}{numeric vectors of equal length with values in \link{0,1}.}
 
 \item{log}{logical; if TRUE, probabilities/densities p are returned as log(p).}
 

@@ -82,7 +82,20 @@ pcMGLEV180.bivar <- function(u1, u2, param){
   return(out)
 }
 
-
+#'
+#' Bivarite surivival MGL-EV copula
+#'
+#' @param u_1,u_2 numeric vectors of equal length with values in [0,1].
+#' @param param copula parameter, denoted by delta
+#' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
+#' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
+#'
+#' @return Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
+#' @export
+#'
+#' @examples
+#' dcMGLEV180.bivar(u1 = 0.5, u2 = 0.78, param = 1.8)
+#' pcMGLEV180.bivar(u1 = c(0.3, 0.9), u2 = c(0.5, 0.8), param = 2)
 dcMGLEV180.bivar <- function(u1, u2, param){
   lf <- function(y1, y2, param){
     delta <- param

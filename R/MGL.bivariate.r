@@ -1,45 +1,38 @@
 #'
 #' Bivarite MGL copula
 #'
-#' @param u_1,u_2 numeric vectors of equal length with values in [0,1].
+#' @param u_1,u_2 numeric vectors of equal length with values in $\left\[0,1\right\]$.
 #' @param pars copula parameter, denoted by delta
 #' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
 #' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
 #'
 #' @return Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
 #' @export
-#'
 #' @examples
 #' dcMGL.bivar(u1 = 0.001, u2 = 0.999, pars = 1)
 #' pcMGL.bivar(u1 = c(0.6, 0.1, 0.7), u2 = c(0.3, 0.6, 0.9), pars = 5)
-dcGLMGA.multi <- function(u, pars, log = FALSE){
-  # 1. coding as a matrix
-  dim <- ncol(u)
-  a <- 1/pars[1]
-  q <- (qbeta(1-u, shape1 = 0.5, shape2 = a)/(1 - qbeta(1-u, shape1 = 0.5, shape2 = a)))
-  logdc <- 0
-  for(i in 1:nrow(u)){
-    logdc[i] <- (dim - 1)*lgamma(a) + lgamma(a + dim/2) - dim*lgamma(a + 0.5) + (a + 0.5)*sum(log(q[i,] + 1)) - (a + dim/2)*log(sum(q[i,]) + 1)
+dcMGL.bivar <- function(u1, u2, pars){
+  dim <- 2
+  a <- 1/pars
+  q1 <- qbeta(1-u1, shape1 = 0.5, shape2 = a)/(1 - qbeta(1-u1, shape1 = 0.5, shape2 = a))
+  q2 <- qbeta(1-u2, shape1 = 0.5, shape2 = a)/(1 - qbeta(1-u2, shape1 = 0.5, shape2 = a))
+  # if(u1 == 0|u2 == 0|q1 == Inf|q2 == Inf) dc <- 0
+  if(q1 == Inf|q2 == Inf) {
+    dc <- 0
+  } else {
+    q <- cbind(q1, q2)
+    #dc <- gamma(a)^(dim - 1)*gamma(a + dim/2)/(gamma(a + 0.5)^dim)*(q1 + 1)^(a + 0.5)*(q2 + 1)^(a + 0.5)/((q1 + q2) + 1)^(a + dim/2)
+    dc <- gamma(a)^(dim - 1)/(gamma(a + 0.5)^(dim - 1))/(gamma(a + 0.5))*gamma(a + dim/2)*(q1 + 1)^(a + 0.5)*(q2 + 1)^(a + 0.5)/((q1 + q2) + 1)^(a + dim/2)
   }
-  dc <- exp(logdc)
-  dc[which(q == Inf)] <- 0
-  if(log == TRUE) {logdc} else {dc}
+  return(dc)
 }
+dcMGL.bivar <- Vectorize(dcMGL.bivar)
 
-#'
-#' Bivarite MGL copula
-#'
-#' @param u_1,u_2 numeric vectors of equal length with values in [0,1].
-#' @param pars copula parameter, denoted by delta
-#' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
-#' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
-#'
-#' @return Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
+
+
+#' @rdname dcMGL.bivar
+#' @usage pcMGL.bivar(u1, u2, pars)
 #' @export
-#'
-#' @examples
-#' dcMGL.bivar(u1 = 0.001, u2 = 0.999, pars = 1)
-#' pcMGL.bivar(u1 = c(0.6, 0.1, 0.7), u2 = c(0.3, 0.6, 0.9), pars = 5)
 pcMGL.bivar <- function(u1, u2, pars) {
   a <- 1/pars
   q1 <- qbeta(1-u1, shape1 = 0.5, shape2 = a)/(1 - qbeta(1-u1, shape1 = 0.5, shape2 = a))
@@ -64,28 +57,22 @@ pcMGL.bivar <- function(u1, u2, pars) {
 pcMGL.bivar <- Vectorize(pcMGL.bivar)
 
 
-
-
 #' Conditional Distribution Function of a Bivariate Copula
 #'
-#' @param u1 numeric vectors of equal length with values in [0,1].
-#' @param u2 numeric vectors of equal length with values in [0,1].
+#' @param u1 numeric vectors of equal length with values in $\left\[0,1\right\]$.
+#' @param u2 numeric vectors of equal length with values in $\left\[0,1\right\]$.
 #' @param pars numeric; single number or vector of size length(u1); copula parameter > 0.
 #'
 #' @details
 #' The h-function is defined as the conditional distribution function of a bivariate copula, i.e.,
-#' h_1(u_2|u_1,θ) := P(U_2 ≤ u_2 | U_1 = u_1) = \partial C(u_1,u_2) / \partial u_1,
+#' $h_1(u_2|u_1,\delta) := P(U_2 \leq u_2 | U_1 = u_1) = \partial C(u_1,u_2) / \partial u_1,$
 #'
-#' h_2(u_1|u_2,θ) := P(U_1 ≤ u_1 | U_2 = u_2) := \partial C(u_1,u_2) / \partial u_2,
+#' $h_2(u_1|u_2,\delta) := P(U_1 \leq u_1 | U_2 = u_2) := \partial C(u_1,u_2) / \partial u_2,$
 #'
-#'where (U_1, U_2) \sim C, and C is a bivariate copula distribution function with parameter(s) θ. For more details see Aas et al. (2009).
-#' @Value BiCopHfunc returns a list with
-#'
-#'
-#'
+#'where $(U_1, U_2) \sim C$, and $C$ is a bivariate copula distribution function with parameter(s) $\delta$. For more details see Aas et al. (2009).
+#' @return BiCopHfunc returns a list with
 #' @export
-#'
-#' @References Aas, K., C. Czado, A. Frigessi, and H. Bakken (2009). Pair-copula constructions of multiple dependence. Insurance: Mathematics and Economics 44 (2), 182-198.
+#' @references Aas, K., C. Czado, A. Frigessi, and H. Bakken (2009). Pair-copula constructions of multiple dependence. Insurance: Mathematics and Economics 44 (2), 182-198.
 #' @examples
 #' hcMGL.bivar(u1 = c(0.1, 0.001, 0.3), u2 = c(0, 0.9999, 0.88), pars = 2)
 hcMGL.bivar <- function(u1, u2, pars) {
@@ -106,4 +93,37 @@ hcMGL.bivar <- function(u1, u2, pars) {
   hfunc2 <- 1 - pbeta(z2 ,shape1 = 0.5, shape2 = a + 0.5) # C(u1|u2)
   list(hfunc1 = hfunc1, hfunc2 = hfunc2)
 
+}
+
+
+#' Bivarite Survival MGL copula
+#'
+#' @param u_1,u_2 numeric vectors of equal length with values in $\left\[0,1\right\]$.
+#' @param pars copula parameter, denoted by delta
+#' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
+#' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
+#'
+#' @return Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
+#' @export
+#' @examples
+#' dcMGL180.bivar(u1 = 0.001, u2 = 0.999, pars = 1)
+#' pcMGL180.bivar(u1 = c(0.6, 0.1, 0.7), u2 = c(0.3, 0.6, 0.9), pars = 5)
+#' rcMGL180.bivar(n = 1000, param = 0.8)
+dcMGL180.bivar <- function(u1, u2, pars) {
+  dcMGL.bivar(1 - u1, 1 - u2, pars)
+}
+
+#' @rdname dcMGL180.bivar
+#' @usage pcMGL180.bivar(u1, u2, pars)
+#' @export
+pcMGL180.bivar <- function(u1, u2, pars) {
+  u1 + u2 - 1 + pcMGL.bivar( 1 - u1, 1 - u2, pars)
+}
+
+#' @rdname dcMGL180.bivar
+#' @usage rcMGL180.bivar(u1, u2, pars)
+#' @export
+rcMGL180.bivar <- function(n, param){
+  Usim <- rcMGL.multi(n = n, param = param, d = 2)
+  1 - Usim
 }

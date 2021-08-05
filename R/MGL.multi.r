@@ -16,8 +16,9 @@
 #' dcMGL.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 10, log = FALSE)
 #' dcMGL.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = T)
 #' pcMGL.multi(u = cbind(c(0.5, 0.5), c(0.01, 0.9)), pars = 3)
-#'
 #' Usim <- rcMGL.multi(n = 1000, d = 2, param = 1)
+#' plot(Usim)
+#' Usim <- rcMGL180.multi(n = 1000, d = 2, param = 1)
 #' plot(Usim)
 dcMGL.multi <- function(u, pars, log = FALSE){
   # coding as a matrix
@@ -33,24 +34,11 @@ dcMGL.multi <- function(u, pars, log = FALSE){
   if(log == TRUE) {logdc} else {dc}
 }
 
-#' d-dimensional MGL copula
-#'
-#' @param u d-dimensional matrix
-#' @param pars copula parameter, denoted by delta
-#' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
-#' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
-#' @param d d-dimensions
-#'
-#' @return Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
-#' @export
-#'
-#' @examples
-#' dcMGL.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 10, log = FALSE)
-#' dcMGL.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = T)
-#' pcMGL.multi(u = cbind(c(0.5, 0.5), c(0.01, 0.9)), pars = 3)
-#'
-#' Usim <- rcMGL.multi(n = 1000, d = 2, param = 1)
-#' plot(Usim)
+
+
+##' @rdname dcMGL.multi
+##' @usage pcMGL.multi(u, pars = 1.2)
+##' @export
 pcMGL.multi <- function(u, pars) {
   dim <- ncol(u)
   a <- 1/pars[1]
@@ -71,24 +59,9 @@ pcMGL.multi <- function(u, pars) {
   return(z) # rely on k
 }
 
-#' d-dimensional MGL copula
-#'
-#' @param u d-dimensional matrix
-#' @param pars copula parameter, denoted by delta
-#' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
-#' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
-#' @param d d-dimensions
-#'
-#' @return Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
-#' @export
-#'
-#' @examples
-#' dcMGL.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 10, log = FALSE)
-#' dcMGL.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = T)
-#' pcMGL.multi(u = cbind(c(0.5, 0.5), c(0.01, 0.9)), pars = 3)
-#'
-#' Usim <- rcMGL.multi(n = 1000, d = 2, param = 1)
-#' plot(Usim)
+##' @rdname dcMGL.multi
+##' @usage rcMGL.multi(n, d, param)
+##' @export
 rcMGL.multi <- function(n, d, param){
   a <- 1/param
   dseq <- seq(1:(d-1))
@@ -125,3 +98,10 @@ rcMGL.multi <- function(n, d, param){
   return(Usim)
 }
 
+
+##' @rdname dcMGL.multi
+##' @usage rcMGL180.multi(n, d, param)
+##' @export
+rcMGL180.multi <- function(n, d, param){
+  1 - rcMGL.multi(n = n, d = d, param = param)
+}

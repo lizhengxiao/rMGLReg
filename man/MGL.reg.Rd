@@ -4,7 +4,13 @@
 \alias{MGL.reg}
 \title{Fitting bivariate MGL copula regression models}
 \usage{
-MGL.reg(U, X, copula = c("MGL", "MGL180", "MGL-EV", "MGL-EV180"), initpar, ...)
+MGL.reg(
+  U,
+  X,
+  copula = c("MGL", "MGL180", "MGL-EV", "MGL-EV180", "Gumbel"),
+  initpar,
+  ...
+)
 }
 \arguments{
 \item{U}{two-dimenstional matrix with values in \link{0,1}.}

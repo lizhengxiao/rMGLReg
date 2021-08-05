@@ -5,14 +5,13 @@
 #' Bivarite MGL copula
 #'
 #' @description Density (dCopula), distribution function (pCopula), and random generation (rCopula) for a copula object.
-#' @param u_1,u_2 numeric vectors of equal length with values in [0,1].
+#' @param $u_1$,$u_2$ numeric vectors of equal length with values in [0,1].
 #' @param pars1,pars2,pars3 copula parameters, denoted by p_1, p_2, q
 #' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
 #' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
 #'
 #' @return Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
 #' @export
-#'
 #' @examples
 #' dcMGB2.bivar(u1 = c(0, 0.5), u2 = c(0.9, 0), pars1 = 0.5, pars2 = 0.5, pars3 = 1.5)
 #' pcMGB2.bivar(u1 = c(0.5, 0.1), u2 = c(0.9, 0.1), pars1 = 0.5, pars2 = 0.5, pars3 = 1.5)
@@ -35,21 +34,10 @@ dcMGB2.bivar <- function(u1, u2, pars1, pars2, pars3){
 dcMGB2.bivar <- Vectorize(dcMGB2.bivar)
 
 
-#'
-#' Bivarite MGL copula
-#' @description Density (dCopula), distribution function (pCopula), and random generation (rCopula) for a copula object.
-#' @param u_1,u_2 numeric vectors of equal length with values in [0,1].
-#' @param pars1,pars2,pars3 copula parameters, denoted by p_1, p_2, q
-#' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
-#' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
-#'
-#' @return Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
+
+#' @rdname dcMGB2.bivar
+#' @usage pcMGB2.bivar(u1, u2, pars1, pars2, pars3)
 #' @export
-#'
-#' @examples
-#' dcMGB2.bivar(u1 = c(0, 0.5), u2 = c(0.9, 0), pars1 = 0.5, pars2 = 0.5, pars3 = 1.5)
-#' pcMGB2.bivar(u1 = c(0.5, 0.1), u2 = c(0.9, 0.1), pars1 = 0.5, pars2 = 0.5, pars3 = 1.5)
-#'
 pcMGB2.bivar <- function(u1, u2, pars1, pars2, pars3){
   p1 <- pars1
   p2 <- pars2
@@ -75,29 +63,9 @@ pcMGB2.bivar <- function(u1, u2, pars1, pars2, pars3){
 pcMGB2.bivar <- Vectorize(pcMGB2.bivar)
 
 
-#' Conditional Distribution Function of a Bivariate Copula
-#'
-#' @param u1,u2 numeric vectors of equal length with values in [0,1].
-#' @param pars1,pars2,pars3 copula parameters, denoted by p_1, p_2, q
-#'
-#' @details
-#' The h-function is defined as the conditional distribution function of a bivariate copula, i.e.,
-#' h_1(u_2|u_1,θ) := P(U_2 ≤ u_2 | U_1 = u_1) = \partial C(u_1,u_2) / \partial u_1,
-#'
-#' h_2(u_1|u_2,θ) := P(U_1 ≤ u_1 | U_2 = u_2) := \partial C(u_1,u_2) / \partial u_2,
-#'
-#'where (U_1, U_2) \sim C, and C is a bivariate copula distribution function with parameter(s) θ. For more details see Aas et al. (2009).
-#' @Value BiCopHfunc returns a list with
-#'
-#'
-#'
+#' @rdname dcMGB2.bivar
+#' @usage pcMGB2.bivar(u1, u2, pars1, pars2, pars3)
 #' @export
-#'
-#' @References \
-#' Aas, K., C. Czado, A. Frigessi, and H. Bakken (2009). Pair-copula constructions of multiple dependence. Insurance: Mathematics and Economics 44 (2), 182-198.
-#' @examples
-#' hMGB2.bivar(u1 = c(0.3, 0.4), u2 = c(0.4, 0.5), pars1 = 0.5, pars2 = 0.5, pars3 = 1.5)
-#'
 hcMGB2.bivar <- function(u1, u2, pars1, pars2, pars3){
   p1 <- pars1
   p2 <- pars2

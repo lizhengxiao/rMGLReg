@@ -14,8 +14,10 @@
 #' @return For optim, a list with components:
 #' @export
 #'
-#' @examples
-MGL.reg <- function(U, X, copula = c('MGL', 'MGL180', "MGL-EV", "MGL-EV180"), initpar, ...){
+#'
+MGL.reg <- function(U, X, copula = c('MGL', 'MGL180', "MGL-EV",
+                                     "MGL-EV180",
+                                     "Gumbel"), initpar, ...){
 
   dcMGL.reg <- function(U, param) {
     dim <- length(U)
@@ -42,6 +44,10 @@ MGL.reg <- function(U, X, copula = c('MGL', 'MGL180', "MGL-EV", "MGL-EV180"), in
     as.numeric(dcMGLEV.bivar(u1, u2, param = param[1]))
   }
 
+  dgumcop.reg <- function(U, param){
+    as.numeric(fCopulae::devCopula(u = U[1], v = U[2], type = "gumbel", param = param[1])) # Bivariate Extreme
+  }
+
 
   if(copula == 'MGL'){
     dcop <- dcMGL.reg
@@ -52,11 +58,18 @@ MGL.reg <- function(U, X, copula = c('MGL', 'MGL180', "MGL-EV", "MGL-EV180"), in
   } else if(copula == "MGL-EV180"){
     dcop  <- dcMGLEV180.reg
   }
+  else if(copula == "Gumbel"){
+    dcop  <- dgumcop.reg
+  }
 
   copLogL <- function(pars, X) {
     ll <- 0
-    delta <- exp(X%*%pars)
 
+    if (copula == "Gumbel"){
+      delta <- exp(X%*%pars) + 1
+    } else {
+      delta <- exp(X%*%pars)
+    }
     for (i in 1:nrow(X)){
       ll[i] <- dcop(U[i,], param = as.vector(delta[i]))
     }
@@ -68,6 +81,19 @@ MGL.reg <- function(U, X, copula = c('MGL', 'MGL180', "MGL-EV", "MGL-EV180"), in
                   fn = copLogL,
                   X = X,
                   hessian = T, ...)
-
   resopt
+  # modout <- function(m) {
+  #   Hessian <- -m$hessian
+  #   se <- sqrt(diag(solve(Hessian)))                  ## stardard error
+  #   Z <- m$par/se                                             ##  Z statistic
+  #   p <- ifelse(Z>=0, pnorm(Z, lower=F)*2, pnorm(Z)*2)           ## p value
+  #   summarytable <- data.frame(m$par, se, Z, p)
+  #   LL <- m$value
+  #   NLL <- -m$value  # - loglikelihood value
+  #   AIC <- 2*length(m$par) + 2*NLL
+  #   BIC <- log(nrow(U))*length(m$par) + 2*NLL
+  #   list(summary = summarytable, ll =  m$value, AIC = AIC, BIC = BIC)
+  # }
+  #
+  # modout(resopt)
 }
