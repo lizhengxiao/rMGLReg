@@ -14,7 +14,8 @@ MGL.mle <- function(U, copula = c(
                       "MGL", "MGL180", "MGL-EV",
                       "MGL-EV180",
                       "Gumbel",
-                      "Normal", "MGB2", "t"),
+                      "Normal", "MGB2", "t"
+                    ),
                     hessian = TRUE,
                     initpar, ...) {
   dnormcop <- function(U, param) {
