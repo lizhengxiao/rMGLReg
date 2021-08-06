@@ -40,7 +40,7 @@ knitr::opts_chunk$set(
 
 
 
-```{r}
+```{r, eval = FALSE}
 m.norm <- MGL.mle(U = U,
                         copula  = "Normal",
                         initpar = 0.5)
@@ -67,7 +67,7 @@ m.MGLEV180 <- MGL.mle(U,
 
 
 
-```{r}
+```{r, eval = FALSE}
 recap <- function(x){
   res <- c(alpha = x$estimates,
            se = x$se,

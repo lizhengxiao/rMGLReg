@@ -15,9 +15,15 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
     copula,
+    data.table,
+    fitdistrplus,
+    ggplot2,
     knitr,
+    latex2exp,
+    patchwork,
     renv,
     rmarkdown,
+    sROC,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 

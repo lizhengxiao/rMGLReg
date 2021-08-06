@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 ### read the danish data set
 
-```{r setup}
+```{r setup, eval = FALSE}
   library(rMGLReg)
   library(fitdistrplus)
   library(splines)
@@ -48,7 +48,7 @@ knitr::opts_chunk$set(
 ```
 
 
-```{r}
+```{r, eval = FALSE}
 library(ggplot2)
 library(latex2exp)
 newtheme <-   theme_bw() + theme(axis.line = element_line(colour = "black"),
@@ -104,7 +104,7 @@ p0
 
 ### fitting copulas withtout covariates
 
-```{r}
+```{r, eval = FALSE}
   X <- model.matrix( ~ 1, data = dtnew)
 
   # survival MGL copual regression
@@ -161,7 +161,7 @@ p0
 
 
 ### survival MGL copual and survival MGL-EV regression
-```{r}
+```{r, eval = FALSE}
   dtnew[, x1 := (year - mean(year))/(sd(year))]
   dtnew[, day := difftime(as.Date(Date), as.Date("1980-01-03"), units="days")]
 
@@ -169,7 +169,7 @@ p0
 ```
 
 
-```{r }
+```{r, eval = FALSE}
   # survival MGL copual regression
   m.MGL180 <- MGL.reg(U = U, copula = "MGL180",
                                  method = "Nelder-Mead",
@@ -199,7 +199,7 @@ p0
 
 
 ### The predicted value of copula parameter with different value of the covariate \textit{Year} for the Danish fire insurance data set.
-```{r }
+```{r, eval = FALSE}
 # Survival MGL regression model
 par.est <- m.MGL180$par
 agepred <- seq(from = 1980, to = 1990)

@@ -8,16 +8,19 @@ MGL.reg(
   U,
   X,
   copula = c("MGL", "MGL180", "MGL-EV", "MGL-EV180", "Gumbel"),
+  hessian = TRUE,
   initpar,
   ...
 )
 }
 \arguments{
-\item{U}{two-dimenstional matrix with values in \link{0,1}.}
+\item{U}{two-dimenstional matrix with values in \eqn{\left\[0,1\right\]}.}
 
 \item{X}{design matrix}
 
 \item{copula}{'MGL', 'MGL180', "MGL-EV", "MGL-EV180"}
+
+\item{hessian}{Logical. Should a numerically differentiated Hessian matrix be returned?}
 
 \item{initpar}{Initial values for the parameters to be optimized over.}
 
