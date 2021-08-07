@@ -1,8 +1,8 @@
 ---
-title: "MGL-regression-mixed"
+title: "MGL-fitting-mixed"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{MGL-regression-mixed}
+  %\VignetteIndexEntry{MGL-fitting-mixed}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -55,7 +55,7 @@ m.MGLEV180 <- MGL.mle.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f,
 
 
 
-```{r, eval = FALSE}
+```{r}
 recap <- function(x){
   res <- c(alpha = x$estimates,
            se = x$se,

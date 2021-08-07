@@ -3,6 +3,7 @@
 export(MGL.mle)
 export(MGL.mle.mixed)
 export(MGL.reg)
+export(MGL.reg.mixed)
 export(dGLMGA)
 export(dMGLMGA)
 export(dcMGB2.bivar)

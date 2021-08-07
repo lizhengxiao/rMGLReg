@@ -24,6 +24,7 @@ Suggests:
     qpdf,
     renv,
     rmarkdown,
+    snpar,
     sROC,
     testthat (>= 3.0.0),
     VineCopula

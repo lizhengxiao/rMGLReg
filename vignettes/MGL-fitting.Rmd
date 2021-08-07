@@ -27,13 +27,19 @@ knitr::opts_chunk$set(
   
   XY <- cbind(y1, y2)
   y <- cbind(y1, y2)
-  m1 <- sROC::kCDF(y[,1], bw = 0.2, xgrid = sort(y[,1]))
-  m2 <- sROC::kCDF(y[,2], bw = 0.2, xgrid = sort(y[,2]))
-  x <- cbind(m1$x, m2$x)
-  u1 <- m1$Fhat;y1 <- y[,1]
-  u1[order(y1)] <- m1$Fhat
-  u2 <- m2$Fhat; y2 <- y[,2]
-  u2[order(y2)] <- m2$Fhat
+  u1 <- snpar::kde(y[,1], kernel = "gaus", 
+             xgrid = y[,1],
+             h = 0.2)$Fhat
+  u2 <- snpar::kde(y[,2], kernel = "gaus", 
+             xgrid = y[,2],
+             h = 0.2)$Fhat
+  # m1 <- sROC::kCDF(y[,1], bw = 0.2, xgrid = sort(y[,1]))
+  # m2 <- sROC::kCDF(y[,2], bw = 0.2, xgrid = sort(y[,2]))
+  # x <- cbind(m1$x, m2$x)
+  # u1 <- m1$Fhat;y1 <- y[,1]
+  # u1[order(y1)] <- m1$Fhat
+  # u2 <- m2$Fhat; y2 <- y[,2]
+  # u2[order(y2)] <- m2$Fhat
   U <- cbind(u1, u2) # empirical cdf
   Usample <- U
 ```
@@ -89,6 +95,6 @@ res.all <- round(cbind(recap(m.norm),
 ), 4)
 out.com <- t(res.all)
 out.com <- out.com[order(out.com[,9], decreasing = T),]
-knitr::kable(out.com, digits = 2)
+knitr::kable(out.com, digits = 3)
 
 ```

@@ -71,14 +71,14 @@ MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
   }
 
   hcMGLEV180.reg <- function(U, param){
-    hfunc1 <- hcMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc1
-    hfunc2 <- hcMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc2
+    hfunc1 <- hMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc1
+    hfunc2 <- hMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out
   }
   hcMGLEV.reg <- function(U, param){
-    hfunc1 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc1
-    hfunc2 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc2
+    hfunc1 <- 1 - hMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc1
+    hfunc2 <- 1 - hMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out
   }
