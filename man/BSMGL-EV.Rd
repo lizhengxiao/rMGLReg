@@ -4,11 +4,14 @@
 \alias{BSMGL-EV}
 \alias{pcMGLEV180.bivar}
 \alias{dcMGLEV180.bivar}
+\alias{hMGLEV180.bivar}
 \title{Bivarite surivival MGL-EV copula}
 \usage{
 pcMGLEV180.bivar(u1, u2, param)
 
 dcMGLEV180.bivar(u1, u2, param)
+
+hMGLEV180.bivar(u1, u2, param)
 }
 \arguments{
 \item{u1, u2}{numeric vectors of equal length with values in \eqn{\left\[0,1\right\]}.}
@@ -21,4 +24,5 @@ Density, distribution function, and random generation for the d-dimensional MGL 
 \examples{
 pcMGLEV180.bivar(u1 = c(0.3, 0.9), u2 = c(0.5, 0.8), param = 2)
 dcMGLEV180.bivar(u1 = 0.5, u2 = 0.78, param = 1.8)
+hMGLEV180.bivar(u1 = 0.5, u2 = 0.78, param = 1.8)
 }
