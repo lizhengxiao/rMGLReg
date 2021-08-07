@@ -16,8 +16,16 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(rMGLReg)
+devtools::load_all()
 
+u <- cbind(earth_model$u1, earth_model$u2)
+u_ <- earth_model$u2_
+y <- cbind(earth_model$y1, earth_model$y2)
+f <- cbind(earth_model$f1, earth_model$f2)
 
+obs <- y
+U <- u
+U_ <- u_
 
 
 
