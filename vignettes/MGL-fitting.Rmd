@@ -18,30 +18,22 @@ knitr::opts_chunk$set(
   library(rMGLReg)
   library(fitdistrplus)
   library(splines)
+  library(snpar)
   data("danishmulti")
   dt <- data.table::data.table(danishmulti)
-  dt[, year := as.numeric(substr(Date, start = 1, stop = 4))]
   dtnew <- dt[Building>0&Contents>0]
   y1 <- dtnew$Building
   y2 <- dtnew$Contents
-  
-  XY <- cbind(y1, y2)
   y <- cbind(y1, y2)
+  
+  # empirical cdf
   u1 <- snpar::kde(y[,1], kernel = "gaus", 
              xgrid = y[,1],
              h = 0.2)$Fhat
   u2 <- snpar::kde(y[,2], kernel = "gaus", 
              xgrid = y[,2],
              h = 0.2)$Fhat
-  # m1 <- sROC::kCDF(y[,1], bw = 0.2, xgrid = sort(y[,1]))
-  # m2 <- sROC::kCDF(y[,2], bw = 0.2, xgrid = sort(y[,2]))
-  # x <- cbind(m1$x, m2$x)
-  # u1 <- m1$Fhat;y1 <- y[,1]
-  # u1[order(y1)] <- m1$Fhat
-  # u2 <- m2$Fhat; y2 <- y[,2]
-  # u2[order(y2)] <- m2$Fhat
-  U <- cbind(u1, u2) # empirical cdf
-  Usample <- U
+  U <- cbind(u1, u2) # two-dim 
 ```
 
 
@@ -98,3 +90,76 @@ out.com <- out.com[order(out.com[,9], decreasing = T),]
 knitr::kable(out.com, digits = 3)
 
 ```
+
+
+```{r, eval = FALSE}
+library(copula)
+ec <- empCopula(U) # the empirical copula
+
+error.copula <- function(copula = c(
+                      "MGL", "MGL180", "MGL-EV",
+                      "MGL-EV180",
+                      "Gumbel",
+                      "Normal", "MGB2", "t"
+                    ),
+                         lowerLimit,
+                         upperLimit,
+                         pars ... ){
+  
+pnormcop <- function(U, param)
+  as.numeric(pellipticalCopula(U, rho = param[1], type = "norm")) # normal copula
+ptcop <- function(U, param)
+  as.numeric(pellipticalCopula(U, rho = param[1], type = "t",
+                               param = param[2]))  # t copula
+pgumcop <- function(U, param)
+  as.numeric(pevCopula(U, type = "gumbel", param = param[1])) # Bivariate Extreme Value Copulae - gumbel copula
+pMGLcop <- function(U, param){
+  as.numeric(pcMGL.bivar(u1 = U[,1], u2 = U[,2], pars = param[1]))
+}
+
+pMGL180cop <- function(U, param){
+  as.numeric(U[,1] + U[,2] - 1 + pcMGL.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], pars = param[1]))
+}
+
+pMGB2cop <- function(U, param){
+  as.numeric(pcMGB2.bivar(u1 = U[,1], u2 = U[,2], pars1 = param[1], pars2 = param[2], pars3 = param[3]))
+}
+
+pMGLEVcop <- function(U, param){
+  as.numeric(pcMGLEV.bivar(u1 = U[,1], u2 = U[,2], param = param[1])) # Bivariate Extreme Value Copulae - gumbel copula
+}
+
+pMGLEV180cop <- function(U, param){
+  as.numeric(pcMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])) # Bivariate Extreme Value Copulae - gumbel copula
+}
+  
+if (copula == "MGL") {
+    pcop <- pMGLcop
+  } else if (copula == "MGL180") {
+    pcop <- pMGL180cop
+  } else if (copula == "MGL-EV") {
+    pcop <- pMGLEVcop
+  } else if (copula == "MGL-EV180") {
+    pcop <- pMGLEV180cop
+  } else if (copula == "Gumbel") {
+    pcop <- pgumcop
+  } else if (copula == "Normal") {
+    pcop <- pnormcop
+  } else if (copula == "t") {
+    pcop <- ptcop
+  } else if (copula == "MGB2") {
+    pcop <- pMGB2cop
+  }
+  
+  error_c <- function()
+
+  error <- cuhre(f = error_c,
+                  lowerLimit = c(0.95, 0.95),
+                  upperLimit = c(1, 1))$integral
+  
+                         }
+
+
+```
+
+

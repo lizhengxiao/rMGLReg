@@ -18,7 +18,7 @@ MGL.reg(
 
 \item{X}{design matrix}
 
-\item{copula}{'MGL', 'MGL180', "MGL-EV", "MGL-EV180"}
+\item{copula}{'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "Gumbel"}
 
 \item{hessian}{Logical. Should a numerically differentiated Hessian matrix be returned?}
 
@@ -27,7 +27,7 @@ MGL.reg(
 \item{...}{Further arguments to be passed to fn and gr in optiom.}
 }
 \value{
-For optim, a list with components:
+For MGL.reg, a list with components:
 }
 \description{
 MGL.reg is used to fit bivariate MGL copula regression models.

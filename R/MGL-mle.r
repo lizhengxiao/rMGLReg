@@ -109,7 +109,7 @@ MGL.mle <- function(U, copula = c(
     # U = U,
     p = initpar,
     # dcop = dcop, arg.cop = arg.cop,
-    hessian = hessian
+    hessian = hessian, ...
   )
 
 

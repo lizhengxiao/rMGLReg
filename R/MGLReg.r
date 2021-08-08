@@ -7,13 +7,13 @@
 #' @description MGL.reg is used to fit bivariate MGL copula regression models.
 #' @param U two-dimenstional matrix with values in \eqn{\left\[0,1\right\]}.
 #' @param X design matrix
-#' @param copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180"
+#' @param copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "Gumbel"
 #' @param initpar Initial values for the parameters to be optimized over.
 #' @param hessian Logical. Should a numerically differentiated Hessian matrix be returned?
 #' @param ... 	Further arguments to be passed to fn and gr in optiom.
 #' @importFrom stats qbeta
 #' @importFrom stats optim
-#' @return For optim, a list with components:
+#' @return For MGL.reg, a list with components:
 #' @export
 #'
 #'
@@ -76,7 +76,7 @@ MGL.reg <- function(U, X, copula = c(
     for (i in 1:nrow(X)) {
       ll[i] <- dcop(U[i, ], param = as.vector(delta[i]))
     }
-    res <- sum((log(ll)))
+    res <- -sum((log(ll)))
     return(res)
   }
 
@@ -86,7 +86,28 @@ MGL.reg <- function(U, X, copula = c(
     X = X,
     hessian = hessian, ...
   )
-  resopt
+
+
+
+  list(
+    loglike = -resopt$value,
+    copula = list(name = copula),
+    estimates = resopt$par,
+    se = sqrt(diag(solve(resopt$hessian))),
+    hessian = -resopt$hessian,
+    AIC = 2 * length(resopt$par) + 2 * resopt$value,
+    BIC = log(nrow(U)) * length(resopt$par) + 2 * resopt$value
+  )
+
+  # resopt
+  # list(
+  #   loglike = -resopt$minimum,
+  #   copula = list(name = copula),
+  #   estimates = resopt$estimate,
+  #   se = sqrt(diag(solve(resopt$hessian))),
+  #   AIC = 2 * length(resopt$estimate) + 2 * resopt$minimum,
+  #   BIC = log(nrow(U)) * length(resopt$estimate) + 2 * resopt$minimum
+  # )
   # modout <- function(m) {
   #   Hessian <- -m$hessian
   #   se <- sqrt(diag(solve(Hessian)))                  ## stardard error
