@@ -92,22 +92,22 @@ knitr::kable(out.com, digits = 3)
 ```
 
 
-```{r, eval = FALSE}
-library(copula)
-
-XY <- cbind(y1, y2)
-error.copula(XY = XY, copula = 'MGL180',
-            lowerLimit = c(0.95, 0.95),
-            upperLimit = c(1, 1),
-            pars = m.MGLMGA180$estimates
-             ) # 5.425616e-09
-
-error.copula(XY = XY, copula = 'MGB2',
-            lowerLimit = c(0.95, 0.95),
-            upperLimit = c(1, 1),
-            pars = m.MGB2$estimates
-             ) # 7.955459e-09
-
-```
+# ```{r, eval = FALSE}
+# library(copula)
+# 
+# XY <- cbind(y1, y2)
+# error.copula(XY = XY, copula = 'MGL180',
+#             lowerLimit = c(0.95, 0.95),
+#             upperLimit = c(1, 1),
+#             pars = m.MGLMGA180$estimates
+#              ) # 5.425616e-09
+# 
+# error.copula(XY = XY, copula = 'MGB2',
+#             lowerLimit = c(0.95, 0.95),
+#             upperLimit = c(1, 1),
+#             pars = m.MGB2$estimates
+#              ) # 7.955459e-09
+# 
+# ```
 
 
