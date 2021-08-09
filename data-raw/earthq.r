@@ -277,6 +277,7 @@ m1 <-  ggplot(df, aes(x = u1, y = u2, group = magnitude.f,
 m1
 
 
-write.csv(dtnew, "data-raw/earth-model.csv")
-earth_model <- dtnew
-usethis::use_data(earth_model, overwrite = TRUE)
+# write.csv(dtnew, "data-raw/earth-model.csv")
+earthqCHI <- dtnew
+earthqCHI$magnitude.f <- NULL
+usethis::use_data(earthqCHI, overwrite = TRUE)

@@ -11,7 +11,7 @@ dcMGL180.bivar(u1, u2, pars)
 
 pcMGL180.bivar(u1, u2, pars)
 
-rcMGL180.bivar(n, param)
+rcMGL180.bivar(n, pars)
 }
 \arguments{
 \item{u1, u2}{numeric vectors of equal length with values in \eqn{\left\[0,1\right\]}.}
@@ -19,8 +19,6 @@ rcMGL180.bivar(n, param)
 \item{pars}{copula parameter, denoted by delta}
 
 \item{n}{number of observations. If length(n) > 1, the length is taken to be the number required.}
-
-\item{param}{copula parameter, denoted by delta}
 }
 \description{
 Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
@@ -28,5 +26,5 @@ Density, distribution function, and random generation for the d-dimensional MGL 
 \examples{
 dcMGL180.bivar(u1 = 0.001, u2 = 0.999, pars = 1)
 pcMGL180.bivar(u1 = c(0.6, 0.1, 0.7), u2 = c(0.3, 0.6, 0.9), pars = 5)
-rcMGL180.bivar(n = 200, param = 0.8)
+rcMGL180.bivar(n = 200, pars = 0.8)
 }

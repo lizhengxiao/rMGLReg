@@ -1,28 +1,31 @@
 
 #' @name cMGL.multi
 #' @rdname  cMGL.multi
-#' @title d-dimensional MGL copula
+#' @title d-dimensional MGL and survival MGL copula
 #' @description
 #' Density, distribution function, and random generation for the MGL copula
 #'
 #' @param u d-dimensional matrix
 #' @param d d-dimensional
-#' @param pars copula parameter, denoted by \eqn{\delta>0}
+#' @param pars copula parameter, denoted by \eqn{\delta>0}.
 #' @param log logical; if TRUE, probabilities/densities p are returned as log(p).
 #' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
-#' @param param copula parameter, denoted by \eqn{\delta>0}
 #' @importFrom stats qbeta
 #' @importFrom stats pbeta
 #' @importFrom stats runif
-#' @return Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
-#'
+#' @md
+#' @return
+#' * Density (\code{dcMGL.multi}), distribution function (\code{pcMGL.multi}), and random generation (\code{rcMGL.multi}) for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
+#' * Density (\code{dcMGL180.multi}), distribution function (\code{pcMGL180.multi}), and random generation (\code{rcMGL180.multi}) for the d-dimensional survival MGL copula with copula parameter \eqn{\delta>0}.
 NULL
+
 
 #' @rdname cMGL.multi
 #' @export
 #' @examples
-#' dcMGL.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 10, log = FALSE)
-#' dcMGL.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = TRUE)
+#' \dontrun{dcMGL.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 2, log = FALSE)
+#'
+#' dcMGL.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = TRUE)}
 dcMGL.multi <- function(u, pars, log = FALSE) {
   # coding as a matrix
   dim <- ncol(u)
@@ -35,10 +38,11 @@ dcMGL.multi <- function(u, pars, log = FALSE) {
   dc <- exp(logdc)
   dc[which(q == Inf)] <- 0
   if (log == TRUE) {
-    logdc
+    out <- logdc
   } else {
-    dc
+    out <- dc
   }
+  return(out)
 }
 
 
@@ -75,10 +79,10 @@ pcMGL.multi <- function(u, pars) {
 #' @rdname cMGL.multi
 #' @export
 #' @examples
-#' Usim <- rcMGL.multi(n = 1000, d = 2, param = 1)
+#' Usim <- rcMGL.multi(n = 1000, d = 2, pars = 1)
 #' plot(Usim)
-rcMGL.multi <- function(n, d, param) {
-  a <- 1 / param
+rcMGL.multi <- function(n, d, pars) {
+  a <- 1 / pars
   dseq <- seq(1:(d - 1))
   anew <- c(a, a + dseq / 2)
   Iinv_trans <- function(u, a) {
@@ -117,8 +121,8 @@ rcMGL.multi <- function(n, d, param) {
 #' @rdname cMGL.multi
 #' @export
 #' @examples
-#' Usim <- rcMGL180.multi(n = 1000, d = 2, param = 1)
+#' Usim <- rcMGL180.multi(n = 1000, d = 2, pars = 1)
 #' plot(Usim)
-rcMGL180.multi <- function(n, d, param) {
-  1 - rcMGL.multi(n = n, d = d, param = param)
+rcMGL180.multi <- function(n, d, pars) {
+  1 - rcMGL.multi(n = n, d = d, pars = pars)
 }

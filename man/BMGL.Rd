@@ -11,22 +11,23 @@ dcMGL.bivar(u1, u2, pars)
 
 pcMGL.bivar(u1, u2, pars)
 
-rcMGL.bivar(n, param)
+rcMGL.bivar(n, pars)
 }
 \arguments{
 \item{u1, u2}{numeric vectors of equal length with values in \eqn{\left\[0,1\right\]}.}
 
-\item{pars}{copula parameter, denoted by delta}
+\item{pars}{copula parameter, denoted by \eqn{\delta >0}.}
 
 \item{n}{number of observations. If length(n) > 1, the length is taken to be the number required.}
-
-\item{param}{copula parameter, denoted by delta}
 }
 \description{
-Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
+Density, distribution function, and random generation for the bivariate MGL copula with copula parameter \eqn{\delta}.
+}
+\details{
+111
 }
 \examples{
 dcMGL.bivar(u1 = 0.001, u2 = 0.999, pars = 1)
 pcMGL.bivar(u1 = c(0.6, 0.1, 0.7), u2 = c(0.3, 0.6, 0.9), pars = 5)
-rcMGL.bivar(n = 200, param = 0.8)
+rcMGL.bivar(n = 200, pars = 0.8)
 }

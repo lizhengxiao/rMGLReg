@@ -1,11 +1,11 @@
 #' @name BMGL
 #' @rdname  BMGL
 #' @title Bivarite MGL copula
-#' @description Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
+#' @description Density, distribution function, and random generation for the bivariate MGL copula with copula parameter \eqn{\delta}.
 #' @param u1,u2 numeric vectors of equal length with values in \eqn{\left\[0,1\right\]}.
-#' @param pars copula parameter, denoted by delta
-#' @param param copula parameter, denoted by delta
+#' @param pars copula parameter, denoted by \eqn{\delta >0}.
 #' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
+#' @details 111
 NULL
 
 
@@ -63,9 +63,9 @@ pcMGL.bivar <- Vectorize(pcMGL.bivar)
 
 #' @rdname BMGL
 #' @export
-#' @examples rcMGL.bivar(n = 200, param = 0.8)
-rcMGL.bivar <- function(n, param) {
-  Usim <- rcMGL.multi(n = n, param = param, d = 2)
+#' @examples rcMGL.bivar(n = 200, pars = 0.8)
+rcMGL.bivar <- function(n, pars) {
+  Usim <- rcMGL.multi(n = n, pars = pars, d = 2)
 }
 
 
@@ -116,7 +116,6 @@ hcMGL.bivar <- function(u1, u2, pars) {
 #'
 #' @param u1,u2 numeric vectors of equal length with values in \eqn{\left\[0,1\right\]}.
 #' @param pars copula parameter, denoted by delta
-#' @param param copula parameter, denoted by delta
 #' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
 #' @description Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
 NULL
@@ -140,8 +139,8 @@ pcMGL180.bivar <- function(u1, u2, pars) {
 
 #' @rdname BSMGL
 #' @export
-#' @examples rcMGL180.bivar(n = 200, param = 0.8)
-rcMGL180.bivar <- function(n, param) {
-  Usim <- rcMGL.multi(n = n, param = param, d = 2)
+#' @examples rcMGL180.bivar(n = 200, pars = 0.8)
+rcMGL180.bivar <- function(n, pars) {
+  Usim <- rcMGL.multi(n = n, pars = pars, d = 2)
   1 - Usim
 }

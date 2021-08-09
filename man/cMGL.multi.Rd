@@ -6,41 +6,43 @@
 \alias{pcMGL.multi}
 \alias{rcMGL.multi}
 \alias{rcMGL180.multi}
-\title{d-dimensional MGL copula}
+\title{d-dimensional MGL and survival MGL copula}
 \usage{
 dcMGL.multi(u, pars, log = FALSE)
 
 pcMGL.multi(u, pars)
 
-rcMGL.multi(n, d, param)
+rcMGL.multi(n, d, pars)
 
-rcMGL180.multi(n, d, param)
+rcMGL180.multi(n, d, pars)
 }
 \arguments{
 \item{u}{d-dimensional matrix}
 
-\item{pars}{copula parameter, denoted by \eqn{\delta>0}}
+\item{pars}{copula parameter, denoted by \eqn{\delta>0}.}
 
 \item{log}{logical; if TRUE, probabilities/densities p are returned as log(p).}
 
 \item{n}{number of observations. If length(n) > 1, the length is taken to be the number required.}
 
 \item{d}{d-dimensional}
-
-\item{param}{copula parameter, denoted by \eqn{\delta>0}}
 }
 \value{
-Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
+\itemize{
+\item Density (\code{dcMGL.multi}), distribution function (\code{pcMGL.multi}), and random generation (\code{rcMGL.multi}) for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
+\item Density (\code{dcMGL180.multi}), distribution function (\code{pcMGL180.multi}), and random generation (\code{rcMGL180.multi}) for the d-dimensional survival MGL copula with copula parameter \eqn{\delta>0}.
+}
 }
 \description{
 Density, distribution function, and random generation for the MGL copula
 }
 \examples{
-dcMGL.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 10, log = FALSE)
-dcMGL.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = TRUE)
+\dontrun{dcMGL.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 2, log = FALSE)
+
+dcMGL.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = TRUE)}
 pcMGL.multi(u = cbind(c(0.5, 0.5), c(0.01, 0.9)), pars = 3)
-Usim <- rcMGL.multi(n = 1000, d = 2, param = 1)
+Usim <- rcMGL.multi(n = 1000, d = 2, pars = 1)
 plot(Usim)
-Usim <- rcMGL180.multi(n = 1000, d = 2, param = 1)
+Usim <- rcMGL180.multi(n = 1000, d = 2, pars = 1)
 plot(Usim)
 }
