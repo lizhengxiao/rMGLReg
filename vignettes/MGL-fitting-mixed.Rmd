@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, eval = FALSE}
 library(rMGLReg)
 
 u <- cbind(earth_model$u1, earth_model$u2)
@@ -54,7 +54,7 @@ m.MGLEV180 <- MGL.mle.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f,
 
 
 
-```{r}
+```{r, eval = FALSE}
 recap <- function(x){
   res <- c(alpha = x$estimates,
            se = x$se,

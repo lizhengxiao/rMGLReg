@@ -56,4 +56,4 @@ pairs(U, gap = 0, cex = 0.5)
 ```
 
 
-## Survival MGL-EV copula
+<!-- ## Survival MGL-EV copula -->

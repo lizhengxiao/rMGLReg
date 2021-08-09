@@ -94,71 +94,19 @@ knitr::kable(out.com, digits = 3)
 
 ```{r, eval = FALSE}
 library(copula)
-ec <- empCopula(U) # the empirical copula
 
-error.copula <- function(copula = c(
-                      "MGL", "MGL180", "MGL-EV",
-                      "MGL-EV180",
-                      "Gumbel",
-                      "Normal", "MGB2", "t"
-                    ),
-                         lowerLimit,
-                         upperLimit,
-                         pars ... ){
-  
-pnormcop <- function(U, param)
-  as.numeric(pellipticalCopula(U, rho = param[1], type = "norm")) # normal copula
-ptcop <- function(U, param)
-  as.numeric(pellipticalCopula(U, rho = param[1], type = "t",
-                               param = param[2]))  # t copula
-pgumcop <- function(U, param)
-  as.numeric(pevCopula(U, type = "gumbel", param = param[1])) # Bivariate Extreme Value Copulae - gumbel copula
-pMGLcop <- function(U, param){
-  as.numeric(pcMGL.bivar(u1 = U[,1], u2 = U[,2], pars = param[1]))
-}
+XY <- cbind(y1, y2)
+error.copula(XY = XY, copula = 'MGL180',
+            lowerLimit = c(0.95, 0.95),
+            upperLimit = c(1, 1),
+            pars = m.MGLMGA180$estimates
+             ) # 5.425616e-09
 
-pMGL180cop <- function(U, param){
-  as.numeric(U[,1] + U[,2] - 1 + pcMGL.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], pars = param[1]))
-}
-
-pMGB2cop <- function(U, param){
-  as.numeric(pcMGB2.bivar(u1 = U[,1], u2 = U[,2], pars1 = param[1], pars2 = param[2], pars3 = param[3]))
-}
-
-pMGLEVcop <- function(U, param){
-  as.numeric(pcMGLEV.bivar(u1 = U[,1], u2 = U[,2], param = param[1])) # Bivariate Extreme Value Copulae - gumbel copula
-}
-
-pMGLEV180cop <- function(U, param){
-  as.numeric(pcMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])) # Bivariate Extreme Value Copulae - gumbel copula
-}
-  
-if (copula == "MGL") {
-    pcop <- pMGLcop
-  } else if (copula == "MGL180") {
-    pcop <- pMGL180cop
-  } else if (copula == "MGL-EV") {
-    pcop <- pMGLEVcop
-  } else if (copula == "MGL-EV180") {
-    pcop <- pMGLEV180cop
-  } else if (copula == "Gumbel") {
-    pcop <- pgumcop
-  } else if (copula == "Normal") {
-    pcop <- pnormcop
-  } else if (copula == "t") {
-    pcop <- ptcop
-  } else if (copula == "MGB2") {
-    pcop <- pMGB2cop
-  }
-  
-  error_c <- function()
-
-  error <- cuhre(f = error_c,
-                  lowerLimit = c(0.95, 0.95),
-                  upperLimit = c(1, 1))$integral
-  
-                         }
-
+error.copula(XY = XY, copula = 'MGB2',
+            lowerLimit = c(0.95, 0.95),
+            upperLimit = c(1, 1),
+            pars = m.MGB2$estimates
+             ) # 7.955459e-09
 
 ```
 
