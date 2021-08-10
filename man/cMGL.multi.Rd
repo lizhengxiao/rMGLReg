@@ -3,14 +3,20 @@
 \name{cMGL.multi}
 \alias{cMGL.multi}
 \alias{dcMGL.multi}
+\alias{dcMGL180.multi}
 \alias{pcMGL.multi}
+\alias{pcMGL180.multi}
 \alias{rcMGL.multi}
 \alias{rcMGL180.multi}
 \title{d-dimensional MGL and survival MGL copula}
 \usage{
 dcMGL.multi(u, pars, log = FALSE)
 
+dcMGL180.multi(u, pars, log = FALSE)
+
 pcMGL.multi(u, pars)
+
+pcMGL180.multi(u, pars)
 
 rcMGL.multi(n, d, pars)
 
@@ -29,18 +35,29 @@ rcMGL180.multi(n, d, pars)
 }
 \value{
 \itemize{
-\item Density (\code{dcMGL.multi}), distribution function (\code{pcMGL.multi}), and random generation (\code{rcMGL.multi}) for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
-\item Density (\code{dcMGL180.multi}), distribution function (\code{pcMGL180.multi}), and random generation (\code{rcMGL180.multi}) for the d-dimensional survival MGL copula with copula parameter \eqn{\delta>0}.
+\item \code{dcMGL.multi}, \code{pcMGL.multi} and \code{rcMGL.multi} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
+\item \code{dcMGL180.multi}, \code{pcMGL180.multi} and \code{rcMGL180.multi} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
 }
 }
 \description{
-Density, distribution function, and random generation for the MGL copula
+Density, distribution function, and random generation for the MGL and survival MGL copula.
 }
 \examples{
-\dontrun{dcMGL.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 2, log = FALSE)
 
-dcMGL.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = TRUE)}
+
+dcMGL.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 2, log = FALSE)
+
+dcMGL.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = TRUE)
+\dontrun{
+
+dcMGL180.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 2, log = FALSE)
+
+dcMGL180.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = TRUE)}
+# 2-dim MGL copula
 pcMGL.multi(u = cbind(c(0.5, 0.5), c(0.01, 0.9)), pars = 3)
+# 3-dim MGL copula
+pcMGL.multi(u = cbind(c(0, 0.2, 0.5), c(0.5, 0.2, 0.5), c(0.01, 0.5, 0.9)), pars = 3)
+pcMGL180.multi(u = cbind(c(0.5, 0.5), c(0.01, 0.9)), pars = 3)
 Usim <- rcMGL.multi(n = 1000, d = 2, pars = 1)
 plot(Usim)
 Usim <- rcMGL180.multi(n = 1000, d = 2, pars = 1)
