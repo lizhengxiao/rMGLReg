@@ -2,12 +2,16 @@
 
 
 
-#' Fitting bivariate MGL and MGL-EV copula regression models
+#' Fitting bivariate mixed MGL and MGL-EV copula regression models
 #'
-#' @description \code{MGL.reg} is used to fit bivariate MGL and MGL-EV copula regression models for two continuous variables.
-#' @param U two-dimenstional matrix with values in \eqn{[0,1]}.
-#' @param X design matrix
-#' @param copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "Gumbel".
+#' @description \code{MGL.reg.mixed} is used to fit bivariate MGL and MGL-EV copula regression models for continuous and semi-continuous variables.
+#' @param obs two-dimenstional matrix for observations
+#' @param U two-dimenstional matrix for pseudo copula data with values in \eqn{[0,1]} for (F(y1), F(y2)).
+#' @param U_ two-dimenstional matrix for pseudo copula data for the data (F(y1), F(y2-1)).
+#' @param X design matrix.
+#' @param copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180"
+#' @param umin Threshold
+#' @param f values of the density function for marginal distribution.
 #' @param initpar Initial values for the parameters to be optimized over.
 #' @param hessian Logical. Should a numerically differentiated Hessian matrix be returned?
 #' @param ... additional arguments, see \code{\link[stats]{optim}} for more details.
@@ -22,19 +26,23 @@
 #' * hessian: the hessian at the estimated maximum of the loglikelihood (if requested).
 #' @details
 #' * Y1: continuous data.
-#' * Y2: continuous data.
+#' * Y2: semi-continuous data where Y2>umin is continuous and Y2<=umin is discrete.
 #' * copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
 #' * For "Gumbel" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta) + 1.}
 #' * For "MGL", "MGL180", "MGL-EV", "MGL-EV180" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta),} where \eqn{\beta} is the vector of coefficients to be estimated in the copula regression.
+#'
+#'
+#'
 #' @export
 #'
 #'
-MGL.reg <- function(U, X, copula = c(
-                      "MGL", "MGL180", "MGL-EV",
-                      "MGL-EV180",
-                      "Gumbel"
-                    ),
-                    hessian = TRUE, initpar, ...) {
+MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
+                            "MGL", "MGL180", "MGL-EV",
+                            "MGL-EV180",
+                            "Gumbel"
+                          ),
+                          umin = 0,
+                          hessian = TRUE, initpar, ...) {
   dcMGL.reg <- function(U, param) {
     dim <- length(U)
     a <- 1 / param[1]
@@ -47,7 +55,6 @@ MGL.reg <- function(U, X, copula = c(
   dcMGL180.reg <- function(U, param) {
     dcMGL.reg(1 - U, param = param)
   }
-
   dcMGLEV180.reg <- function(U, param) {
     u1 <- U[1]
     u2 <- U[2]
@@ -64,31 +71,72 @@ MGL.reg <- function(U, X, copula = c(
     as.numeric(fCopulae::devCopula(u = U[1], v = U[2], type = "gumbel", param = param[1])) # Bivariate Extreme
   }
 
+  hcMGL.reg <- function(U, param) {
+    hfunc1 <- hcMGL.bivar(u1 = U[1], u2 = U[2], pars = param[1])$hfunc1
+    hfunc2 <- hcMGL.bivar(u1 = U[1], u2 = U[2], pars = param[1])$hfunc2
+    out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
+    out
+  }
+
+  hcMGL180.reg <- function(U, param) {
+    hfunc1 <- 1 - hcMGL.bivar(u1 = 1 - U[1], u2 = 1 - U[2], pars = param[1])$hfunc1
+    hfunc2 <- 1 - hcMGL.bivar(u1 = 1 - U[1], u2 = 1 - U[2], pars = param[1])$hfunc2
+    out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
+    out
+  }
+
+  hcMGLEV180.reg <- function(U, param) {
+    hfunc1 <- hcMGLEV180.bivar(u1 = U[1], u2 = U[2], param = param[1])$hfunc1
+    hfunc2 <- hcMGLEV180.bivar(u1 = U[1], u2 = U[2], param = param[1])$hfunc2
+    out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
+    out
+  }
+  hcMGLEV.reg <- function(U, param) {
+    hfunc1 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[1], u2 = 1 - U[2], param = param[1])$hfunc1
+    hfunc2 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[1], u2 = 1 - U[2], param = param[1])$hfunc2
+    out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
+    out
+  }
+
+  hgumcop.reg <- function(U, param) {
+    VineCopula::BiCopHfunc(u1 = U[1], u2 = U[2], family = 4, par = param[1])
+  }
 
   if (copula == "MGL") {
     dcop <- dcMGL.reg
+    hcop <- hcMGL.reg
   } else if (copula == "MGL180") {
     dcop <- dcMGL180.reg
+    hcop <- hcMGL180.reg
   } else if (copula == "MGL-EV") {
     dcop <- dcMGLEV.reg
+    hcop <- hcMGLEV.reg
   } else if (copula == "MGL-EV180") {
     dcop <- dcMGLEV180.reg
+    hcop <- hcMGLEV180.reg
   } else if (copula == "Gumbel") {
     dcop <- dgumcop.reg
+    hcop <- hgumcop.reg
   }
-
+  # Obs1 <- obs[, 1] # y1 - the first vector of observations
+  Obs2 <- obs[, 2] # y2 - the second vector of observations
+  f1 <- f[, 1]
+  f2 <- f[, 2]
   copLogL <- function(pars, X) {
     ll <- 0
-
     if (copula == "Gumbel") {
       delta <- exp(X %*% pars) + 1
     } else {
       delta <- exp(X %*% pars)
     }
     for (i in seq_len(nrow(X))) {
-      ll[i] <- dcop(U[i, ], param = as.vector(delta[i]))
+      if (Obs2[i] <= umin) {
+        ll[i] <- f1[i] * (hcop(U[i, ], param = delta[i])$hfunc1 - hcop(U_[i, ], param = delta[i])$hfunc1)
+      } else {
+        ll[i] <- f1[i] * f2[i] * dcop(U[i, ], param = delta[i])
+      }
     }
-    res <- -sum((log(ll)))
+    res <- - sum((log(ll)))
     return(res)
   }
 
@@ -98,8 +146,7 @@ MGL.reg <- function(U, X, copula = c(
     X = X,
     hessian = hessian, ...
   )
-
-
+  resopt
 
   list(
     loglike = -resopt$value,
@@ -110,28 +157,4 @@ MGL.reg <- function(U, X, copula = c(
     AIC = 2 * length(resopt$par) + 2 * resopt$value,
     BIC = log(nrow(U)) * length(resopt$par) + 2 * resopt$value
   )
-
-  # resopt
-  # list(
-  #   loglike = -resopt$minimum,
-  #   copula = list(name = copula),
-  #   estimates = resopt$estimate,
-  #   se = sqrt(diag(solve(resopt$hessian))),
-  #   AIC = 2 * length(resopt$estimate) + 2 * resopt$minimum,
-  #   BIC = log(nrow(U)) * length(resopt$estimate) + 2 * resopt$minimum
-  # )
-  # modout <- function(m) {
-  #   Hessian <- -m$hessian
-  #   se <- sqrt(diag(solve(Hessian)))                  ## stardard error
-  #   Z <- m$par/se                                             ##  Z statistic
-  #   p <- ifelse(Z>=0, pnorm(Z, lower=F)*2, pnorm(Z)*2)           ## p value
-  #   summarytable <- data.frame(m$par, se, Z, p)
-  #   LL <- m$value
-  #   NLL <- -m$value  # - loglikelihood value
-  #   AIC <- 2*length(m$par) + 2*NLL
-  #   BIC <- log(nrow(U))*length(m$par) + 2*NLL
-  #   list(summary = summarytable, ll =  m$value, AIC = AIC, BIC = BIC)
-  # }
-  #
-  # modout(resopt)
 }

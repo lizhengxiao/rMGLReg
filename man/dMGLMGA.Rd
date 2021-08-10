@@ -11,14 +11,14 @@ dMGLMGA(y1, y2, sigma, a, b)
 
 \item{y2}{vector of quantiles.}
 
-\item{sigma}{vector of parameters}
+\item{sigma}{vector of parameters with length = 2.}
 
-\item{a}{common parameter}
+\item{a}{common parameter with length = 1.}
 
-\item{b}{vector of parameters}
+\item{b}{vector of parameters with length = 2.}
 }
 \value{
-Density, for the GLMGA distribution with parameters sigma, a and b.
+Density, for the bivariate GLMGA distribution with parameters sigma, a and b.
 }
 \description{
 The bivariate GLMGA distribution

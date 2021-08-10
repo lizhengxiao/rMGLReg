@@ -5,28 +5,44 @@
 \alias{dcMGL.bivar}
 \alias{pcMGL.bivar}
 \alias{rcMGL.bivar}
-\title{Bivarite MGL copula}
+\alias{dcMGL180.bivar}
+\alias{pcMGL180.bivar}
+\alias{rcMGL180.bivar}
+\title{Bivarite MGL and survival MGL copula}
 \usage{
 dcMGL.bivar(u1, u2, pars)
 
 pcMGL.bivar(u1, u2, pars)
 
-rcMGL.bivar(n, param)
+rcMGL.bivar(n, pars)
+
+dcMGL180.bivar(u1, u2, pars)
+
+pcMGL180.bivar(u1, u2, pars)
+
+rcMGL180.bivar(n, pars)
 }
 \arguments{
-\item{u1, u2}{numeric vectors of equal length with values in \eqn{\left\[0,1\right\]}.}
+\item{u1, u2}{numeric vectors of equal length with values in \eqn{[0,1]}.}
 
-\item{pars}{copula parameter, denoted by delta}
+\item{pars}{copula parameter, denoted by \eqn{\delta >0}.}
 
 \item{n}{number of observations. If length(n) > 1, the length is taken to be the number required.}
-
-\item{param}{copula parameter, denoted by delta}
+}
+\value{
+\itemize{
+\item \code{dcMGL.bivar}, \code{pcMGL.bivar} and \code{rcMGL.bivar} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
+\item \code{dcMGL180.bivar}, \code{pcMGL180.bivar} and \code{rcMGL180.bivar} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
+}
 }
 \description{
-Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
+Density, distribution function, and random generation for the bivariate MGL copula with copula parameter \eqn{\delta}.
 }
 \examples{
 dcMGL.bivar(u1 = 0.001, u2 = 0.999, pars = 1)
 pcMGL.bivar(u1 = c(0.6, 0.1, 0.7), u2 = c(0.3, 0.6, 0.9), pars = 5)
-rcMGL.bivar(n = 200, param = 0.8)
+rcMGL.bivar(n = 200, pars = 0.8)
+dcMGL180.bivar(u1 = 0.001, u2 = 0.999, pars = 1)
+pcMGL180.bivar(u1 = c(0.6, 0.1, 0.7), u2 = c(0.3, 0.6, 0.9), pars = 5)
+rcMGL180.bivar(n = 200, pars = 0.8)
 }

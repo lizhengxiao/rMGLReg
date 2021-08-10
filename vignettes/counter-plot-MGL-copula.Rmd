@@ -1,0 +1,186 @@
+---
+title: "counter-plot-MGL-copula"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{counter-plot-MGL-copula}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## MGL copula
+
+```{r setup}
+library(rMGLReg)
+
+set.seed(271)
+n <- 1000
+delta <- 1.2
+d <- 3
+U <- rcMGL.multi(n = 1000, d = d, pars = delta)
+cor(U, method = "kendall")
+
+```
+
+
+```{r, fig.align="center", fig.width=6, fig.height=6}
+par(pty = "s")
+pairs(U, gap = 0, cex = 0.5)
+```
+
+
+## Survival MGL copula
+
+
+```{r}
+set.seed(271)
+n <- 1000
+delta <- 1.2
+d <- 3
+U <- rcMGL180.multi(n = 1000, d = d, pars = delta)
+cor(U, method = "kendall")
+
+```
+
+
+
+```{r, fig.align="center", fig.width=6, fig.height=6}
+par(pty = "s")
+pairs(U, gap = 0, cex = 0.5)
+```
+
+
+### Contour plots of the joint density function of the MGL and survival MGL copula with low, medium and high dependence, along with plots of simuated samples. 
+
+```{r, eval = FALSE}
+library(data.table)
+library(ggplot2)
+library(latex2exp)
+par.copula <- 0.51
+Nsim <- 1000
+bins <- 30
+usim <- (rcMGL.bivar(Nsim, pars = par.copula))
+usim <- data.table(u1 = usim[,1], u2 = usim[,2])
+n.grid <- 200
+xgrid <- ygrid <- seq(0.01, 1, length.out = n.grid)
+grid <- expand.grid("u1" = xgrid, "u2" = ygrid)
+mtrx3d <- matrix(0, nrow = nrow(grid), ncol = 3)
+mtrx3d <- cbind(grid, "cu1u2" = dcMGL.bivar(u1 = grid[,1], u2 = grid[,2], pars = par.copula)) # evaluate W on 'grid'
+head(mtrx3d)
+mtrx3d <- data.table(u1 = mtrx3d[,1], u2 = mtrx3d[,2], cu1u2 = mtrx3d[,3])
+v1p <- ggplot() +
+      scale_x_continuous(expand = c(0, 0), limits = c(0, 1)) +
+      scale_y_continuous(expand = c(0, 0), limits = c(0, 1)) +
+      theme_bw() +
+      ggtitle(TeX(sprintf('MGL copula ($\\delta = %g$ )', par.copula))) +
+      theme(axis.line = element_line(colour = "black"),
+            axis.text.x = element_text(margin = margin(t = 0.25, unit = "cm")),
+            axis.text.y = element_text(margin = margin(r = 0.25, unit = "cm"),
+                                       size = 10,
+                                       vjust = 0.5,
+                                       hjust = 0.5),
+
+            plot.title = element_text(hjust = 0.5)) +
+      labs(x = TeX("$u_1$"), y = TeX("$u_2$"))  +
+      geom_contour(data = mtrx3d,
+                   aes(x = u1, y = u2, z = cu1u2),
+                   bins = bins,
+                   colour = 'black', weight = 3) +
+      geom_point(data = usim, aes(x = u1, y = u2),
+                 size = 1,
+                 color = 'red')
+```
+
+
+
+```{r, eval = FALSE}
+par.copula <- 3.81
+Nsim <- 1000
+usim <- (rcMGL.bivar(Nsim, pars = par.copula))
+usim <- data.table(u1 = usim[,1], u2 = usim[,2])
+n.grid <- 200
+xgrid <- ygrid <- seq(0.01, 1, length.out = n.grid)
+grid <- expand.grid("u1" = xgrid, "u2" = ygrid)
+mtrx3d <- matrix(0, nrow = nrow(grid), ncol = 3)
+mtrx3d <- cbind(grid, "cu1u2" = dcMGL.bivar(u1 = grid[,1], u2 = grid[,2], pars = par.copula)) # evaluate W on 'grid'
+head(mtrx3d)
+mtrx3d <- data.table(u1 = mtrx3d[,1], u2 = mtrx3d[,2], cu1u2 = mtrx3d[,3])
+v2p <- ggplot() +
+      scale_x_continuous(expand = c(0, 0), limits = c(0, 1)) +
+      scale_y_continuous(expand = c(0, 0), limits = c(0, 1)) +
+      theme_bw() +
+      ggtitle(TeX(sprintf('MGL copula ($\\delta = %g$ )', par.copula))) +
+      theme(axis.line = element_line(colour = "black"),
+            axis.text.x = element_text(margin = margin(t = 0.25, unit = "cm")),
+            axis.text.y = element_text(margin = margin(r = 0.25, unit = "cm"),
+                                       size = 10,
+                                       vjust = 0.5,
+                                       hjust = 0.5),
+
+            plot.title = element_text(hjust = 0.5)) +
+      labs(x = TeX("$u_1$"), y = TeX("$u_2$"))  +
+      geom_contour(data = mtrx3d,
+                   aes(x = u1, y = u2, z = cu1u2),
+                   bins = bins,
+                   colour = 'black', weight = 3) +
+      geom_point(data = usim, aes(x = u1, y = u2),
+                 size = 1,
+                 color = 'red')
+
+
+
+```
+
+
+
+```{r, eval = FALSE}
+par.copula <- 10.56
+Nsim <- 1000
+usim <- (rcMGL.bivar(Nsim, pars = par.copula))
+usim <- data.table(u1 = usim[,1], u2 = usim[,2])
+n.grid <- 200
+xgrid <- ygrid <- seq(0.01, 1, length.out = n.grid)
+grid <- expand.grid("u1" = xgrid, "u2" = ygrid)
+mtrx3d <- matrix(0, nrow = nrow(grid), ncol = 3)
+mtrx3d <- cbind(grid, "cu1u2" = dcMGL.bivar(u1 = grid[,1], u2 = grid[,2], pars = par.copula)) # evaluate W on 'grid'
+head(mtrx3d)
+mtrx3d <- data.table(u1 = mtrx3d[,1], u2 = mtrx3d[,2], cu1u2 = mtrx3d[,3])
+v3p <- ggplot() +
+      scale_x_continuous(expand = c(0, 0), limits = c(0, 1)) +
+      scale_y_continuous(expand = c(0, 0), limits = c(0, 1)) +
+      theme_bw() +
+      ggtitle(TeX(sprintf('MGL copula ($\\delta = %g$ )', par.copula))) +
+      theme(axis.line = element_line(colour = "black"),
+            axis.text.x = element_text(margin = margin(t = 0.25, unit = "cm")),
+            axis.text.y = element_text(margin = margin(r = 0.25, unit = "cm"),
+                                       size = 10,
+                                       vjust = 0.5,
+                                       hjust = 0.5),
+
+            plot.title = element_text(hjust = 0.5)) +
+      labs(x = TeX("$u_1$"), y = TeX("$u_2$"))  +
+      geom_contour(data = mtrx3d,
+                   aes(x = u1, y = u2, z = cu1u2),
+                   bins = bins,
+                   colour = 'black', weight = 3) +
+      geom_point(data = usim, aes(x = u1, y = u2),
+                 size = 1,
+                 color = 'red')
+
+
+
+```
+
+```{r, fig.align="center", fig.width=10, fig.height=3.5, eval = FALSE}
+library(patchwork)
+
+p1 <- v1p + v2p + v3p + plot_layout(ncol = 3)
+p1
+```

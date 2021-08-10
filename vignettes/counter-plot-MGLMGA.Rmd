@@ -632,7 +632,7 @@ v9 <- ggplot() +
 ```
 
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, fig.width=10, fig.height=3.5, fig.fullwidth=TRUE}
 library(patchwork)
 p1 <- v1 + v2 + v3 + plot_layout(ncol = 3)
 p2 <- v4 + v5 + v6 + plot_layout(ncol = 3)
