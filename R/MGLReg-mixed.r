@@ -2,22 +2,37 @@
 
 
 
-#' Fitting bivariate MGL mixed copula regression models
+#' Fitting bivariate mixed MGL and MGL-EV copula regression models
 #'
-#' @description MGL.reg.mixed is used to fit bivariate MGL copula regression models.
+#' @description \code{MGL.reg.mixed} is used to fit bivariate MGL and MGL-EV copula regression models for continuous and semi-continuous variables.
 #' @param obs two-dimenstional matrix for observations
-#' @param U two-dimenstional matrix with values in \eqn{\left\[0,1\right\]}.
-#' @param U_ two-dimenstional matrix with values in \eqn{\left\[0,1\right\]}.
-#' @param X design matrix
+#' @param U two-dimenstional matrix for pseudo copula data with values in \eqn{[0,1]} for (F(y1), F(y2)).
+#' @param U_ two-dimenstional matrix for pseudo copula data for the data (F(y1), F(y2-1)).
+#' @param X design matrix.
 #' @param copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180"
 #' @param umin Threshold
-#' @param f the value of density function for obs data
+#' @param f values of the density function for marginal distribution.
 #' @param initpar Initial values for the parameters to be optimized over.
 #' @param hessian Logical. Should a numerically differentiated Hessian matrix be returned?
-#' @param ... 	Further arguments to be passed to fn and gr in optiom.
+#' @param ... additional arguments, see \code{\link[stats]{optim}} for more details.
 #' @importFrom stats qbeta
 #' @importFrom stats optim
-#' @return For optim, a list with components:
+#' @return A list containing the following components:
+#' * loglike: the value of the estimated maximum of the loglikelihood function.
+#' * copula: the name of the fitted copula. "MGL180" and "MGL-EV180" denote the survival MGL and MGL-EV copula respectively.
+#' * estimates: the point at which the maximum value of the loglikelihood is obtained.
+#' * se: the standard errors of the estimators.
+#' * AIC, BIC: the goodness fit of the regression models.
+#' * hessian: the hessian at the estimated maximum of the loglikelihood (if requested).
+#' @details
+#' * Y1: continuous data.
+#' * Y2: semi-continuous data where Y2>umin is continuous and Y2<=umin is discrete.
+#' * copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
+#' * For "Gumbel" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta) + 1.}
+#' * For "MGL", "MGL180", "MGL-EV", "MGL-EV180" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta),} where \eqn{\beta} is the vector of coefficients to be estimated in the copula regression.
+#'
+#'
+#'
 #' @export
 #'
 #'
@@ -71,14 +86,14 @@ MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
   }
 
   hcMGLEV180.reg <- function(U, param){
-    hfunc1 <- hMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc1
-    hfunc2 <- hMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc2
+    hfunc1 <- hcMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc1
+    hfunc2 <- hcMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out
   }
   hcMGLEV.reg <- function(U, param){
-    hfunc1 <- 1 - hMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc1
-    hfunc2 <- 1 - hMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc2
+    hfunc1 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc1
+    hfunc2 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out
   }
@@ -130,18 +145,14 @@ MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
                   hessian = hessian, ...
   )
   resopt
-  # modout <- function(m) {
-  #   Hessian <- -m$hessian
-  #   se <- sqrt(diag(solve(Hessian)))                  ## stardard error
-  #   Z <- m$par/se                                             ##  Z statistic
-  #   p <- ifelse(Z>=0, pnorm(Z, lower=F)*2, pnorm(Z)*2)           ## p value
-  #   summarytable <- data.frame(m$par, se, Z, p)
-  #   LL <- m$value
-  #   NLL <- -m$value  # - loglikelihood value
-  #   AIC <- 2*length(m$par) + 2*NLL
-  #   BIC <- log(nrow(U))*length(m$par) + 2*NLL
-  #   list(summary = summarytable, ll =  m$value, AIC = AIC, BIC = BIC)
-  # }
-  #
-  # modout(resopt)
+
+  list(
+    loglike = -resopt$value,
+    copula = list(name = copula),
+    estimates = resopt$par,
+    se = sqrt(diag(solve(resopt$hessian))),
+    hessian = -resopt$hessian,
+    AIC = 2 * length(resopt$par) + 2 * resopt$value,
+    BIC = log(nrow(U)) * length(resopt$par) + 2 * resopt$value
+  )
 }

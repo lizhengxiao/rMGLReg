@@ -53,6 +53,7 @@ A list containing the following components:
 \itemize{
 \item Y1: continuous data.
 \item Y2: semi-continuous data where Y2>umin is continuous and Y2<=umin is discrete.
+\item copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
 }
 
 For a portfolio of \eqn{n} observations \eqn{(y_{i1},y_{i2}; \; i=1,\ldots,n)}, the joint density function of \eqn{(Y_1,Y_2)} can be written as

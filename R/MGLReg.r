@@ -2,18 +2,30 @@
 
 
 
-#' Fitting bivariate MGL copula regression models
+#' Fitting bivariate MGL and MGL-EV copula regression models
 #'
-#' @description MGL.reg is used to fit bivariate MGL copula regression models.
-#' @param U two-dimenstional matrix with values in \eqn{\left\[0,1\right\]}.
+#' @description \code{MGL.reg} is used to fit bivariate MGL and MGL-EV copula regression models for two continuous variables.
+#' @param U two-dimenstional matrix with values in \eqn{[0,1]}.
 #' @param X design matrix
-#' @param copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "Gumbel"
+#' @param copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "Gumbel".
 #' @param initpar Initial values for the parameters to be optimized over.
 #' @param hessian Logical. Should a numerically differentiated Hessian matrix be returned?
-#' @param ... 	Further arguments to be passed to fn and gr in optiom.
+#' @param ... additional arguments, see \code{\link[stats]{optim}} for more details.
 #' @importFrom stats qbeta
 #' @importFrom stats optim
-#' @return For MGL.reg, a list with components:
+#' @return A list containing the following components:
+#' * loglike: the value of the estimated maximum of the loglikelihood function.
+#' * copula: the name of the fitted copula. "MGL180" and "MGL-EV180" denote the survival MGL and MGL-EV copula respectively.
+#' * estimates: the point at which the maximum value of the loglikelihood is obtained.
+#' * se: the standard errors of the estimators.
+#' * AIC, BIC: the goodness fit of the regression models.
+#' * hessian: the hessian at the estimated maximum of the loglikelihood (if requested).
+#' @details
+#' * Y1: continuous data.
+#' * Y2: continuous data.
+#' * copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
+#' * For "Gumbel" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta) + 1.}
+#' * For "MGL", "MGL180", "MGL-EV", "MGL-EV180" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta),} where \eqn{\beta} is the vector of coefficients to be estimated in the copula regression.
 #' @export
 #'
 #'

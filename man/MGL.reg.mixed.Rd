@@ -2,7 +2,7 @@
 % Please edit documentation in R/MGLReg-mixed.r
 \name{MGL.reg.mixed}
 \alias{MGL.reg.mixed}
-\title{Fitting bivariate MGL mixed copula regression models}
+\title{Fitting bivariate mixed MGL and MGL-EV copula regression models}
 \usage{
 MGL.reg.mixed(
   obs,
@@ -20,13 +20,13 @@ MGL.reg.mixed(
 \arguments{
 \item{obs}{two-dimenstional matrix for observations}
 
-\item{U}{two-dimenstional matrix with values in \eqn{\left\[0,1\right\]}.}
+\item{U}{two-dimenstional matrix for pseudo copula data with values in \eqn{[0,1]} for (F(y1), F(y2)).}
 
-\item{U_}{two-dimenstional matrix with values in \eqn{\left\[0,1\right\]}.}
+\item{U_}{two-dimenstional matrix for pseudo copula data for the data (F(y1), F(y2-1)).}
 
-\item{f}{the value of density function for obs data}
+\item{f}{values of the density function for marginal distribution.}
 
-\item{X}{design matrix}
+\item{X}{design matrix.}
 
 \item{copula}{'MGL', 'MGL180', "MGL-EV", "MGL-EV180"}
 
@@ -36,11 +36,28 @@ MGL.reg.mixed(
 
 \item{initpar}{Initial values for the parameters to be optimized over.}
 
-\item{...}{Further arguments to be passed to fn and gr in optiom.}
+\item{...}{additional arguments, see \code{\link[stats]{optim}} for more details.}
 }
 \value{
-For optim, a list with components:
+A list containing the following components:
+\itemize{
+\item loglike: the value of the estimated maximum of the loglikelihood function.
+\item copula: the name of the fitted copula. "MGL180" and "MGL-EV180" denote the survival MGL and MGL-EV copula respectively.
+\item estimates: the point at which the maximum value of the loglikelihood is obtained.
+\item se: the standard errors of the estimators.
+\item AIC, BIC: the goodness fit of the regression models.
+\item hessian: the hessian at the estimated maximum of the loglikelihood (if requested).
+}
 }
 \description{
-MGL.reg.mixed is used to fit bivariate MGL copula regression models.
+\code{MGL.reg.mixed} is used to fit bivariate MGL and MGL-EV copula regression models for continuous and semi-continuous variables.
+}
+\details{
+\itemize{
+\item Y1: continuous data.
+\item Y2: semi-continuous data where Y2>umin is continuous and Y2<=umin is discrete.
+\item copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
+\item For "Gumbel" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta) + 1.}
+\item For "MGL", "MGL180", "MGL-EV", "MGL-EV180" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta)}, where \eqn{\beta} is the vector of coefficients to be estimated in the copula regression.
+}
 }

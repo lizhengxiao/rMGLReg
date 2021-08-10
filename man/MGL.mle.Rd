@@ -15,7 +15,7 @@ MGL.mle(
 \arguments{
 \item{U}{two-dimenstional matrix with values in \eqn{[0,1]}.}
 
-\item{copula}{copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "Student-t"}
+\item{copula}{copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "Student-t".}
 
 \item{hessian}{Logical. Should a numerically differentiated Hessian matrix be returned?}
 
@@ -36,4 +36,9 @@ A list containing the following components:
 }
 \description{
 \code{MGL.mle} is used to fit bivariate copula regression models via maximum likelihood (ML) method for two continuous variables.
+}
+\details{
+\itemize{
+\item copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
+}
 }

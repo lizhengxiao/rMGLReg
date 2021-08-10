@@ -7,6 +7,10 @@
 #' @param initpar Initial values for the parameters to be optimized over.
 #' @param ... additional arguments, see \code{\link[stats]{nlm}} for more details.
 #' @importFrom stats nlm
+#' @md
+#' @details
+#' * copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
+#'
 #' @return A list containing the following components:
 #' * loglike: the value of the estimated maximum of the loglikelihood function.
 #' * copula: the name of the fitted copula. "MGL180" and "MGL-EV180" denote the survival MGL and MGL-EV copula respectively.

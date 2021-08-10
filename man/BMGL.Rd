@@ -23,7 +23,7 @@ pcMGL180.bivar(u1, u2, pars)
 rcMGL180.bivar(n, pars)
 }
 \arguments{
-\item{u1, u2}{numeric vectors of equal length with values in \eqn{\left\[0,1\right\]}.}
+\item{u1, u2}{numeric vectors of equal length with values in \eqn{[0,1]}.}
 
 \item{pars}{copula parameter, denoted by \eqn{\delta >0}.}
 

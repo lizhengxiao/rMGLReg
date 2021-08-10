@@ -22,7 +22,7 @@
 #' @details
 #' * Y1: continuous data.
 #' * Y2: semi-continuous data where Y2>umin is continuous and Y2<=umin is discrete.
-#'
+#' * copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
 #'
 #' For a portfolio of \eqn{n} observations \eqn{(y_{i1},y_{i2}; \; i=1,\ldots,n)}, the joint density function of \eqn{(Y_1,Y_2)} can be written as
 #' \deqn{
@@ -97,13 +97,13 @@ initpar, ...) {
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out}
   hMGLEV180 <- function(U, param){
-    hfunc1 <- hMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc1
-    hfunc2 <- hMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc2
+    hfunc1 <- hcMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc1
+    hfunc2 <- hcMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out}
   hMGLEV <- function(U, param){
-    hfunc1 <- 1 - hMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc1
-    hfunc2 <- 1 - hMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc2
+    hfunc1 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc1
+    hfunc2 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out}
   hMGB2 <- function(U, param){

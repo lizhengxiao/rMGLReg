@@ -4,21 +4,58 @@
 \alias{BMGL-EV}
 \alias{pcMGLEV.bivar}
 \alias{dcMGLEV.bivar}
-\title{Bivarite MGL-EV copula}
+\alias{pcMGLEV180.bivar}
+\alias{dcMGLEV180.bivar}
+\alias{hcMGLEV180.bivar}
+\alias{hcMGLEV.bivar}
+\title{Bivarite MGL-EV and survival MGL-EV copula}
 \usage{
 pcMGLEV.bivar(u1, u2, param)
 
 dcMGLEV.bivar(u1, u2, param)
+
+pcMGLEV180.bivar(u1, u2, param)
+
+dcMGLEV180.bivar(u1, u2, param)
+
+hcMGLEV180.bivar(u1, u2, param)
+
+hcMGLEV.bivar(u1, u2, param)
 }
 \arguments{
-\item{u1, u2}{numeric vectors of equal length with values in \eqn{\left\[0,1\right\]}.}
+\item{u1, u2}{numeric vectors of equal length with values in \eqn{[0,1]}.}
 
-\item{param}{copula parameter, denoted by delta}
+\item{param}{copula parameter, denoted by delta.}
+}
+\value{
+\itemize{
+\item \code{dcMGLEV.bivar}, \code{pcMGLEV.bivar} and \code{hMGLEV.bivar}  give values of density distribution and h-function for the 2-dimensional MGL copula with copula parameter \eqn{\delta>0}.
+\item \code{dcMGLEV180.bivar}, \code{pcMGLEV180.bivar} and \code{hMGLEV180.bivar}  give values of density and distribution and h-function for the 2-dimensional MGL copula with copula parameter \eqn{\delta>0}.
+\item \code{hMGLEV.bivar} and \code{hMGLEV180.bivar} return a list with
+}
+
+** hfunc1: \eqn{\partial C(u_1,u_2) / \partial u_1,}
+** hfunc2: \eqn{\partial C(u_1,u_2) / \partial u_2,}
 }
 \description{
-Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter delta.
+Density, distribution function, and h-function the bivariate MGL-EV and survival MGL-EV copula with copula parameter delta.
+}
+\details{
+The h-function is defined as the conditional distribution function of a bivariate copula, i.e.,
+\deqn{h_1(u_2|u_1,\delta) := P(U_2 \leq u_2 | U_1 = u_1) = \partial C(u_1,u_2) / \partial u_1,}
+
+\deqn{h_2(u_1|u_2,\delta) := P(U_1 \leq u_1 | U_2 = u_2) := \partial C(u_1,u_2) / \partial u_2,}
+
+where \eqn{(U_1, U_2) \sim C}, and \eqn{C} is a bivariate copula distribution function with parameter(s) \eqn{\delta}. For more details see Aas et al. (2009).
 }
 \examples{
 pcMGLEV.bivar(u1 = c(0.3, 0.9), u2 = c(0.5, 0.8), param = 2)
 dcMGLEV.bivar(u1 = 0.001, u2 = 0.999, param = 1)
+pcMGLEV180.bivar(u1 = c(0.3, 0.9), u2 = c(0.5, 0.8), param = 2)
+dcMGLEV180.bivar(u1 = 0.5, u2 = 0.78, param = 1.8)
+hcMGLEV180.bivar(u1 = 0.5, u2 = 0.78, param = 1.8)
+hcMGLEV.bivar(u1 = 0.5, u2 = 0.78, param = 1.8)
+}
+\references{
+Aas, K., C. Czado, A. Frigessi, and H. Bakken (2009). Pair-copula constructions of multiple dependence. Insurance: Mathematics and Economics 44 (2), 182-198.
 }

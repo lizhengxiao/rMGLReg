@@ -2,7 +2,7 @@
 #' @rdname  BMGL
 #' @title Bivarite MGL and survival MGL copula
 #' @description Density, distribution function, and random generation for the bivariate MGL copula with copula parameter \eqn{\delta}.
-#' @param u1,u2 numeric vectors of equal length with values in \eqn{\left\[0,1\right\]}.
+#' @param u1,u2 numeric vectors of equal length with values in \eqn{[0,1]}.
 #' @param pars copula parameter, denoted by \eqn{\delta >0}.
 #' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
 #' @md
