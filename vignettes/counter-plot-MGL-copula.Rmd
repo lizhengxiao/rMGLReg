@@ -59,7 +59,7 @@ pairs(U, gap = 0, cex = 0.5)
 
 ### Contour plots of the joint density function of the MGL and survival MGL copula with low, medium and high dependence, along with plots of simuated samples. 
 
-```{r}
+```{r, eval = FALSE}
 library(data.table)
 library(ggplot2)
 library(latex2exp)
@@ -100,7 +100,7 @@ v1p <- ggplot() +
 
 
 
-```{r}
+```{r, eval = FALSE}
 par.copula <- 3.81
 Nsim <- 1000
 usim <- (rcMGL.bivar(Nsim, pars = par.copula))
@@ -140,7 +140,7 @@ v2p <- ggplot() +
 
 
 
-```{r}
+```{r, eval = FALSE}
 par.copula <- 10.56
 Nsim <- 1000
 usim <- (rcMGL.bivar(Nsim, pars = par.copula))
@@ -178,7 +178,7 @@ v3p <- ggplot() +
 
 ```
 
-```{r, fig.align="center", fig.width=10, fig.height=3.5}
+```{r, fig.align="center", fig.width=10, fig.height=3.5, eval = FALSE}
 library(patchwork)
 
 p1 <- v1p + v2p + v3p + plot_layout(ncol = 3)

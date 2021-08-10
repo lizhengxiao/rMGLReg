@@ -72,28 +72,28 @@ MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
   }
 
   hcMGL.reg <- function(U, param) {
-    hfunc1 <- hcMGL.bivar(u1 = U[, 1], u2 = U[, 2], pars = param[1])$hfunc1
-    hfunc2 <- hcMGL.bivar(u1 = U[, 1], u2 = U[, 2], pars = param[1])$hfunc2
+    hfunc1 <- hcMGL.bivar(u1 = U[1], u2 = U[2], pars = param[1])$hfunc1
+    hfunc2 <- hcMGL.bivar(u1 = U[1], u2 = U[2], pars = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out
   }
 
   hcMGL180.reg <- function(U, param) {
-    hfunc1 <- 1 - hcMGL.bivar(u1 = 1 - U[, 1], u2 = 1 - U[, 2], pars = param[1])$hfunc1
-    hfunc2 <- 1 - hcMGL.bivar(u1 = 1 - U[, 1], u2 = 1 - U[, 2], pars = param[1])$hfunc2
+    hfunc1 <- 1 - hcMGL.bivar(u1 = 1 - U[1], u2 = 1 - U[2], pars = param[1])$hfunc1
+    hfunc2 <- 1 - hcMGL.bivar(u1 = 1 - U[1], u2 = 1 - U[2], pars = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out
   }
 
   hcMGLEV180.reg <- function(U, param) {
-    hfunc1 <- hcMGLEV180.bivar(u1 = U[, 1], u2 = U[, 2], param = param[1])$hfunc1
-    hfunc2 <- hcMGLEV180.bivar(u1 = U[, 1], u2 = U[, 2], param = param[1])$hfunc2
+    hfunc1 <- hcMGLEV180.bivar(u1 = U[1], u2 = U[2], param = param[1])$hfunc1
+    hfunc2 <- hcMGLEV180.bivar(u1 = U[1], u2 = U[2], param = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out
   }
   hcMGLEV.reg <- function(U, param) {
-    hfunc1 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[, 1], u2 = 1 - U[, 2], param = param[1])$hfunc1
-    hfunc2 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[, 1], u2 = 1 - U[, 2], param = param[1])$hfunc2
+    hfunc1 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[1], u2 = 1 - U[2], param = param[1])$hfunc1
+    hfunc2 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[1], u2 = 1 - U[2], param = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out
   }
@@ -136,7 +136,7 @@ MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
         ll[i] <- f1[i] * f2[i] * dcop(U[i, ], param = delta[i])
       }
     }
-    res <- sum((log(ll)))
+    res <- - sum((log(ll)))
     return(res)
   }
 
