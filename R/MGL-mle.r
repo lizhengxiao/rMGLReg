@@ -1,13 +1,20 @@
 
 #' @title Fitting bivariate MGL copula models
-#' @description MGL.reg is used to fit bivariate MGL copula regression models.
-#' @param U two-dimenstional matrix with values in \eqn{\left\[0,1\right\]}.
-#' @param copula copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "Student-t"
+#' @description \code{MGL.mle} is used to fit bivariate copula regression models via maximum likelihood (ML) method for two continuous variables.
+#' @param U two-dimenstional matrix with values in \eqn{[0,1]}.
+#' @param copula copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "Student-t".
 #' @param hessian Logical. Should a numerically differentiated Hessian matrix be returned?
 #' @param initpar Initial values for the parameters to be optimized over.
-#' @param ... additional arguments to be passed to f.
+#' @param ... additional arguments, see \code{\link[stats]{nlm}} for more details.
 #' @importFrom stats nlm
-#' @return A list containing the following components
+#' @return A list containing the following components:
+#' * loglike: the value of the estimated maximum of the loglikelihood function.
+#' * copula: the name of the fitted copula. "MGL180" and "MGL-EV180" denote the survival MGL and MGL-EV copula respectively.
+#' * estimates: the point at which the maximum value of the loglikelihood is obtained.
+#' * se: the standard errors of the estimators.
+#' * AIC, BIC: the goodness fit of the regression models.
+#' * hessian: the hessian at the estimated maximum of the loglikelihood (if requested).
+#'
 #' @export
 #'
 MGL.mle <- function(U, copula = c(
@@ -106,9 +113,7 @@ MGL.mle <- function(U, copula = c(
 
   resopt <- nlm(
     f = copLogL,
-    # U = U,
     p = initpar,
-    # dcop = dcop, arg.cop = arg.cop,
     hessian = hessian, ...
   )
 
@@ -119,6 +124,7 @@ MGL.mle <- function(U, copula = c(
     copula = list(name = arg.cop$name),
     estimates = resopt$estimate,
     se = sqrt(diag(solve(resopt$hessian))),
+    hessian = -resopt$hessian,
     AIC = 2 * length(resopt$estimate) + 2 * resopt$minimum,
     BIC = log(nrow(U)) * length(resopt$estimate) + 2 * resopt$minimum
   )

@@ -17,27 +17,53 @@ MGL.mle.mixed(
 )
 }
 \arguments{
-\item{obs}{two-dimenstional matrix for observations}
+\item{obs}{two-dimenstional matrix for loss observations (y1, y2).}
 
-\item{U}{two-dimenstional matrix with values in \eqn{\left\[0,1\right\]}.}
+\item{U}{two-dimenstional matrix for pseudo copula data with values in \eqn{[0,1]} for (F(y1), F(y2)).}
 
-\item{U_}{asd}
+\item{U_}{two-dimenstional matrix for pseudo copula data for the data (F(y1), F(y2-1)).}
 
-\item{f}{values of the density function for marginal distribution}
+\item{f}{values of the density function for marginal distribution.}
 
-\item{copula}{copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "Student-t"}
+\item{copula}{copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "Student-t".}
 
-\item{umin}{sd}
+\item{umin}{threshold value used in the semi-continuous data.}
 
 \item{hessian}{Logical. Should a numerically differentiated Hessian matrix be returned?}
 
 \item{initpar}{Initial values for the parameters to be optimized over.}
 
-\item{...}{additional arguments to be passed to f.}
+\item{...}{additional arguments, see \code{\link[stats]{nlm}} for more details.}
 }
 \value{
-A list containing the following components
+A list containing the following components:
+\itemize{
+\item loglike: the value of the estimated maximum of the loglikelihood function.
+\item copula: the name of the fitted copula. "MGL180" and "MGL-EV180" denote the survival MGL and MGL-EV copula respectively.
+\item estimates: the point at which the maximum value of the loglikelihood is obtained.
+\item se: the standard errors of the estimators.
+\item AIC, BIC: the goodness fit of the regression models.
+\item hessian: the hessian at the estimated maximum of the loglikelihood (if requested).
+}
 }
 \description{
-MGL.reg is used to fit bivariate MGL copula regression models.
+\code{MGL.mle.mixed} is used to fit bivariate mixed copula regression models via maximum likelihood (ML) method for continuous and semi-continuous variables..
+}
+\details{
+\itemize{
+\item Y1: continuous data.
+\item Y2: semi-continuous data where Y2>umin is continuous and Y2<=umin is discrete.
+}
+
+For a portfolio of \eqn{n} observations \eqn{(y_{i1},y_{i2}; \; i=1,\ldots,n)}, the joint density function of \eqn{(Y_1,Y_2)} can be written as
+\deqn{
+	f_{Y_{1},Y_2}(y_{i1},y_{i2})=\begin{cases}
+	f_{Y_1}(y_{i1})[
+	h_{2|1}(F_{Y_{1}}(y_{i1}),F_{Y_{2}}(y_{i2})) - h_{2|1}(F_{Y_{1}}(y_{i1}),F_{Y_{2}}(y_{i2}-1))
+	], & y_{i2}\le umin,\\
+	f_{Y_1}(y_{i1})f_{Y_2}(y_{i2})c(F_{Y_{1}}(y_{i1}), F_{Y_{2}}(y_{i2})), & y_{i2} > umin,
+	\end{cases}
+}
+where the density \eqn{f_{Y_j}(\cdot)} and cdf \eqn{F_{Y_j}(\cdot)} of the marginal distributions  (\eqn{i=1,2}) are specified respectively. Here
+\eqn{h_{2|1}(u_1, u_2)=\partial C(u_1,u_2)/\partial u_1} is the \eqn{h}-function of bivariate copula.
 }

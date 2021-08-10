@@ -9,7 +9,6 @@
 #' @return
 #' * \code{dcMGL.bivar}, \code{pcMGL.bivar} and \code{rcMGL.bivar} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
 #' * \code{dcMGL180.bivar}, \code{pcMGL180.bivar} and \code{rcMGL180.bivar} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
-
 NULL
 
 
@@ -87,6 +86,8 @@ pcMGL180.bivar <- function(u1, u2, pars) {
   u1 + u2 - 1 + pcMGL.bivar(1 - u1, 1 - u2, pars)
 }
 
+
+
 #' @rdname BMGL
 #' @export
 #' @examples rcMGL180.bivar(n = 200, pars = 0.8)
@@ -96,13 +97,9 @@ rcMGL180.bivar <- function(n, pars) {
 }
 
 
-
-
-
-
 #' @name hBMGL
 #' @rdname  hBMGL
-#' @title Conditional Distribution Function of a Bivariate Copula
+#' @title Conditional Distribution Function of a Bivariate MGL and survival Copula
 #'
 #' @param u1 numeric vectors of equal length with values in \eqn{[0,1]}.
 #' @param u2 numeric vectors of equal length with values in \eqn{[0,1]}.
@@ -119,7 +116,6 @@ rcMGL180.bivar <- function(n, pars) {
 #' @return hcMGL.bivar returns a list with
 #' * hfunc1: \eqn{\partial C(u_1,u_2) / \partial u_1,}
 #' * hfunc2: \eqn{\partial C(u_1,u_2) / \partial u_2,}
-#' @export
 #' @references Aas, K., C. Czado, A. Frigessi, and H. Bakken (2009). Pair-copula constructions of multiple dependence. Insurance: Mathematics and Economics 44 (2), 182-198.
 NULL
 
@@ -158,7 +154,8 @@ hcMGL180.bivar <- function(u1, u2, pars){
   hfunc1 <- 1 - hcMGL.bivar(u1 = 1 - u1, u2 = 1 - u2, pars = pars[1])$hfunc1
   hfunc2 <- 1 - hcMGL.bivar(u1 = 1 - u1, u2 = 1 - u2, pars = pars[1])$hfunc2
   out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
-  out}
+  out
+}
 
 
 

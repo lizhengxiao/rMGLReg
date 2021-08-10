@@ -1,17 +1,42 @@
 
 #' @title Fitting bivariate MGL copula models
-#' @description MGL.reg is used to fit bivariate MGL copula regression models.
-#' @param U two-dimenstional matrix with values in \eqn{\left\[0,1\right\]}.
-#' @param copula copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "Student-t"
+#' @description \code{MGL.mle.mixed} is used to fit bivariate mixed copula regression models via maximum likelihood (ML) method for continuous and semi-continuous variables..
+#' @param U two-dimenstional matrix for pseudo copula data with values in \eqn{[0,1]} for (F(y1), F(y2)).
+#' @param copula copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "Student-t".
 #' @param hessian Logical. Should a numerically differentiated Hessian matrix be returned?
 #' @param initpar Initial values for the parameters to be optimized over.
-#' @param ... additional arguments to be passed to f.
-#' @param U_ asd
-#' @param obs two-dimenstional matrix for observations
-#' @param f values of the density function for marginal distribution
-#' @param umin sd
+#' @param U_ two-dimenstional matrix for pseudo copula data for the data (F(y1), F(y2-1)).
+#' @param obs two-dimenstional matrix for loss observations (y1, y2).
+#' @param f values of the density function for marginal distribution.
+#' @param umin threshold value used in the semi-continuous data.
+#' @param ... additional arguments, see \code{\link[stats]{nlm}} for more details.
 #' @importFrom stats nlm
-#' @return A list containing the following components
+#' @md
+#' @return A list containing the following components:
+#' * loglike: the value of the estimated maximum of the loglikelihood function.
+#' * copula: the name of the fitted copula. "MGL180" and "MGL-EV180" denote the survival MGL and MGL-EV copula respectively.
+#' * estimates: the point at which the maximum value of the loglikelihood is obtained.
+#' * se: the standard errors of the estimators.
+#' * AIC, BIC: the goodness fit of the regression models.
+#' * hessian: the hessian at the estimated maximum of the loglikelihood (if requested).
+#' @details
+#' * Y1: continuous data.
+#' * Y2: semi-continuous data where Y2>umin is continuous and Y2<=umin is discrete.
+#'
+#'
+#' For a portfolio of \eqn{n} observations \eqn{(y_{i1},y_{i2}; \; i=1,\ldots,n)}, the joint density function of \eqn{(Y_1,Y_2)} can be written as
+#' \deqn{
+#' 	f_{Y_{1},Y_2}(y_{i1},y_{i2})=\begin{cases}
+#' 	f_{Y_1}(y_{i1})[
+#' 	h_{2|1}(F_{Y_{1}}(y_{i1}),F_{Y_{2}}(y_{i2})) - h_{2|1}(F_{Y_{1}}(y_{i1}),F_{Y_{2}}(y_{i2}-1))
+#' 	], & y_{i2}\le umin,\\
+#' 	f_{Y_1}(y_{i1})f_{Y_2}(y_{i2})c(F_{Y_{1}}(y_{i1}), F_{Y_{2}}(y_{i2})), & y_{i2} > umin,
+#' 	\end{cases}
+#' }
+#' where the density \eqn{f_{Y_j}(\cdot)} and cdf \eqn{F_{Y_j}(\cdot)} of the marginal distributions  (\eqn{i=1,2}) are specified respectively. Here
+#' \eqn{h_{2|1}(u_1, u_2)=\partial C(u_1,u_2)/\partial u_1} is the \eqn{h}-function of bivariate copula.
+#'
+#'
 #' @export
 #'
 MGL.mle.mixed <- function(obs, U, U_, f, copula = c(
@@ -126,7 +151,7 @@ initpar, ...) {
     hcop <-   hMGB2
   }
 
-  # loglike.copula <- function(U, initpar, ...){
+
   Obs1 <- obs[,1] # y1
   Obs2 <- obs[,2] # y2
   f1 <- f[,1]
@@ -140,24 +165,23 @@ initpar, ...) {
       m2 <- f1[index2]*f2[index2]*dcop(U[index2,], param = x)
       logL2 <- (log(m2))
       ll <- c(logL1, logL2)
-      res <- -sum((ll)) # 定义似然函数
+      res <- -sum((ll)) # define the loglikelihood
     } else { res <- 100000000000000000 }
     return(res)}
+
   resopt <- nlm(
     f = copLogL,
-    # U = U,
     p = initpar,
-    # dcop = dcop, arg.cop = arg.cop,
     hessian = hessian
   )
 
 
-  # resopt
   list(
     loglike = -resopt$minimum,
     copula = list(name = arg.cop$name),
     estimates = resopt$estimate,
     se = sqrt(diag(solve(resopt$hessian))),
+    hessian = -resopt$hessian,
     AIC = 2 * length(resopt$estimate) + 2 * resopt$minimum,
     BIC = log(nrow(U)) * length(resopt$estimate) + 2 * resopt$minimum
   )

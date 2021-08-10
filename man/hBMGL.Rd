@@ -4,7 +4,7 @@
 \alias{hBMGL}
 \alias{hcMGL.bivar}
 \alias{hcMGL180.bivar}
-\title{Conditional Distribution Function of a Bivariate Copula}
+\title{Conditional Distribution Function of a Bivariate MGL and survival Copula}
 \usage{
 hcMGL.bivar(u1, u2, pars)
 
@@ -25,7 +25,7 @@ hcMGL.bivar returns a list with
 }
 }
 \description{
-Conditional Distribution Function of a Bivariate Copula
+Conditional Distribution Function of a Bivariate MGL and survival Copula
 }
 \details{
 The h-function is defined as the conditional distribution function of a bivariate copula, i.e.,
