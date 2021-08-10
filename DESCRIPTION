@@ -15,16 +15,19 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
     copula,
+    cubature,
     data.table,
     fitdistrplus,
     ggplot2,
     knitr,
     latex2exp,
     patchwork,
+    qpdf,
     renv,
     rmarkdown,
-    sROC,
-    testthat (>= 3.0.0)
+    snpar,
+    testthat (>= 3.0.0),
+    VineCopula
 Config/testthat/edition: 3
 Imports: 
     stats,

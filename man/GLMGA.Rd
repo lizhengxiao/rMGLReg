@@ -19,11 +19,11 @@ rGLMGA(n, sigma, a, b)
 \arguments{
 \item{y}{vector of quantiles.}
 
-\item{sigma}{parameter}
+\item{sigma}{parameter of GLMGA distribution.}
 
-\item{a}{parameter}
+\item{a}{parameter of GLMGA distribution.}
 
-\item{b}{parameter}
+\item{b}{parameter of GLMGA distribution.}
 
 \item{log}{logical; if TRUE, probabilities/densities p are returned as log(p).}
 
@@ -31,8 +31,36 @@ rGLMGA(n, sigma, a, b)
 
 \item{n}{number of observations. If length(n) > 1, the length is taken to be the number required.}
 }
+\value{
+\code{dGLMGA} gives the density, \code{pGLMGA} gives the distribution function, \code{qGLMGA} gives the quantile function, and \code{rGLMGA} generates random deviates.
+
+Invalid arguments will result in return value NaN, with a warning.
+
+The length of the result is determined by n for rgamma, and is the maximum of the lengths of the numerical arguments for the other functions.
+
+The numerical arguments other than n are recycled to the length of the result. Only the first elements of the logical arguments are used.
+}
 \description{
-Density, distribution function, quantile function and random generation for the GLMGA distribution with parameters sigma, a and b.
+Density (\code{dGLMGA}), distribution function (\code{pGLMGA}), quantile function (\code{qGLMGA}) and random generation (\code{rGLMGA}) for the GLMGA distribution with parameters sigma, a and b.
+}
+\details{
+The GLMGA distribution with parameters (sigma, a, b) has density
+\deqn{f(y)=\frac{(2b)^a}{\sigma B(a,\frac{1}{2})}\frac{y^{-(\frac{1}{2\sigma}+1)}}{(y^{-\frac{1}{\sigma}}+2b)^{a + \frac{1}{2}}},}
+for \eqn{y>0,\sigma>0, a>0, b>0}.
+
+The cumulative distribution function \eqn{F(y)} is
+
+\deqn{F(y)=1-I_{\frac{1}{2},a}(\frac{y^{-1/\sigma}}{y^{-1/\sigma}+2b}).}
+
+Here \eqn{I_{m,n}()} is the beta cumulative distribution function (or regularized incomplete beta function) with parameters shape1 = m and shape2 = n
+implemented by R's \code{\link[stats]{pbeta}} and defined in its help.
+
+The quantile function \eqn{F^{-1}(u)} is
+
+\deqn{(2b)^{-\sigma}[\frac{I^{-1}_{\frac{1}{2},a}(1-p)}{1-I^{-1}_{\frac{1}{2},a}(1-p)}]^{-\sigma},}
+where \eqn{u \in (0,1)}, and \eqn{I_{m,n}^{-1}()} denotes the inverse of the beta cumulative distribution function (or regularized incomplete beta function)
+with parameters shape1 = m and shape2 = n
+implemented by R's \code{\link[stats]{qbeta}}.
 }
 \examples{
 # density function at value 0.5 and 0.1
@@ -43,4 +71,7 @@ pGLMGA(c(10, 20), sigma = 2, a = 2, b = 3)
 qGLMGA(c(0.5, 0.1), sigma = 2, a = 2, b = 3)
 # simulate 10 samples from GLMGA distribution with parameters (2, 2, 3)
 rGLMGA(n = 10, sigma = 2, a = 2, b = 3)
+}
+\references{
+Zhengxiao Li, Jan Beirlant, Shengwang Meng. Generalizing The Log-Moyal Distribution And Regression Models For Heavy-Tailed Loss Data. ASTIN Bulletin: The Journal of the IAA, 11(1):57-99, 2021.
 }

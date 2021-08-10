@@ -3,11 +3,11 @@
 #'
 #' @param y1 vector of quantiles.
 #' @param y2 vector of quantiles.
-#' @param sigma vector of parameters
-#' @param a  common parameter
-#' @param b vector of parameters
+#' @param sigma vector of parameters with length = 2.
+#' @param a  common parameter with length = 1.
+#' @param b vector of parameters with length = 2.
 #'
-#' @return Density, for the GLMGA distribution with parameters sigma, a and b.
+#' @return Density, for the bivariate GLMGA distribution with parameters sigma, a and b.
 #' @export
 #'
 #' @examples
