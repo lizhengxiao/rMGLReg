@@ -40,21 +40,21 @@
 #' @export
 #'
 MGL.mle.mixed <- function(obs, U, U_, f, copula = c(
-  "MGL", "MGL180", "MGL-EV",
-  "MGL-EV180",
-  "Gumbel",
-  "Normal", "MGB2", "t"
-), umin,
-hessian = TRUE,
-initpar, ...) {
+                            "MGL", "MGL180", "MGL-EV",
+                            "MGL-EV180",
+                            "Gumbel",
+                            "Normal", "MGB2", "t"
+                          ), umin,
+                          hessian = TRUE,
+                          initpar, ...) {
   dnormcop <- function(U, param) {
     as.numeric(fCopulae::dellipticalCopula(U, rho = param[1], type = "norm"))
   } # normal copula
 
   dtcop <- function(U, param) {
     as.numeric(fCopulae::dellipticalCopula(U,
-                                           rho = param[1], type = "t",
-                                           param = param[2]
+      rho = param[1], type = "t",
+      param = param[2]
     ))
   } # t copula
 
@@ -83,31 +83,39 @@ initpar, ...) {
     as.numeric(dcMGLEV180.bivar(u1 = U[, 1], u2 = U[, 2], param = param[1])) # Bivariate Extreme
   }
 
-  hnormcop <- function(U, param){
-    VineCopula::BiCopHfunc(U[,1], U[,2], family = 1, par = param[1])}
-  htcop <- function(U, param)
-    VineCopula::BiCopHfunc(U[,1], U[,2], family = 2, par = param[1], par2 = param[2])
-  hgumcop <- function(U, param)
-    VineCopula::BiCopHfunc(U[,1], U[,2], family = 4, par = param[1])
-  hMGL <- function(U, param){
-    hcMGL.bivar(u1 = U[,1], u2 = U[,2], pars = param[1])}
-  hMGL180 <- function(U, param){
-    hfunc1 <- 1 - hcMGL.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], pars = param[1])$hfunc1
-    hfunc2 <- 1 - hcMGL.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], pars = param[1])$hfunc2
+  hnormcop <- function(U, param) {
+    VineCopula::BiCopHfunc(U[, 1], U[, 2], family = 1, par = param[1])
+  }
+  htcop <- function(U, param) {
+    VineCopula::BiCopHfunc(U[, 1], U[, 2], family = 2, par = param[1], par2 = param[2])
+  }
+  hgumcop <- function(U, param) {
+    VineCopula::BiCopHfunc(U[, 1], U[, 2], family = 4, par = param[1])
+  }
+  hMGL <- function(U, param) {
+    hcMGL.bivar(u1 = U[, 1], u2 = U[, 2], pars = param[1])
+  }
+  hMGL180 <- function(U, param) {
+    hfunc1 <- 1 - hcMGL.bivar(u1 = 1 - U[, 1], u2 = 1 - U[, 2], pars = param[1])$hfunc1
+    hfunc2 <- 1 - hcMGL.bivar(u1 = 1 - U[, 1], u2 = 1 - U[, 2], pars = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
-    out}
-  hMGLEV180 <- function(U, param){
-    hfunc1 <- hcMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc1
-    hfunc2 <- hcMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc2
+    out
+  }
+  hMGLEV180 <- function(U, param) {
+    hfunc1 <- hcMGLEV180.bivar(u1 = U[, 1], u2 = U[, 2], param = param[1])$hfunc1
+    hfunc2 <- hcMGLEV180.bivar(u1 = U[, 1], u2 = U[, 2], param = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
-    out}
-  hMGLEV <- function(U, param){
-    hfunc1 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc1
-    hfunc2 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc2
+    out
+  }
+  hMGLEV <- function(U, param) {
+    hfunc1 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[, 1], u2 = 1 - U[, 2], param = param[1])$hfunc1
+    hfunc2 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[, 1], u2 = 1 - U[, 2], param = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
-    out}
-  hMGB2 <- function(U, param){
-    hcMGB2.bivar(u1 = U[,1], u2 = U[,2], pars1 = param[1], pars2 = param[2], pars3 = param[3])}
+    out
+  }
+  hMGB2 <- function(U, param) {
+    hcMGB2.bivar(u1 = U[, 1], u2 = U[, 2], pars1 = param[1], pars2 = param[2], pars3 = param[3])
+  }
 
   argnorm <- list(length = 1, lower = 0, upper = 1, name = "Gaussian")
   argt <- list(length = 2, lower = c(0, 0), upper = c(1, 100), name = "Student")
@@ -120,7 +128,7 @@ initpar, ...) {
   if (copula == "MGL") {
     dcop <- dMGL
     arg.cop <- argMG
-    hcop <-   hMGL
+    hcop <- hMGL
   } else if (copula == "MGL180") {
     dcop <- dMGL180
     arg.cop <- argMG180
@@ -136,7 +144,7 @@ initpar, ...) {
   } else if (copula == "Gumbel") {
     dcop <- dgumcop
     arg.cop <- arggum
-    hcop <-   hgumcop
+    hcop <- hgumcop
   } else if (copula == "Normal") {
     dcop <- dnormcop
     arg.cop <- argnorm
@@ -144,30 +152,33 @@ initpar, ...) {
   } else if (copula == "t") {
     dcop <- dtcop
     arg.cop <- argt
-    hcop <-    htcop
+    hcop <- htcop
   } else if (copula == "MGB2") {
     dcop <- dMGB2
     arg.cop <- argMGB2
-    hcop <-   hMGB2
+    hcop <- hMGB2
   }
 
 
-  Obs1 <- obs[,1] # y1
-  Obs2 <- obs[,2] # y2
-  f1 <- f[,1]
-  f2 <- f[,2]
+  # Obs1 <- obs[, 1] # y1
+  Obs2 <- obs[, 2] # y2
+  f1 <- f[, 1]
+  f2 <- f[, 2]
   copLogL <- function(x) {
-    if(all(arg.cop$lower < x && arg.cop$upper > x)){
+    if (all(arg.cop$lower < x && arg.cop$upper > x)) {
       index1 <- which(Obs2 <= umin)
       index2 <- which(Obs2 > umin)
-      m1 <- f1[index1]*(hcop(U[index1,], param = x)$hfunc1 - hcop(U_[index1,], param = x)$hfunc1)
+      m1 <- f1[index1] * (hcop(U[index1, ], param = x)$hfunc1 - hcop(U_[index1, ], param = x)$hfunc1)
       logL1 <- (log(m1))
-      m2 <- f1[index2]*f2[index2]*dcop(U[index2,], param = x)
+      m2 <- f1[index2] * f2[index2] * dcop(U[index2, ], param = x)
       logL2 <- (log(m2))
       ll <- c(logL1, logL2)
       res <- -sum((ll)) # define the loglikelihood
-    } else { res <- 100000000000000000 }
-    return(res)}
+    } else {
+      res <- 100000000000000000
+    }
+    return(res)
+  }
 
   resopt <- nlm(
     f = copLogL,

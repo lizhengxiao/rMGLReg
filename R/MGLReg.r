@@ -85,7 +85,7 @@ MGL.reg <- function(U, X, copula = c(
     } else {
       delta <- exp(X %*% pars)
     }
-    for (i in 1:nrow(X)) {
+    for (i in seq_len(nrow(X))) {
       ll[i] <- dcop(U[i, ], param = as.vector(delta[i]))
     }
     res <- -sum((log(ll)))

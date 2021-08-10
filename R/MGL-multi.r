@@ -35,7 +35,7 @@ dcMGL.multi <- function(u, pars, log = FALSE) {
   a <- 1 / pars[1]
   q <- (qbeta(1 - u, shape1 = 0.5, shape2 = a) / (1 - qbeta(1 - u, shape1 = 0.5, shape2 = a)))
   logdc <- 0
-  for (i in 1:nrow(u)) {
+  for (i in seq_len(nrow(u))) {
     logdc[i] <- (dim - 1) * lgamma(a) + lgamma(a + dim / 2) - dim * lgamma(a + 0.5) + (a + 0.5) * sum(log(q[i, ] + 1)) - (a + dim / 2) * log(sum(q[i, ]) + 1)
   }
   dc <- exp(logdc)
@@ -56,8 +56,9 @@ dcMGL.multi <- function(u, pars, log = FALSE) {
 #'
 #' dcMGL180.multi(u = cbind(c(0.6, 0.1, 0.5), c(0.3, 0.9, 0.2)), pars = 2, log = FALSE)
 #'
-#' dcMGL180.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = TRUE)}
-dcMGL180.multi <- function(u, pars, log = FALSE){
+#' dcMGL180.multi(u = cbind(c(0.6, 0.1), c(0.3, 0.9), c(0.5, 0.6)), pars = 2, log = TRUE)
+#' }
+dcMGL180.multi <- function(u, pars, log = FALSE) {
   dcMGL.multi(u = 1 - u, pars = pars, log = log)
 }
 
@@ -69,22 +70,22 @@ dcMGL180.multi <- function(u, pars, log = FALSE){
 #' # 3-dim MGL copula
 #' pcMGL.multi(u = cbind(c(0, 0.2, 0.5), c(0.5, 0.2, 0.5), c(0.01, 0.5, 0.9)), pars = 3)
 pcMGL.multi <- function(u, pars) {
-  dim <- ncol(u)
+  # dim <- ncol(u)
   a <- 1 / pars[1]
 
   q <- (qbeta(1 - u, shape1 = 0.5, shape2 = a) / (1 - qbeta(1 - u, shape1 = 0.5, shape2 = a)))
   z <- 0
-  for (i in 1:nrow(u)) {
-    if(any(q[i,] %in% Inf)) {
+  for (i in seq_len(nrow(u))) {
+    if (any(q[i, ] %in% Inf)) {
       z[i] <- 0
     } else {
       temp <- as.vector(q[i, ])
       fin <- function(theta) { # rely on a
-          # theta <- as.vector()
-          m <- pracma::erfc((temp * theta)^0.5)
-          k <- base::prod(m)
-          out <- k * theta^(a - 1) * exp(-theta) / gamma(a)
-          out
+        # theta <- as.vector()
+        m <- pracma::erfc((temp * theta)^0.5)
+        k <- base::prod(m)
+        out <- k * theta^(a - 1) * exp(-theta) / gamma(a)
+        out
       }
       fin <- Vectorize(fin)
       z[i] <- as.numeric(pracma::integral(
@@ -101,23 +102,23 @@ pcMGL.multi <- function(u, pars) {
 #' @export
 #' @examples
 #' pcMGL180.multi(u = cbind(c(0.5, 0.5), c(0.01, 0.9)), pars = 3)
-pcMGL180.multi <- function(u, pars){
-  dim <- ncol(u)
+pcMGL180.multi <- function(u, pars) {
+  # dim <- ncol(u)
   delta <- pars[1]
 
   q <- (qbeta(u, shape1 = 0.5, shape2 = delta) / (1 - qbeta(u, shape1 = 0.5, shape2 = delta)))
   z <- 0
-  for (i in 1:nrow(u)) {
+  for (i in seq_len(nrow(u))) {
     # if(any(q[i,] %in% Inf)) {
     #   z[i] <- 0
     # } else {
     temp <- as.vector(q[i, ])
     fin <- function(theta) { # rely on theta
-        m <- pgamma(q = temp/theta, shape = 0.5, scale = 1)
-        k <- base::prod(m)
-        out <- k*theta^(-(delta+1))*exp(-1/theta)/gamma(delta)
-        out
-        }
+      m <- pgamma(q = temp / theta, shape = 0.5, scale = 1)
+      k <- base::prod(m)
+      out <- k * theta^(-(delta + 1)) * exp(-1 / theta) / gamma(delta)
+      out
+    }
     fin <- Vectorize(fin)
 
     z[i] <- as.numeric(pracma::integral(
@@ -127,7 +128,6 @@ pcMGL180.multi <- function(u, pars){
     ))
   }
   return(z)
-
 }
 # pcMGL180.multi(u = cbind(c(0.5, 0.1), c(0.9, 0.1)), pars = 1.5)
 # pcMGB2.bivar(u1 = c(0.5, 0.1), u2 = c(0.9, 0.1), pars1 = 0.5, pars2 = 0.5, pars3 = 1.5)
@@ -148,7 +148,7 @@ rcMGL.multi <- function(n, d, pars) {
   umat <- matrix(data = runif(n * d, min = 0, max = 1), nrow = n, ncol = d)
   mmat <- qmat <- zmat <- Usim <- matrix(data = 0, nrow = n, ncol = d)
 
-  for (j in 1:ncol(umat)) {
+  for (j in seq_len(ncol(umat))) {
     qmat[, j] <- Iinv_trans(umat[, j], a = anew[j]) # column j denots the qj
   }
 
@@ -166,7 +166,7 @@ rcMGL.multi <- function(n, d, pars) {
     }
   }
 
-  for (j in 1:ncol(zmat)) {
+  for (j in seq_len(ncol(zmat))) {
     k <- mmat[, j] / (mmat[, j] + 1)
     Usim[, j] <- 1 - pbeta(k, shape1 = 0.5, shape2 = a)
   }

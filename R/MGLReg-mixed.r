@@ -37,12 +37,12 @@
 #'
 #'
 MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
-                      "MGL", "MGL180", "MGL-EV",
-                      "MGL-EV180",
-                      "Gumbel"
-                    ),
-                    umin = 0,
-                    hessian = TRUE, initpar, ...) {
+                            "MGL", "MGL180", "MGL-EV",
+                            "MGL-EV180",
+                            "Gumbel"
+                          ),
+                          umin = 0,
+                          hessian = TRUE, initpar, ...) {
   dcMGL.reg <- function(U, param) {
     dim <- length(U)
     a <- 1 / param[1]
@@ -71,35 +71,36 @@ MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
     as.numeric(fCopulae::devCopula(u = U[1], v = U[2], type = "gumbel", param = param[1])) # Bivariate Extreme
   }
 
-  hcMGL.reg <- function(U, param){
-    hfunc1 <- hcMGL.bivar(u1 = U[,1], u2 = U[,2], pars = param[1])$hfunc1
-    hfunc2 <- hcMGL.bivar(u1 = U[,1], u2 = U[,2], pars = param[1])$hfunc2
+  hcMGL.reg <- function(U, param) {
+    hfunc1 <- hcMGL.bivar(u1 = U[, 1], u2 = U[, 2], pars = param[1])$hfunc1
+    hfunc2 <- hcMGL.bivar(u1 = U[, 1], u2 = U[, 2], pars = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out
   }
 
-  hcMGL180.reg <- function(U, param){
-    hfunc1 <- 1 - hcMGL.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], pars = param[1])$hfunc1
-    hfunc2 <- 1 - hcMGL.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], pars = param[1])$hfunc2
+  hcMGL180.reg <- function(U, param) {
+    hfunc1 <- 1 - hcMGL.bivar(u1 = 1 - U[, 1], u2 = 1 - U[, 2], pars = param[1])$hfunc1
+    hfunc2 <- 1 - hcMGL.bivar(u1 = 1 - U[, 1], u2 = 1 - U[, 2], pars = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out
   }
 
-  hcMGLEV180.reg <- function(U, param){
-    hfunc1 <- hcMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc1
-    hfunc2 <- hcMGLEV180.bivar(u1 = U[,1], u2 = U[,2], param = param[1])$hfunc2
+  hcMGLEV180.reg <- function(U, param) {
+    hfunc1 <- hcMGLEV180.bivar(u1 = U[, 1], u2 = U[, 2], param = param[1])$hfunc1
+    hfunc2 <- hcMGLEV180.bivar(u1 = U[, 1], u2 = U[, 2], param = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out
   }
-  hcMGLEV.reg <- function(U, param){
-    hfunc1 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc1
-    hfunc2 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[,1], u2 = 1 - U[,2], param = param[1])$hfunc2
+  hcMGLEV.reg <- function(U, param) {
+    hfunc1 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[, 1], u2 = 1 - U[, 2], param = param[1])$hfunc1
+    hfunc2 <- 1 - hcMGLEV180.bivar(u1 = 1 - U[, 1], u2 = 1 - U[, 2], param = param[1])$hfunc2
     out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
     out
   }
 
-  hgumcop.reg <- function(U, param)
+  hgumcop.reg <- function(U, param) {
     VineCopula::BiCopHfunc(u1 = U[1], u2 = U[2], family = 4, par = param[1])
+  }
 
   if (copula == "MGL") {
     dcop <- dcMGL.reg
@@ -116,12 +117,11 @@ MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
   } else if (copula == "Gumbel") {
     dcop <- dgumcop.reg
     hcop <- hgumcop.reg
-
   }
-  Obs1 <- obs[,1] # y1 - the first vector of observations
-  Obs2 <- obs[,2] # y2 - the second vector of observations
-  f1 <- f[,1]
-  f2 <- f[,2]
+  # Obs1 <- obs[, 1] # y1 - the first vector of observations
+  Obs2 <- obs[, 2] # y2 - the second vector of observations
+  f1 <- f[, 1]
+  f2 <- f[, 2]
   copLogL <- function(pars, X) {
     ll <- 0
     if (copula == "Gumbel") {
@@ -129,20 +129,22 @@ MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
     } else {
       delta <- exp(X %*% pars)
     }
-    for (i in 1:nrow(X)){
-      if(Obs2[i] <= umin){
-        ll[i] <- f1[i]*(hcop(U[i,], param = delta[i])$hfunc1 - hcop(U_[i,], param = delta[i])$hfunc1)
+    for (i in seq_len(nrow(X))) {
+      if (Obs2[i] <= umin) {
+        ll[i] <- f1[i] * (hcop(U[i, ], param = delta[i])$hfunc1 - hcop(U_[i, ], param = delta[i])$hfunc1)
       } else {
-        ll[i] <- f1[i]*f2[i]*dcop(U[i,], param = delta[i])
+        ll[i] <- f1[i] * f2[i] * dcop(U[i, ], param = delta[i])
       }
     }
     res <- sum((log(ll)))
-    return(res)}
+    return(res)
+  }
 
-  resopt <- optim(par = initpar,
-                  fn = copLogL,
-                  X = X,
-                  hessian = hessian, ...
+  resopt <- optim(
+    par = initpar,
+    fn = copLogL,
+    X = X,
+    hessian = hessian, ...
   )
   resopt
 

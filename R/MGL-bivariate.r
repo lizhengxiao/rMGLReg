@@ -27,7 +27,7 @@ dcMGL.bivar <- function(u1, u2, pars) {
   if (q1 == Inf | q2 == Inf) {
     dc <- 0
   } else {
-    q <- cbind(q1, q2)
+    # q <- cbind(q1, q2)
     # dc <- gamma(a)^(dim - 1)*gamma(a + dim/2)/(gamma(a + 0.5)^dim)*(q1 + 1)^(a + 0.5)*(q2 + 1)^(a + 0.5)/((q1 + q2) + 1)^(a + dim/2)
     dc <- gamma(a)^(dim - 1) / (gamma(a + 0.5)^(dim - 1)) / (gamma(a + 0.5)) * gamma(a + dim / 2) * (q1 + 1)^(a + 0.5) * (q2 + 1)^(a + 0.5) / ((q1 + q2) + 1)^(a + dim / 2)
   }
@@ -69,6 +69,7 @@ pcMGL.bivar <- Vectorize(pcMGL.bivar)
 #' @examples rcMGL.bivar(n = 200, pars = 0.8)
 rcMGL.bivar <- function(n, pars) {
   Usim <- rcMGL.multi(n = n, pars = pars, d = 2)
+  Usim
 }
 
 #' @rdname  BMGL
@@ -150,12 +151,9 @@ hcMGL.bivar <- function(u1, u2, pars) {
 #' @export
 #' @examples
 #' hcMGL180.bivar(u1 = c(0.1, 0.001, 0.3), u2 = c(0, 0.9999, 0.88), pars = 2)
-hcMGL180.bivar <- function(u1, u2, pars){
+hcMGL180.bivar <- function(u1, u2, pars) {
   hfunc1 <- 1 - hcMGL.bivar(u1 = 1 - u1, u2 = 1 - u2, pars = pars[1])$hfunc1
   hfunc2 <- 1 - hcMGL.bivar(u1 = 1 - u1, u2 = 1 - u2, pars = pars[1])$hfunc2
   out <- list(hfunc1 = hfunc1, hfunc2 = hfunc2)
   out
 }
-
-
-

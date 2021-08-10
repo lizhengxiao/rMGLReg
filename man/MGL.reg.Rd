@@ -46,6 +46,6 @@ A list containing the following components:
 \item Y2: continuous data.
 \item copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
 \item For "Gumbel" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta) + 1.}
-\item For "MGL", "MGL180", "MGL-EV", "MGL-EV180" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta)}, where \eqn{\beta} is the vector of coefficients to be estimated in the copula regression.
+\item For "MGL", "MGL180", "MGL-EV", "MGL-EV180" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta),} where \eqn{\beta} is the vector of coefficients to be estimated in the copula regression.
 }
 }
