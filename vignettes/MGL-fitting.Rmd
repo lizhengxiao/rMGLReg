@@ -9,7 +9,6 @@ vignette: >
 
 # Case I - modelling Danish fire insurance data without covariates
 
-
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -93,6 +92,7 @@ out.com <- out.com[order(out.com[,9], decreasing = T),]
 knitr::kable(out.com, digits = 3)
 
 ```
+
 
 
 

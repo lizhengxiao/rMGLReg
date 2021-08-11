@@ -1,13 +1,13 @@
 Package: rMGLReg
-Title: What the Package Does (One Line, Title Case)
+Title: R package for a new beta-type copula: rMGLReg
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Zhengxiao",
+           family = "Li",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           email = "li_zhengxiao@uide.edu.cn",
+           comment = c(ORCID = "https://orcid.org/0000-0002-6336-3584"))
+Description: This package provides a nice visualization tool for interpreting the MGL copula and MGL-EV copula, along with its survival version. It also shows the maximum likelihood (ML) estimation method for the copula regression models with/without covariates.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -15,6 +15,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
     copula,
+    covr,
     cubature,
     data.table,
     fitdistrplus,

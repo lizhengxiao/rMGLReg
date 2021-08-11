@@ -14,13 +14,14 @@ vignette: >
 
 - This example implements the MGL and MGL-EV copulas of Zhengxiao Li et al. (2021, “MGL copulas”).
 
+
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
-
 
 ### read the danish data set
 
@@ -260,3 +261,4 @@ lines(delta.est, col = 'red', lwd = 2)
 
 
 ```
+
