@@ -1,5 +1,5 @@
 ---
-title: "Case I - modelling Danish fire insurance data"
+title: "MGL-regression"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{MGL-regression}
@@ -7,10 +7,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## MGL and MGL-EV copulas of Zhnegxiao Li et al.(2021)
 
 
-This example implements the MGL and MGL-EV copulas of Zhengxiao Li et al. (2021, “MGL copulas”).
+# Case I - modelling Danish fire insurance data with covariates
+
+
+- This example implements the MGL and MGL-EV copulas of Zhengxiao Li et al. (2021, “MGL copulas”).
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(

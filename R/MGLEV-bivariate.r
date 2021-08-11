@@ -307,3 +307,44 @@ hcMGLEV.bivar <- function(u1, u2, param) {
   hfunc2 <- 1 - hcMGLEV180.bivar(u1 = 1 - u1, u2 = 1 - u2, param = param)$hfunc2
   list(hfunc1 = hfunc1, hfunc2 = hfunc2)
 }
+
+
+
+
+
+#' @title  the Pickands dependence function \eqn{A} in survival MGL-EV copula
+#'
+#' @param w \eqn{w \in [0.5,1]}.
+#' @param param copula parameter in survival MGL-EV copula.
+#'
+#' @return the value of the Pickands dependence function in \eqn{[0.5,1]}
+#' @md
+#' @details
+#' - In the bivariate case
+#' \eqn{d=2} the stable tail dependence function \eqn{\ell} can be represented in terms of the Pickands dependence function \eqn{A}:
+#'
+#' \deqn{
+#' 		\begin{align}
+#' 		A_{\delta}\left(w\right)=w I_{{\frac{1}{2}, \frac{1}{\delta}+\frac{1}{2}}}\left[\frac{\left(1-w \right)^{-\delta}}{\left(1-w \right)^{-\delta} + w^{-\delta} }\right]  + \left(1-w\right) I_{{\frac{1}{2}, \frac{1}{\delta}+\frac{1}{2}}}\left[\frac{w^{-\delta}}{\left(1-w \right)^{-\delta} + w^{-\delta} }\right].
+#' 		\end{align}
+#' }
+#' where \eqn{A_{\delta}} is the Pickands dependence function of  survival MGL-EV copula.
+#'
+#' - Here \eqn{I_{m,n}^{-1}()} denotes the inverse of the beta cumulative distribution function (or regularized incomplete beta function)
+#' with parameters shape1 = m and shape2 = n
+#' implemented by R's \code{\link[stats]{qbeta}}.
+#'
+#' @importFrom stats qbeta
+#' @importFrom stats pbeta
+#'
+#' @export
+#' @examples
+#' Afunction(w = 0.7, param = 1.2)
+Afunction <- function(w, param){
+  delta <- param
+  k <- - delta
+  z2 <- (1 - w)^k/(w^k + (1 - w)^k)
+  z1 <- (w)^k/(w^k + (1 - w)^k)
+  out <- w*pbeta(z2, shape1 = 0.5, shape2 = 1/delta + 0.5) + (1-w)*pbeta(z1, shape1 = 0.5, shape2 = 1/delta + 0.5)
+  return(out)
+}
