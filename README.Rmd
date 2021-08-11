@@ -34,20 +34,25 @@ The goal of ``rMGLReg`` is to
 
 - You can install the released version of ``rMGLReg`` by running the following lines in R software: 
 
-``` {r, eval = FALSE}
+``` r
 install.packages("devtools")
 library(devtools)
 devtools::install_github("lizhengxiao/rMGLReg")
 ```
 
-- To access documentation for the properties of the proposed copula ``dcMGL.multi`` (density function), `pcMGL.multi` (distribution function), ``rcMGL.multi`` (random generation);
-for example, enter the command:
+ 
+- To access documentation for all the functions present in the package; for example, enter the command:
 
-```r
-help(dcMGL.multi)
+``` r
+library(rMGLReg)
+help(package = rMGLReg)
 ```
 
+
+
+
 - You can see all the installed vignettes in ``rMGLReg`` package with
+
 ``` r
 browseVignettes(package  = "rMGLReg")
 ```

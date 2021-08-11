@@ -6,8 +6,8 @@ Zhengxiao Li
 -   [Example](#example)
     -   [Simuation from the MGL and survival
         copulas](#simuation-from-the-mgl-and-survival-copulas)
-    -   [Plots for survival MGL-EV
-        copula](#plots-for-survival-mgl-ev-copula)
+    -   [Plots of survival MGL-EV
+        copula](#plots-of-survival-mgl-ev-copula)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- # rMGLReg -->
@@ -33,13 +33,12 @@ library(devtools)
 devtools::install_github("lizhengxiao/rMGLReg")
 ```
 
--   To access documentation for the properties of the proposed copula
-    `dcMGL.multi` (density function), `pcMGL.multi` (distribution
-    function), `rcMGL.multi` (random generation); for example, enter the
-    command:
+-   To access documentation for all the functions present in the
+    package; for example, enter the command:
 
 ``` r
-help(dcMGL.multi)
+library(rMGLReg)
+help(package = rMGLReg)
 ```
 
 -   You can see all the installed vignettes in `rMGLReg` package with
@@ -90,9 +89,9 @@ par(pty = "s")
 pairs(U, gap = 0, cex = 0.5)
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
-### Plots for survival MGL-EV copula
+### Plots of survival MGL-EV copula
 
 ``` r
 library(data.table)
@@ -232,4 +231,4 @@ p0 <- p1 + p2 + p3 + plot_layout(ncol = 3)
 p0
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" />
