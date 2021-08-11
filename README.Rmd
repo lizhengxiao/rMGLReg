@@ -39,7 +39,8 @@ The goal of ``rMGLReg`` is to
 ``` r
 install.packages("devtools")
 library(devtools)
-devtools::install_github("lizhengxiao/rMGLReg")
+<!-- devtools::install_github("lizhengxiao/rMGLReg") -->
+devtools::install_github("lizhengxiao/rMGLReg", build_vignettes = TRUE, force = TRUE)
 ```
 
  
