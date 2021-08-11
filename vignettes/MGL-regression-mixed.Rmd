@@ -7,6 +7,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
+# Case II - modelling Chinese earthquake loss data with covariates
+
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,

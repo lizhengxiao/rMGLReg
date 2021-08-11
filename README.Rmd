@@ -224,3 +224,30 @@ p0 <- p1 + p2 + p3 + plot_layout(ncol = 3)
 p0
 
 ```
+
+
+### $d=10$-dimensional MGL regression model
+
+```{r}
+# simulated data
+set.seed(111)
+Nsim <- 1000
+n <- 1000 # sample size
+beta.true <- c(-0.6, 0.5, 0.2) # true regression coefficients
+x1 <- rnorm(n, 0, 1)
+x2 <- rnorm(n, 0, 1)
+X <- model.matrix(~ x1 + x2) # design matrix
+delta.sim <- as.vector(exp(X%*%beta.true)) # true copula parameters
+Usim <- matrix(0, nrow = n, ncol = d)
+for (i in 1:n){
+  Usim[i, ] <- rcMGL.multi(n = 1, d = d, pars = delta.sim[i])
+}
+
+m.MGLMGA <- MGL.reg(U = Usim, copula = "MGL",
+                                 X = X, method = "Nelder-Mead",
+                                 initpar = c(-0.32, 0.001, 0.001)
+  )
+m.MGLMGA
+
+
+```

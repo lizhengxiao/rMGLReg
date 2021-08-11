@@ -14,7 +14,7 @@
 #' @details
 #' The MGB2 copula with parameters (p1, p2, q) has joint density
 #' 		\deqn{c(u_1,u_2;p_1,p_2,q)=\frac{\Gamma(q)\Gamma(\sum_{i=1}^2 p_i + q)}{\prod_{i=1}^2\Gamma(p_i+q)}\frac{\prod_{i=1}^2 (1 + x(u_i;p_i,q))^{p_i+q}}{(1 + \sum_{i=1}^{2}x(u_i;p_i,q))^{\sum_{i=1}^{2}p_i+q}},}
-#' for \eqn{p_1, p_2>0, q>0}.
+#' in which \eqn{x(u_i;p_i,q) = I_{p_{i},q}^{-1}(u_i)/\left(1 - I_{p_{i},q}^{-1}(u_i)\right)} for \eqn{p_1, p_2>0, q>0}.
 #' (Here Gamma(a) is the function implemented by R's \code{\link[base]{gamma}} and defined in its help.
 #'
 #'

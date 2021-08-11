@@ -8,6 +8,8 @@ Zhengxiao Li
         copulas](#simuation-from-the-mgl-and-survival-copulas)
     -   [Plots of survival MGL-EV
         copula](#plots-of-survival-mgl-ev-copula)
+    -   [*d* = 10-dimensional MGL regression
+        model](#d10-dimensional-mgl-regression-model)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- # rMGLReg -->
@@ -232,3 +234,52 @@ p0
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" />
+
+### *d* = 10-dimensional MGL regression model
+
+``` r
+# simulated data
+set.seed(111)
+Nsim <- 1000
+n <- 1000 # sample size
+beta.true <- c(-0.6, 0.5, 0.2) # true regression coefficients
+x1 <- rnorm(n, 0, 1)
+x2 <- rnorm(n, 0, 1)
+X <- model.matrix(~ x1 + x2) # design matrix
+delta.sim <- as.vector(exp(X%*%beta.true)) # true copula parameters
+Usim <- matrix(0, nrow = n, ncol = d)
+for (i in 1:n){
+  Usim[i, ] <- rcMGL.multi(n = 1, d = d, pars = delta.sim[i])
+}
+
+m.MGLMGA <- MGL.reg(U = Usim, copula = "MGL",
+                                 X = X, method = "Nelder-Mead",
+                                 initpar = c(-0.32, 0.001, 0.001)
+  )
+m.MGLMGA
+#> $loglike
+#> [1] 124.6826
+#> 
+#> $copula
+#> $copula$name
+#> [1] "MGL"
+#> 
+#> 
+#> $estimates
+#> [1] -0.6626620  0.5805884  0.2564613
+#> 
+#> $se
+#> [1] 0.09881861 0.07807502 0.06916195
+#> 
+#> $hessian
+#>            [,1]       [,2]       [,3]
+#> [1,] -185.65734 -143.47722  -63.21761
+#> [2,] -143.47722 -275.61829  -36.83389
+#> [3,]  -63.21761  -36.83389 -231.46060
+#> 
+#> $AIC
+#> [1] -243.3653
+#> 
+#> $BIC
+#> [1] -228.642
+```
