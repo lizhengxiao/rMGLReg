@@ -1,14 +1,45 @@
 #' @name BMGL
 #' @rdname  BMGL
 #' @title Bivarite MGL and survival MGL copula
-#' @description Density, distribution function, and random generation for the bivariate MGL copula with copula parameter \eqn{\delta}.
+#' @description Density, distribution function, and random generation for the bivariate MGL and survival MGL copula with copula parameter \eqn{\delta}.
 #' @param u1,u2 numeric vectors of equal length with values in \eqn{[0,1]}.
 #' @param pars copula parameter, denoted by \eqn{\delta >0}.
 #' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
 #' @md
+#' @details
+#' For \eqn{d=2}, the MGL copula density function is given by
+#' \eqn{
+#' c^{\text{MGL}}(u_1, \dots, u_d;a)=\frac{\Gamma(a)^{d-1}\Gamma(a+\frac{d}{2})}{\Gamma(a+\frac{1}{2})^d}\frac{\prod_{j=1}^{d}(t(u_j;a)+1)^{a+\frac{1}{2}}}{\left(\sum_{j=1}^{d}t(u_j;a)+1\right)^{a+\frac{d}{2}}},
+#' \quad (u_1, ..., u_d)\in \left[0,1\right]^d.
+#' }
+#' where \eqn{I_{m,n}()}  denotes the beta cumulative distribution function (or regularized incomplete beta function)
+#' with parameters shape1 = m and shape2 = n
+#' implemented by R's \code{\link[stats]{pbeta}}.
+#'
+#' the MGL copula distribution function has the form of
+#' \deqn{
+#'  C^{\text{MGL}}(u_1, \dots, u_d;a) =\mathbb{E}_{\Theta}\left[\prod_{j=1}^{d}\text{erfc}\left(
+#'  \sqrt{t(u_j;a)\Theta}
+#'  \right)\right]
+#'  }
+#' with \eqn{\Theta \sim \text{gamma}(a,1)} and
+#' \deqn{
+#'  t(u_j;a)=\frac{I^{-1}_{\frac{1}{2},{a}}(1-u_j)}{1-I^{-1}_{\frac{1}{2},{a}}(1-u_j)}.
+#'  }
+#'
+#'  For \eqn{d=2}, the density and distribution function of survival MGL copula is
+#'  \deqn{
+#'  	\bar{c}^{MGL}(u_1,u_2;\delta)=c^{MGL}(1-u_1,1-u_2;\delta),
+#'  }
+#'  and
+#'  \deqn{
+#'  	\bar{C}^{MGL}(u_1,u_2;\delta)=u_1+u_2-1+C^{MGL}(1-u_1,1-u_2;\delta).
+#'  }
+#'
+#'
 #' @return
-#' * \code{dcMGL.bivar}, \code{pcMGL.bivar} and \code{rcMGL.bivar} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
-#' * \code{dcMGL180.bivar}, \code{pcMGL180.bivar} and \code{rcMGL180.bivar} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
+#' - \code{dcMGL.bivar}, \code{pcMGL.bivar} and \code{rcMGL.bivar} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
+#' - \code{dcMGL180.bivar}, \code{pcMGL180.bivar} and \code{rcMGL180.bivar} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
 NULL
 
 
@@ -105,7 +136,7 @@ rcMGL180.bivar <- function(n, pars) {
 #' @param u1 numeric vectors of equal length with values in \eqn{[0,1]}.
 #' @param u2 numeric vectors of equal length with values in \eqn{[0,1]}.
 #' @param pars numeric; single number or vector of size length(u1); copula parameter > 0.
-#'
+#' @md
 #' @details
 #' The h-function is defined as the conditional distribution function of a bivariate copula, i.e.,
 #' \deqn{h_1(u_2|u_1,\delta) := P(U_2 \leq u_2 | U_1 = u_1) = \partial C(u_1,u_2) / \partial u_1,}
@@ -113,7 +144,37 @@ rcMGL180.bivar <- function(n, pars) {
 #' \deqn{h_2(u_1|u_2,\delta) := P(U_1 \leq u_1 | U_2 = u_2) := \partial C(u_1,u_2) / \partial u_2,}
 #'
 #' where \eqn{(U_1, U_2) \sim C}, and \eqn{C} is a bivariate copula distribution function with parameter(s) \eqn{\delta}. For more details see Aas et al. (2009).
-#' @md
+#'
+#' - The h-function corresponding to the bivariate MGL copula is given by
+#' 	\deqn{
+#' 	\begin{align}
+#' 	h_{2|1}^{\text{MGL}}(u_2|u_1;\delta)&= 1-I_{\frac{1}{2},\frac{1}{\delta}+\frac{1}{2}}\left[
+#' 	  \frac{t(u_2;\delta)}{t(u_1;\delta) + t(u_2;\delta)+1}
+#' 	  \right],\\
+#' 	h_{1|2}^{\text{MGL}}(u_1|u_2;\delta) &= 1-I_{\frac{1}{2},\frac{1}{\delta}+\frac{1}{2}}\left[
+#' 	  \frac{t(u_1;\delta)}{t(u_1;\delta) + t(u_2;\delta)+1}
+#' 	  \right],
+#' 	\end{align}
+#' 	}
+#' 	for all \eqn{(u_1, u_2)\in\left[0,1\right]^2}.
+#' 	Here
+#' 		\deqn{
+#' 		t(u_j;a)=\frac{I^{-1}_{\frac{1}{2},{a}}(1-u_j)}{1-I^{-1}_{\frac{1}{2},{a}}(1-u_j)}.
+#' 		}
+#'
+#'
+#' - The h-function corresponding to the survival bivariate MGL copula is given by
+#'  \deqn{
+#'  \begin{align}
+#' 	h_{2|1}^{\text{MGL180}}(u_2|u_1;\delta)&=1-h_{2|1}^{\text{MGL}}(1-u_2|1-u_1;\delta),\\
+#'  h_{1|2}^{\text{MGL180}}(u_1|u_2;\delta)&=1-h_{1|2}^{\text{MGL}}(1-u_1|1-u_2;\delta).
+#'  }
+#'
+#'
+#'
+#'
+#'
+#'
 #' @return hcMGL.bivar returns a list with
 #' * hfunc1: \eqn{\partial C(u_1,u_2) / \partial u_1,}
 #' * hfunc2: \eqn{\partial C(u_1,u_2) / \partial u_2,}

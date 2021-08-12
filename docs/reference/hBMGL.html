@@ -175,7 +175,31 @@
     <p>The h-function is defined as the conditional distribution function of a bivariate copula, i.e.,
 $$h_1(u_2|u_1,\delta) := P(U_2 \leq u_2 | U_1 = u_1) = \partial C(u_1,u_2) / \partial u_1,$$</p>
 <p>$$h_2(u_1|u_2,\delta) := P(U_1 \leq u_1 | U_2 = u_2) := \partial C(u_1,u_2) / \partial u_2,$$</p>
-<p>where \((U_1, U_2) \sim C\), and \(C\) is a bivariate copula distribution function with parameter(s) \(\delta\). For more details see Aas et al. (2009).</p>
+<p>where \((U_1, U_2) \sim C\), and \(C\) is a bivariate copula distribution function with parameter(s) \(\delta\). For more details see Aas et al. (2009).</p><ul>
+<li><p>The h-function corresponding to the bivariate MGL copula is given by
+$$
+	\begin{align}
+	h_{2|1}^{\text{MGL}}(u_2|u_1;\delta)&amp;= 1-I_{\frac{1}{2},\frac{1}{\delta}+\frac{1}{2}}\left[
+	  \frac{t(u_2;\delta)}{t(u_1;\delta) + t(u_2;\delta)+1}
+	  \right],\\
+	h_{1|2}^{\text{MGL}}(u_1|u_2;\delta) &amp;= 1-I_{\frac{1}{2},\frac{1}{\delta}+\frac{1}{2}}\left[
+	  \frac{t(u_1;\delta)}{t(u_1;\delta) + t(u_2;\delta)+1}
+	  \right],
+	\end{align}
+	$$
+for all \((u_1, u_2)\in\left[0,1\right]^2\).
+Here
+$$
+		t(u_j;a)=\frac{I^{-1}_{\frac{1}{2},{a}}(1-u_j)}{1-I^{-1}_{\frac{1}{2},{a}}(1-u_j)}.
+		$$</p></li>
+<li><p>The h-function corresponding to the survival bivariate MGL copula is given by
+$$
+ \begin{align}
+	h_{2|1}^{\text{MGL180}}(u_2|u_1;\delta)&amp;=1-h_{2|1}^{\text{MGL}}(1-u_2|1-u_1;\delta),\\
+ h_{1|2}^{\text{MGL180}}(u_1|u_2;\delta)&amp;=1-h_{1|2}^{\text{MGL}}(1-u_1|1-u_2;\delta).
+ $$</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Aas, K., C. Czado, A. Frigessi, and H. Bakken (2009). Pair-copula constructions of multiple dependence. Insurance: Mathematics and Economics 44 (2), 182-198.</p>

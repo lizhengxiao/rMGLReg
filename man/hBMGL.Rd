@@ -34,6 +34,30 @@ The h-function is defined as the conditional distribution function of a bivariat
 \deqn{h_2(u_1|u_2,\delta) := P(U_1 \leq u_1 | U_2 = u_2) := \partial C(u_1,u_2) / \partial u_2,}
 
 where \eqn{(U_1, U_2) \sim C}, and \eqn{C} is a bivariate copula distribution function with parameter(s) \eqn{\delta}. For more details see Aas et al. (2009).
+\itemize{
+\item The h-function corresponding to the bivariate MGL copula is given by
+\deqn{
+	\begin{align}
+	h_{2|1}^{\text{MGL}}(u_2|u_1;\delta)&= 1-I_{\frac{1}{2},\frac{1}{\delta}+\frac{1}{2}}\left[
+	  \frac{t(u_2;\delta)}{t(u_1;\delta) + t(u_2;\delta)+1}
+	  \right],\\
+	h_{1|2}^{\text{MGL}}(u_1|u_2;\delta) &= 1-I_{\frac{1}{2},\frac{1}{\delta}+\frac{1}{2}}\left[
+	  \frac{t(u_1;\delta)}{t(u_1;\delta) + t(u_2;\delta)+1}
+	  \right],
+	\end{align}
+	}
+for all \eqn{(u_1, u_2)\in\left[0,1\right]^2}.
+Here
+\deqn{
+		t(u_j;a)=\frac{I^{-1}_{\frac{1}{2},{a}}(1-u_j)}{1-I^{-1}_{\frac{1}{2},{a}}(1-u_j)}.
+		}
+\item The h-function corresponding to the survival bivariate MGL copula is given by
+\deqn{
+ \begin{align}
+	h_{2|1}^{\text{MGL180}}(u_2|u_1;\delta)&=1-h_{2|1}^{\text{MGL}}(1-u_2|1-u_1;\delta),\\
+ h_{1|2}^{\text{MGL180}}(u_1|u_2;\delta)&=1-h_{1|2}^{\text{MGL}}(1-u_1|1-u_2;\delta).
+ }
+}
 }
 \examples{
 hcMGL.bivar(u1 = c(0.1, 0.001, 0.3), u2 = c(0, 0.9999, 0.88), pars = 2)

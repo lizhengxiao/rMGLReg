@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Bivarite MGL-EV and survival MGL-EV copula — BMGL-EV" />
-<meta property="og:description" content="Density, distribution function, and h-function the bivariate MGL-EV and survival MGL-EV copula with copula parameter delta." />
+<meta property="og:description" content="Density, distribution function, and h-function the bivariate MGL-EV and survival MGL-EV copula with copula parameter \(\delta\)." />
 
 
 
@@ -139,7 +139,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Density, distribution function, and h-function the bivariate MGL-EV and survival MGL-EV copula with copula parameter delta.</p>
+    <p>Density, distribution function, and h-function the bivariate MGL-EV and survival MGL-EV copula with copula parameter \(\delta\).</p>
     </div>
 
     <pre class="usage"><span class='fu'>pcMGLEV.bivar</span><span class='op'>(</span><span class='va'>u1</span>, <span class='va'>u2</span>, <span class='va'>param</span><span class='op'>)</span>
@@ -163,7 +163,7 @@
     </tr>
     <tr>
       <th>param</th>
-      <td><p>copula parameter, denoted by delta.</p></td>
+      <td><p>copula parameter, denoted by \(\delta&gt;0\).</p></td>
     </tr>
     </table>
 
@@ -173,15 +173,31 @@
 <ul>
 <li><p><code>dcMGLEV.bivar</code>, <code>pcMGLEV.bivar</code> and <code>hMGLEV.bivar</code>  give values of density distribution and h-function for the 2-dimensional MGL copula with copula parameter \(\delta&gt;0\).</p></li>
 <li><p><code>dcMGLEV180.bivar</code>, <code>pcMGLEV180.bivar</code> and <code>hMGLEV180.bivar</code>  give values of density and distribution and h-function for the 2-dimensional MGL copula with copula parameter \(\delta&gt;0\).</p></li>
-<li><p><code>hMGLEV.bivar</code> and <code>hMGLEV180.bivar</code> return a list with</p></li>
+<li><p><code>hMGLEV.bivar</code> and <code>hMGLEV180.bivar</code> return a list with</p><ul>
+<li><p>hfunc1: \(\partial C(u_1,u_2) / \partial u_1,\).</p></li>
+<li><p>hfunc2: \(\partial C(u_1,u_2) / \partial u_2,\).</p></li>
+</ul></li>
 </ul>
 
-<p>** hfunc1: \(\partial C(u_1,u_2) / \partial u_1,\)
-** hfunc2: \(\partial C(u_1,u_2) / \partial u_2,\)</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The h-function is defined as the conditional distribution function of a bivariate copula, i.e.,
-$$h_1(u_2|u_1,\delta) := P(U_2 \leq u_2 | U_1 = u_1) = \partial C(u_1,u_2) / \partial u_1,$$</p>
+    
+<ul>
+<li><p>The extreme value copula \(\bar{C}^{MGL-EV}\) of the  survival MGL copula is given by
+$$
+		\bar{C}^{MGL-EV}(u_1,u_2;\delta)=\exp\left[\log\left(u_1u_2\right)A_{\delta}\left(\frac{\log\left(u_2\right)}{\log\left(u_1u_2\right)}\right)\right],
+$$
+where \(A_{\delta}\) is the Pickands dependence function implemented by R's <code><a href='Afunction.html'>Afunction</a></code>.</p></li>
+<li><p>The cdf of the MGL-EV copula is also given by</p></li>
+</ul>
+
+<p>$$
+		C^{MGL-EV}(u_1, u_2; {\delta})=\frac{(u_1+u_2)\left(1-A_{\delta}\left(\frac{u_1}{u_1+u_2}\right)\right)}{2\left(1 - A_{\delta}\left(\frac{1}{2}\right)\right)}.
+$$</p><ul>
+<li><p>The h-function is defined as the conditional distribution function of a bivariate copula, i.e.,
+$$h_1(u_2|u_1,\delta) := P(U_2 \leq u_2 | U_1 = u_1) = \partial C(u_1,u_2) / \partial u_1,$$</p></li>
+</ul>
+
 <p>$$h_2(u_1|u_2,\delta) := P(U_1 \leq u_1 | U_2 = u_2) := \partial C(u_1,u_2) / \partial u_2,$$</p>
 <p>where \((U_1, U_2) \sim C\), and \(C\) is a bivariate copula distribution function with parameter(s) \(\delta\). For more details see Aas et al. (2009).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>

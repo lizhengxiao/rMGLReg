@@ -36,7 +36,37 @@ rcMGL180.bivar(n, pars)
 }
 }
 \description{
-Density, distribution function, and random generation for the bivariate MGL copula with copula parameter \eqn{\delta}.
+Density, distribution function, and random generation for the bivariate MGL and survival MGL copula with copula parameter \eqn{\delta}.
+}
+\details{
+For \eqn{d=2}, the MGL copula density function is given by
+\eqn{
+c^{\text{MGL}}(u_1, \dots, u_d;a)=\frac{\Gamma(a)^{d-1}\Gamma(a+\frac{d}{2})}{\Gamma(a+\frac{1}{2})^d}\frac{\prod_{j=1}^{d}(t(u_j;a)+1)^{a+\frac{1}{2}}}{\left(\sum_{j=1}^{d}t(u_j;a)+1\right)^{a+\frac{d}{2}}},
+\quad (u_1, ..., u_d)\in \left[0,1\right]^d.
+}
+where \eqn{I_{m,n}()}  denotes the beta cumulative distribution function (or regularized incomplete beta function)
+with parameters shape1 = m and shape2 = n
+implemented by R's \code{\link[stats]{pbeta}}.
+
+the MGL copula distribution function has the form of
+\deqn{
+ C^{\text{MGL}}(u_1, \dots, u_d;a) =\mathbb{E}_{\Theta}\left[\prod_{j=1}^{d}\text{erfc}\left(
+ \sqrt{t(u_j;a)\Theta}
+ \right)\right]
+ }
+with \eqn{\Theta \sim \text{gamma}(a,1)} and
+\deqn{
+ t(u_j;a)=\frac{I^{-1}_{\frac{1}{2},{a}}(1-u_j)}{1-I^{-1}_{\frac{1}{2},{a}}(1-u_j)}.
+ }
+
+For \eqn{d=2}, the density and distribution function of survival MGL copula is
+\deqn{
+ 	\bar{c}^{MGL}(u_1,u_2;\delta)=c^{MGL}(1-u_1,1-u_2;\delta),
+ }
+and
+\deqn{
+ 	\bar{C}^{MGL}(u_1,u_2;\delta)=u_1+u_2-1+C^{MGL}(1-u_1,1-u_2;\delta).
+ }
 }
 \examples{
 dcMGL.bivar(u1 = 0.001, u2 = 0.999, pars = 1)

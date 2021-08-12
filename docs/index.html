@@ -93,22 +93,15 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#r-package-for-a-new-beta-type-copula-rmglreg" class="anchor"></a>R package for a new beta-type copula: rMGLReg</h1></div>
 <p>Zhengxiao Li</p>
-<ul>
-<li><a href="#installation">Installation</a></li>
-<li>
-<a href="#example">Example</a>
-<ul>
-<li><a href="#simuation-from-the-mgl-and-survival-copulas">Simuation from the MGL and survival copulas</a></li>
-<li><a href="#plots-of-survival-mgl-ev-copula">Plots of survival MGL-EV copula</a></li>
-<li><a href="#d10-dimensional-mgl-regression-model"><em>d</em> = 10-dimensional MGL regression model</a></li>
-</ul>
-</li>
-</ul>
-<!-- README.md is generated from README.Rmd. Please edit that file --><!-- # rMGLReg --><!-- badges: start --><!-- badges: end --><p>The goal of <code>rMGLReg</code> is to</p>
+<!-- # rMGLReg -->
+<!-- badges: start -->
+<p><a href="https://codecov.io/gh/lizhengxiao/rMGLReg?branch=main"><img src="https://codecov.io/gh/lizhengxiao/rMGLReg/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://github.com/lizhengxiao/rMGLReg/actions"><img src="https://github.com/lizhengxiao/rMGLReg/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a> <!-- badges: end --></p>
+<p>The goal of R package: <code>rMGLReg</code> is to</p>
 <ul>
 <li><p>provide a nice visualization tool for interpreting the MGL copula and MGL-EV copula, along with its survival copulas.</p></li>
-<li><p>show the maximum likelihood (ME) estimation method for the copula regression models with/without covariates.</p></li>
+<li><p>show the maximum likelihood (ML) estimation method for the copula regression models with/without covariates.</p></li>
 </ul>
+<p>You can see <code>rMGLReg</code> in action at <a href="https://lizhengxiao.github.io/rMGLReg/" class="uri">https://lizhengxiao.github.io/rMGLReg/</a>: this is the output of Rdocumentation applied to the latest version of <code>rMGLReg</code>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -116,9 +109,10 @@
 <li>You can install the released version of <code>rMGLReg</code> by running the following lines in R software:</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"lizhengxiao/rMGLReg"</span><span class="op">)</span></code></pre></div>
+<span class="co"># devtools::install_github("lizhengxiao/rMGLReg")</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"lizhengxiao/rMGLReg"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <ul>
 <li>To access documentation for all the functions present in the package; for example, enter the command:</li>
 </ul>

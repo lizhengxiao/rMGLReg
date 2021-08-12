@@ -7,7 +7,7 @@
 Afunction(w, param)
 }
 \arguments{
-\item{w}{\eqn{w \in [0.5,1]}.}
+\item{w}{\eqn{w \in [0,1]}.}
 
 \item{param}{copula parameter in survival MGL-EV copula.}
 }
@@ -29,12 +29,37 @@ the Pickands dependence function \eqn{A} in survival MGL-EV copula
 		\end{align}
 }
 where \eqn{A_{\delta}} is the Pickands dependence function of  survival MGL-EV copula.
-\itemize{
-\item Here \eqn{I_{m,n}^{-1}()} denotes the inverse of the beta cumulative distribution function (or regularized incomplete beta function)
+Here \eqn{I_{m,n}^{-1}()} denotes the inverse of the beta cumulative distribution function \eqn{I_{m,n}()} (or regularized incomplete beta function)
 with parameters shape1 = m and shape2 = n
-implemented by R's \code{\link[stats]{qbeta}}.
+implemented by R's \code{\link[stats]{qbeta}} and \code{\link[stats]{pbeta}} respectively.
+\itemize{
+\item The extreme value copula  \eqn{\bar{C}^{MGL-EV}} of the  survival MGL copula is given by
+\deqn{
+		\bar{C}^{MGL-EV}(u_1,u_2;\delta)=\exp\left[\log\left(u_1u_2\right)A_{\delta}\left(\frac{\log\left(u_2\right)}{\log\left(u_1u_2\right)}\right)\right].
+}
 }
 }
 \examples{
 Afunction(w = 0.7, param = 1.2)
+
+delta <- 0.7
+w.vector <- seq(0.0001, 0.9999, length.out = 100)
+y.vector <- Afunction(w = w.vector, param = delta)
+plot(w.vector, y.vector, lwd = 2, col = 3)
+
+delta <- 1
+w.vector <- seq(0.0001, 0.9999, length.out = 100)
+y.vector <- Afunction(w = w.vector, param = delta)
+lines(w.vector, y.vector, lwd = 2, col = 4)
+
+delta <- 3
+w.vector <- seq(0.0001, 0.9999, length.out = 100)
+y.vector <- Afunction(w = w.vector, param = delta)
+lines(w.vector, y.vector, lwd = 2, col = 5)
+
+delta <- 5
+w.vector <- seq(0.0001, 0.9999, length.out = 100)
+y.vector <- Afunction(w = w.vector, param = delta)
+lines(w.vector, y.vector, lwd = 2, col = 1)
+
 }

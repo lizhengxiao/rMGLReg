@@ -2,19 +2,32 @@
 #' @name BMGL-EV
 #' @rdname  BMGL-EV
 #' @title Bivarite MGL-EV and survival MGL-EV copula
-#' @description  Density, distribution function, and h-function the bivariate MGL-EV and survival MGL-EV copula with copula parameter delta.
+#' @description  Density, distribution function, and h-function the bivariate MGL-EV and survival MGL-EV copula with copula parameter \eqn{\delta}.
 #' @param u1,u2 numeric vectors of equal length with values in \eqn{[0,1]}.
-#' @param param copula parameter, denoted by delta.
+#' @param param copula parameter, denoted by \eqn{\delta>0}.
 #' @md
 #' @importFrom stats qbeta
 #' @importFrom stats pbeta
 #' @details
-#' The h-function is defined as the conditional distribution function of a bivariate copula, i.e.,
+#' - The extreme value copula \eqn{\bar{C}^{MGL-EV}} of the  survival MGL copula is given by
+#' 	\deqn{
+#' 		\bar{C}^{MGL-EV}(u_1,u_2;\delta)=\exp\left[\log\left(u_1u_2\right)A_{\delta}\left(\frac{\log\left(u_2\right)}{\log\left(u_1u_2\right)}\right)\right],
+#' }
+#' where \eqn{A_{\delta}} is the Pickands dependence function implemented by R's \code{\link[rMGLReg]{Afunction}}.
+#'
+#' - The cdf of the MGL-EV copula is also given by
+#'
+#' \deqn{
+#' 		C^{MGL-EV}(u_1, u_2; {\delta})=\frac{(u_1+u_2)\left(1-A_{\delta}\left(\frac{u_1}{u_1+u_2}\right)\right)}{2\left(1 - A_{\delta}\left(\frac{1}{2}\right)\right)}.
+#' }
+#'
+#' - The h-function is defined as the conditional distribution function of a bivariate copula, i.e.,
 #' \deqn{h_1(u_2|u_1,\delta) := P(U_2 \leq u_2 | U_1 = u_1) = \partial C(u_1,u_2) / \partial u_1,}
 #'
 #' \deqn{h_2(u_1|u_2,\delta) := P(U_1 \leq u_1 | U_2 = u_2) := \partial C(u_1,u_2) / \partial u_2,}
 #'
 #' where \eqn{(U_1, U_2) \sim C}, and \eqn{C} is a bivariate copula distribution function with parameter(s) \eqn{\delta}. For more details see Aas et al. (2009).
+#'
 #' @references Aas, K., C. Czado, A. Frigessi, and H. Bakken (2009). Pair-copula constructions of multiple dependence. Insurance: Mathematics and Economics 44 (2), 182-198.
 #'
 #' @return
@@ -22,8 +35,8 @@
 #' * \code{dcMGLEV180.bivar}, \code{pcMGLEV180.bivar} and \code{hMGLEV180.bivar}  give values of density and distribution and h-function for the 2-dimensional MGL copula with copula parameter \eqn{\delta>0}.
 #' *  \code{hMGLEV.bivar} and \code{hMGLEV180.bivar} return a list with
 #'
-#' ** hfunc1: \eqn{\partial C(u_1,u_2) / \partial u_1,}
-#' ** hfunc2: \eqn{\partial C(u_1,u_2) / \partial u_2,}
+#'    * hfunc1: \eqn{\partial C(u_1,u_2) / \partial u_1,}.
+#'    * hfunc2: \eqn{\partial C(u_1,u_2) / \partial u_2,}.
 NULL
 
 
@@ -314,7 +327,7 @@ hcMGLEV.bivar <- function(u1, u2, param) {
 
 #' @title  the Pickands dependence function \eqn{A} in survival MGL-EV copula
 #'
-#' @param w \eqn{w \in [0.5,1]}.
+#' @param w \eqn{w \in [0,1]}.
 #' @param param copula parameter in survival MGL-EV copula.
 #'
 #' @return the value of the Pickands dependence function in \eqn{[0.5,1]}
@@ -329,10 +342,15 @@ hcMGLEV.bivar <- function(u1, u2, param) {
 #' 		\end{align}
 #' }
 #' where \eqn{A_{\delta}} is the Pickands dependence function of  survival MGL-EV copula.
-#'
-#' - Here \eqn{I_{m,n}^{-1}()} denotes the inverse of the beta cumulative distribution function (or regularized incomplete beta function)
+#' Here \eqn{I_{m,n}^{-1}()} denotes the inverse of the beta cumulative distribution function \eqn{I_{m,n}()} (or regularized incomplete beta function)
 #' with parameters shape1 = m and shape2 = n
-#' implemented by R's \code{\link[stats]{qbeta}}.
+#' implemented by R's \code{\link[stats]{qbeta}} and \code{\link[stats]{pbeta}} respectively.
+#'
+#'
+#' - The extreme value copula  \eqn{\bar{C}^{MGL-EV}} of the  survival MGL copula is given by
+#' 	\deqn{
+#' 		\bar{C}^{MGL-EV}(u_1,u_2;\delta)=\exp\left[\log\left(u_1u_2\right)A_{\delta}\left(\frac{\log\left(u_2\right)}{\log\left(u_1u_2\right)}\right)\right].
+#' }
 #'
 #' @importFrom stats qbeta
 #' @importFrom stats pbeta
@@ -340,6 +358,27 @@ hcMGLEV.bivar <- function(u1, u2, param) {
 #' @export
 #' @examples
 #' Afunction(w = 0.7, param = 1.2)
+#'
+#' delta <- 0.7
+#' w.vector <- seq(0.0001, 0.9999, length.out = 100)
+#' y.vector <- Afunction(w = w.vector, param = delta)
+#' plot(w.vector, y.vector, lwd = 2, col = 3, ylim = c(0.5, 1))
+#'
+#' delta <- 1
+#' w.vector <- seq(0.0001, 0.9999, length.out = 100)
+#' y.vector <- Afunction(w = w.vector, param = delta)
+#' lines(w.vector, y.vector, lwd = 2, col = 4)
+#'
+#' delta <- 3
+#' w.vector <- seq(0.0001, 0.9999, length.out = 100)
+#' y.vector <- Afunction(w = w.vector, param = delta)
+#' lines(w.vector, y.vector, lwd = 2, col = 5)
+#'
+#' delta <- 5
+#' w.vector <- seq(0.0001, 0.9999, length.out = 100)
+#' y.vector <- Afunction(w = w.vector, param = delta)
+#' lines(w.vector, y.vector, lwd = 2, col = 1)
+#'
 Afunction <- function(w, param){
   delta <- param
   k <- - delta
@@ -348,3 +387,6 @@ Afunction <- function(w, param){
   out <- w*pbeta(z2, shape1 = 0.5, shape2 = 1/delta + 0.5) + (1-w)*pbeta(z1, shape1 = 0.5, shape2 = 1/delta + 0.5)
   return(out)
 }
+
+
+
