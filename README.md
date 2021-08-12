@@ -2,27 +2,25 @@ R package for a new beta-type copula: rMGLReg
 ================
 Zhengxiao Li
 
--   [Installation](#installation)
--   [Example](#example)
-    -   [Simuation from the MGL and survival
-        copulas](#simuation-from-the-mgl-and-survival-copulas)
-    -   [Plots of survival MGL-EV
-        copula](#plots-of-survival-mgl-ev-copula)
-    -   [*d* = 10-dimensional MGL regression
-        model](#d10-dimensional-mgl-regression-model)
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- # rMGLReg -->
 <!-- badges: start -->
+
+[![Codecov test
+coverage](https://codecov.io/gh/lizhengxiao/rMGLReg/branch/main/graph/badge.svg)](https://codecov.io/gh/lizhengxiao/rMGLReg?branch=main)
+[![R-CMD-check](https://github.com/lizhengxiao/rMGLReg/workflows/R-CMD-check/badge.svg)](https://github.com/lizhengxiao/rMGLReg/actions)
 <!-- badges: end -->
 
-The goal of `rMGLReg` is to
+The goal of R package: `rMGLReg` is to
 
 -   provide a nice visualization tool for interpreting the MGL copula
     and MGL-EV copula, along with its survival copulas.
 
--   show the maximum likelihood (ME) estimation method for the copula
+-   show the maximum likelihood (ML) estimation method for the copula
     regression models with/without covariates.
+
+You can see `rMGLReg` in action at
+<https://lizhengxiao.github.io/rMGLReg/>: this is the output of
+Rdocumentation applied to the latest version of `rMGLReg`.
 
 ## Installation
 
@@ -30,9 +28,10 @@ The goal of `rMGLReg` is to
     following lines in R software:
 
 ``` r
-install.packages("devtools")
+# install.packages("devtools")
 library(devtools)
-devtools::install_github("lizhengxiao/rMGLReg")
+# devtools::install_github("lizhengxiao/rMGLReg")
+devtools::install_github("lizhengxiao/rMGLReg", build_vignettes = TRUE, force = TRUE)
 ```
 
 -   To access documentation for all the functions present in the

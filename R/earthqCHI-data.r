@@ -3,10 +3,11 @@
 
 #' @name earthqCHI
 #' @title Chinese earthquake loss data set
-#' @description The data set is collected from the ``China earthquake yearbook" .
+#' @description The data set is collected from the ``China earthquake yearbook``.
 #' This data set concerns the Chinese mainland, which contains risk information on 291 earthquake events with magnitude greater than 4.0 from 1990 to 2015.
 #' @docType data
 #' @usage data(earthqCHI)
+#' @md
 #' @format earthqCHI contains six columns:
 #' \itemize{
 #'   \item year: occurrence year.
