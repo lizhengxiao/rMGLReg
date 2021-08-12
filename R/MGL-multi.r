@@ -15,6 +15,30 @@
 #' @importFrom stats runif
 #' @importFrom stats pgamma
 #' @md
+#' @details
+#' - The MGL copula density function is given by
+#'
+#' \eqn{
+#' c^{\text{MGL}}(u_1, \dots, u_d;a)=\frac{\Gamma(a)^{d-1}\Gamma(a+\frac{d}{2})}{\Gamma(a+\frac{1}{2})^d}\frac{\prod_{j=1}^{d}(t(u_j;a)+1)^{a+\frac{1}{2}}}{\left(\sum_{j=1}^{d}t(u_j;a)+1\right)^{a+\frac{d}{2}}},
+#' \quad (u_1, ..., u_d)\in \left[0,1\right]^d,
+#' }
+#'
+#' where \eqn{a = \frac{1}{\delta}}, and \eqn{I_{m,n}()}  denotes the beta cumulative distribution function (or regularized incomplete beta function)
+#' with parameters shape1 = m and shape2 = n
+#' implemented by R's \code{\link[stats]{pbeta}}.
+#'
+#' - The MGL copula distribution function has the form of
+#'
+#' \deqn{
+#'  C^{\text{MGL}}(u_1, \dots, u_d;a) =\mathbb{E}_{\Theta}\left[\prod_{j=1}^{d}\text{erfc}\left(
+#'  \sqrt{t(u_j;a)\Theta}
+#'  \right)\right]
+#'  }
+#' with \eqn{\Theta \sim \text{gamma}(a,1)} and
+#' \deqn{
+#'  t(u_j;a)=\frac{I^{-1}_{\frac{1}{2},{a}}(1-u_j)}{1-I^{-1}_{\frac{1}{2},{a}}(1-u_j)}.
+#'  }
+#'
 #' @return
 #' * \code{dcMGL.multi}, \code{pcMGL.multi} and \code{rcMGL.multi} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
 #' * \code{dcMGL180.multi}, \code{pcMGL180.multi} and \code{rcMGL180.multi} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
