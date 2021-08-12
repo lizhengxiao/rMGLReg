@@ -7,16 +7,20 @@
 #' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
 #' @md
 #' @details
-#' For \eqn{d=2}, the MGL copula density function is given by
+#' - For \eqn{d=2}, the MGL copula density function is given by
+#'
 #' \eqn{
 #' c^{\text{MGL}}(u_1, \dots, u_d;a)=\frac{\Gamma(a)^{d-1}\Gamma(a+\frac{d}{2})}{\Gamma(a+\frac{1}{2})^d}\frac{\prod_{j=1}^{d}(t(u_j;a)+1)^{a+\frac{1}{2}}}{\left(\sum_{j=1}^{d}t(u_j;a)+1\right)^{a+\frac{d}{2}}},
-#' \quad (u_1, ..., u_d)\in \left[0,1\right]^d.
+#' \quad (u_1, ..., u_d)\in \left[0,1\right]^d,
 #' }
-#' where \eqn{I_{m,n}()}  denotes the beta cumulative distribution function (or regularized incomplete beta function)
+#'
+#' where \eqn{a = \frac{1}{\delta}}, and
+#' \eqn{I_{m,n}()}  denotes the beta cumulative distribution function (or regularized incomplete beta function)
 #' with parameters shape1 = m and shape2 = n
 #' implemented by R's \code{\link[stats]{pbeta}}.
 #'
-#' the MGL copula distribution function has the form of
+#' - The MGL copula distribution function has the form of
+#'
 #' \deqn{
 #'  C^{\text{MGL}}(u_1, \dots, u_d;a) =\mathbb{E}_{\Theta}\left[\prod_{j=1}^{d}\text{erfc}\left(
 #'  \sqrt{t(u_j;a)\Theta}
@@ -27,7 +31,7 @@
 #'  t(u_j;a)=\frac{I^{-1}_{\frac{1}{2},{a}}(1-u_j)}{1-I^{-1}_{\frac{1}{2},{a}}(1-u_j)}.
 #'  }
 #'
-#'  For \eqn{d=2}, the density and distribution function of survival MGL copula is
+#' - For \eqn{d=2}, the density and distribution function of survival MGL copula is
 #'  \deqn{
 #'  	\bar{c}^{MGL}(u_1,u_2;\delta)=c^{MGL}(1-u_1,1-u_2;\delta),
 #'  }
@@ -97,7 +101,8 @@ pcMGL.bivar <- Vectorize(pcMGL.bivar)
 
 #' @rdname BMGL
 #' @export
-#' @examples rcMGL.bivar(n = 200, pars = 0.8)
+#' @examples
+#' head(rcMGL.bivar(n = 200, pars = 0.8))
 rcMGL.bivar <- function(n, pars) {
   Usim <- rcMGL.multi(n = n, pars = pars, d = 2)
   Usim
@@ -168,6 +173,7 @@ rcMGL180.bivar <- function(n, pars) {
 #'  \begin{align}
 #' 	h_{2|1}^{\text{MGL180}}(u_2|u_1;\delta)&=1-h_{2|1}^{\text{MGL}}(1-u_2|1-u_1;\delta),\\
 #'  h_{1|2}^{\text{MGL180}}(u_1|u_2;\delta)&=1-h_{1|2}^{\text{MGL}}(1-u_1|1-u_2;\delta).
+#'  \end{align}
 #'  }
 #'
 #'
