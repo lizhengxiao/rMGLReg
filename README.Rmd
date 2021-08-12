@@ -37,7 +37,7 @@ The goal of ``rMGLReg`` is to
 - You can install the released version of ``rMGLReg`` by running the following lines in R software: 
 
 ``` r
-install.packages("devtools")
+# install.packages("devtools")
 library(devtools)
 <!-- devtools::install_github("lizhengxiao/rMGLReg") -->
 devtools::install_github("lizhengxiao/rMGLReg", build_vignettes = TRUE, force = TRUE)

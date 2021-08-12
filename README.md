@@ -14,6 +14,10 @@ Zhengxiao Li
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- # rMGLReg -->
 <!-- badges: start -->
+
+[![Codecov test
+coverage](https://codecov.io/gh/lizhengxiao/rMGLReg/branch/main/graph/badge.svg)](https://codecov.io/gh/lizhengxiao/rMGLReg?branch=main)
+[![R-CMD-check](https://github.com/lizhengxiao/rMGLReg/workflows/R-CMD-check/badge.svg)](https://github.com/lizhengxiao/rMGLReg/actions)
 <!-- badges: end -->
 
 The goal of `rMGLReg` is to
@@ -32,7 +36,8 @@ The goal of `rMGLReg` is to
 ``` r
 install.packages("devtools")
 library(devtools)
-devtools::install_github("lizhengxiao/rMGLReg")
+<!-- devtools::install_github("lizhengxiao/rMGLReg") -->
+devtools::install_github("lizhengxiao/rMGLReg", build_vignettes = TRUE, force = TRUE)
 ```
 
 -   To access documentation for all the functions present in the
