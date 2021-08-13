@@ -146,7 +146,7 @@ MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
     X = X,
     hessian = hessian, ...
   )
-  resopt
+  # resopt
 
   list(
     loglike = -resopt$value,

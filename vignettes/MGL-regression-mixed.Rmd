@@ -38,16 +38,19 @@ X <- ns(earthqCHI$year, knots = quantile(earthqCHI$year, c(0.333, 0.667)), inter
 m.MGL180 <- MGL.reg.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f, X = X,
                              copula = "MGL180", 
                              method = "Nelder-Mead",
-                             initpar = c(-0.32, 1, 1, 1))
+                             control = list(maxit = 100000),
+                             initpar = c(0.64, 1.2, 1, -0.2))
 
 m.MGLEV180 <- MGL.reg.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f, X = X,
                              copula = "MGL-EV180", 
                              method = "Nelder-Mead",
+                             control = list(maxit = 100000),
                              initpar = c(-0.32, 1, 1, 1))
 
 m.gumbel <- MGL.reg.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f, X = X,
                              copula = "Gumbel", 
                              method = "Nelder-Mead",
+                             control = list(maxit = 100000),
                              initpar = c(-0.32, 1, 1, 1))
 
 
@@ -74,7 +77,7 @@ m.gumbel <- MGL.reg.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f, X = X,
 
 
 ### The predicted value of copula parameter with different value of the covariate \textit{Year} for the Chinese earthquake loss data set.
-```{r, eval = FALSE}
+```{r, eval = FALSE, fig.width=5, fig.height=4, fig.fullwidth=TRUE}
 library(MASS)
 # Survival MGL regression model
 par.est <- m.MGL180$estimates

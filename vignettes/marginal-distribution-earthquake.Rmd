@@ -19,7 +19,8 @@ knitr::opts_chunk$set(
 
 ### marginal distribution for y1
 
-```{r setup}
+```{r setup, eval = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 library(rMGLReg)
 library(data.table)
 dtnew <- data.table(earthqCHI)
@@ -64,7 +65,7 @@ for (i in 1:length(y)) {
 
 ### marginal distribution for y2
 
-```{r message=FALSE, warning=FALSE, fig.width=8, fig.height=3.5, fig.fullwidth=TRUE}
+```{r, eval = FALSE, fig.fullwidth=TRUE, fig.height=3.5, fig.width=8, message=FALSE, warning=FALSE}
 library(gamlss)
 library(gamlss.tr)
 library(evd)
@@ -76,9 +77,9 @@ umin <- 20
 gen.trun(par = umin + 1, type = "right", name = "tr", family = "NBI")
 dt2 <- dtnew[y2 <= umin]
 m.NB <- gamlss(y2 ~ 1, family = NBItr, data = dt2, method = mixed(2, 10000))
-summary(m.NB)
+# summary(m.NB)
 pars <- c(coef(m.NB, what = "mu"), coef(m.NB, what = "sigma"))
-summary1 <- summary(m.NB)
+# summary1 <- summary(m.NB)
 
 mu.NB <- exp(coef(m.NB))
 sigma.NB <- exp(coefficients(m.NB, what = "sigma"))
@@ -135,15 +136,15 @@ GPD.MLE <- fevd(
   threshold = umin, method = "MLE", use.phi = F,
   type = "GP", data = dtnew
 )
-GPD.MLE
+# GPD.MLE
 
 GPD.par <- GPD.MLE$results$par
 pars <- GPD.MLE$results$par
 GPD.hessian <- GPD.MLE$results$hessian
 GPD.se <- sqrt(diag(solve(GPD.hessian)))
-GPD.Z <- GPD.par / GPD.se ##  Z缁熻???
-GPD.p <- ifelse(GPD.Z >= 0, pnorm(GPD.Z, lower = F) * 2, pnorm(GPD.Z) * 2) ## p???
-cbind(GPD.par, GPD.se, GPD.p)
+GPD.Z <- GPD.par / GPD.se ##  
+GPD.p <- ifelse(GPD.Z >= 0, pnorm(GPD.Z, lower = F) * 2, pnorm(GPD.Z) * 2)
+# cbind(GPD.par, GPD.se, GPD.p)
 
 scale <- (X1 %*% pars[1:dim(X1)[2]])
 shape <- X2 %*% pars[c((dim(X1)[2] + 1):(dim(X1)[2] + dim(X2)[2]))]
@@ -257,10 +258,20 @@ dtnew$u2_ <- dtu2$u2_
 
 ```
 
+```{r, eval = FALSE}
+head(cbind(dtnew$u1, dtnew$u2))
+
+head(cbind(dtnew$u1, dtnew$u2_))
+
+head(cbind(dtnew$f1, dtnew$f2))
+
+```
+
+
 
 ### Scatterplot of the uniform transformed data of economic losses and the number of casualties for different time intervals indicated by the color.
 
-```{r, warning=FALSE, fig.width=6, fig.height=3.5, fig.fullwidth=TRUE}
+```{r, , eval = FALSE, warning=FALSE, fig.width=6, fig.height=3.5, fig.fullwidth=TRUE}
 
 dtnew[, magnitude.f := cut(magnitude, c(3.9, 5.2, 6, 9))]
 dtnew[, .(corc = cor(u1, u2)), by = magnitude.f]

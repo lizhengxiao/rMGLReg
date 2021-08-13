@@ -180,58 +180,7 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,
                      breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">p2</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span>
-<span class="va">p0</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="va">p0</span></code></pre></div>
-<!-- ### fitting copulas withtout covariates -->
-<!-- ```{r, eval = FALSE} -->
-<!--   X <- model.matrix( ~ 1, data = dtnew) -->
-<!--   # survival MGL copual regression -->
-<!--   m.MGL180 <- MGL.reg(U = U, copula = "MGL180", -->
-<!--                                  method = "Brent", -->
-<!--                                  lower = -5, upper = 5, -->
-<!--                                  X = X, -->
-<!--                                  control = list(maxit = 100000, -->
-<!--                                                 fnscale = -1), -->
-<!--                                  initpar = c(0.01) -->
-<!--   ) -->
-<!--   # survival MGL-EV copual regression -->
-<!--   m.MGLEV180 <- MGL.reg(U = U, copula = "MGL-EV180", -->
-<!--                          method = "Brent", -->
-<!--                         lower = -5, upper = 5, -->
-<!--                          X = X, -->
-<!--                          control = list(maxit = 100000, -->
-<!--                                         fnscale = -1), -->
-<!--                          initpar = c(0.01) -->
-<!--   ) -->
-<!--   # survival MGL-EV copual regression -->
-<!--   m.gumbel <- MGL.reg(U = U, copula = "Gumbel", -->
-<!--                          method = "Brent", -->
-<!--                          lower = -5, upper = 5, -->
-<!--                          X = X, -->
-<!--                          control = list(maxit = 100000, -->
-<!--                                         fnscale = -1), -->
-<!--                          initpar = c(0.01) -->
-<!--   ) -->
-<!--   # show the estimates and stardard errors for the models -->
-<!--   modout <- function(m) { -->
-<!--     Hessian <- -m$hessian -->
-<!--     se <- sqrt(diag(solve(Hessian)))                  ## stardard error -->
-<!--     Z <- m$par/se                                             ##  Z statistic -->
-<!--     p <- ifelse(Z>=0, pnorm(Z, lower=F)*2, pnorm(Z)*2)           ## p value -->
-<!--     summarytable <- data.frame(m$par, se, Z, p) -->
-<!--     LL <- m$value -->
-<!--     NLL <- -m$value  # - loglikelihood value -->
-<!--     AIC <- 2*length(m$par) + 2*NLL -->
-<!--     BIC <- log(nrow(U))*length(m$par) + 2*NLL -->
-<!--     list(summary = summarytable, ll =  m$value, AIC = AIC, BIC = BIC) -->
-<!--   } -->
-<p><!-- estimates.copula <- c(exp(m.MGL180$par), exp(m.MGLEV180$par), exp(m.gumbel$par) + 1) --> <!-- sd.copula <- c(sqrt(-1/m.MGL180$hessian)*exp(m.MGL180$par), sqrt(-1/m.MGLEV180$hessian)*exp(m.MGLEV180$par), sqrt(-1/m.gumbel$hessian)*exp(m.gumbel$par)) --> <!-- ll.copula <- c(modout(m.MGL180)$ll, modout(m.MGLEV180)$ll, modout(m.gumbel)$ll) --> <!-- AIC.copula <- c(modout(m.MGL180)$AIC, modout(m.MGLEV180)$AIC, modout(m.gumbel)$AIC) --> <!-- BIC.copula <- c(modout(m.MGL180)$BIC, modout(m.MGLEV180)$BIC, modout(m.gumbel)$BIC) --></p>
-<!--   table1 <- cbind(estimates.copula, sd.copula, ll.copula, AIC.copula, BIC.copula) -->
-<!--   row.names(table1) <- c('MGL', 'survival MGL', 'Gumbel') -->
-<!--   knitr::kable(table1, digits = 3) -->
-<!-- ``` -->
+<span class="va">p2</span></code></pre></div>
 </div>
 <div id="survival-mgl-copual-and-survival-mgl-ev-regression" class="section level3">
 <h3 class="hasAnchor">
