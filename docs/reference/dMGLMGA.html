@@ -172,9 +172,27 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Density, for the bivariate GLMGA distribution with parameters sigma, a and b.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+<ul>
+<li><p>The multivariate GLMGA density is given by
+$$
+	f(y_1,\dots,y_d)
+	  =\frac{\Gamma(a+\frac{d}{2})}{\Gamma(a)\Gamma(\frac{1}{2})^d\prod_{j=1}^{d}\sigma_j y_j}
+	\frac{\prod_{j=1}^{d}\left[(2b_j)^{\sigma_j}y_j\right]^{-\frac{1}{2\sigma_j}}}
+	{\left[\sum_{j=1}^{d}\left((2b_j)^{\sigma_j}y_j\right)^{-\frac{1}{\sigma_j}}+1\right]^{a+\frac{d}{2}}}
+	$$
+for \(y_{j} &gt;0\), being \(\sigma_j&gt;0, a&gt;0, b_j&gt;0\).</p><ul>
+<li><p>Since \(Y_j\) (\(j=1,\ldots,d\)) are conditionally independent given \(\Theta\), the marginal distributions are obtained  by setting $d=1$ which leads to the densities in
+<code><a href='GLMGA.html'>dGLMGA</a></code>.</p></li>
+</ul></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>n.grid</span> <span class='op'>&lt;-</span> <span class='fl'>20</span>
+    <pre class="examples"><div class='input'><span class='co'># density function of MGLMGA distribution</span>
+<span class='va'>n.grid</span> <span class='op'>&lt;-</span> <span class='fl'>20</span>
 <span class='va'>sigma</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>0.5</span><span class='op'>)</span>
 <span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fl'>20</span>
 <span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>5</span><span class='op'>)</span>

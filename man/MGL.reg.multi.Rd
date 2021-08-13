@@ -4,14 +4,7 @@
 \alias{MGL.reg.multi}
 \title{Fitting d-dimensional MGL and survival MGL regression models}
 \usage{
-MGL.reg.multi(
-  U,
-  X,
-  copula = c("MGL", "MGL180", "MGL-EV", "MGL-EV180", "Gumbel"),
-  hessian = TRUE,
-  initpar,
-  ...
-)
+MGL.reg.multi(U, X, copula = c("MGL", "MGL180"), hessian = TRUE, initpar, ...)
 }
 \arguments{
 \item{U}{d-dimenstional matrix with values in \eqn{[0,1]}.}

@@ -27,19 +27,16 @@
 #'
 #'
 MGL.reg.multi <- function(U, X, copula = c(
-  "MGL", "MGL180", "MGL-EV",
-  "MGL-EV180",
-  "Gumbel"
-),
-hessian = TRUE, initpar, ...) {
-
+                            "MGL", "MGL180"
+                          ),
+                          hessian = TRUE, initpar, ...) {
   dcMGL.reg <- function(U, param, log = TRUE) {
     dim <- length(U)
-    a <- 1/param[1]
-    q <- qbeta(1-U, shape1 = 0.5, shape2 = a)/(1 - qbeta(1-U, shape1 = 0.5, shape2 = a))
-    logdc <- (dim - 1)*lgamma(a) + lgamma(a + dim/2) - dim*lgamma(a + 0.5) + (a + 0.5)*sum(log(q + 1)) - (a + dim/2)*log(sum(q) + 1)
+    a <- 1 / param[1]
+    q <- qbeta(1 - U, shape1 = 0.5, shape2 = a) / (1 - qbeta(1 - U, shape1 = 0.5, shape2 = a))
+    logdc <- (dim - 1) * lgamma(a) + lgamma(a + dim / 2) - dim * lgamma(a + 0.5) + (a + 0.5) * sum(log(q + 1)) - (a + dim / 2) * log(sum(q) + 1)
 
-    if(log == TRUE){
+    if (log == TRUE) {
       out <- logdc
     } else {
       out <- exp(logdc)
@@ -59,15 +56,15 @@ hessian = TRUE, initpar, ...) {
   }
 
 
-    copLogL <- function(pars, X) {
-      ll <- 0
-      delta <- exp(X%*%pars)
+  copLogL <- function(pars, X) {
+    ll <- 0
+    delta <- exp(X %*% pars)
 
-      for (i in 1:nrow(X)){
-        ll[i] <- dcop(U[i,], param = as.vector(delta[i]), log = FALSE)
-      }
-      res <- -sum((log(ll)))
-      return(res)
+    for (i in 1:nrow(X)) {
+      ll[i] <- dcop(U[i, ], param = as.vector(delta[i]), log = FALSE)
+    }
+    res <- -sum((log(ll)))
+    return(res)
   }
 
   resopt <- optim(
@@ -88,6 +85,4 @@ hessian = TRUE, initpar, ...) {
     AIC = 2 * length(resopt$par) + 2 * resopt$value,
     BIC = log(nrow(U)) * length(resopt$par) + 2 * resopt$value
   )
-
-
 }

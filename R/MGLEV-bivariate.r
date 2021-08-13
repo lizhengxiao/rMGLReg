@@ -378,15 +378,11 @@ hcMGLEV.bivar <- function(u1, u2, param) {
 #' w.vector <- seq(0.0001, 0.9999, length.out = 100)
 #' y.vector <- Afunction(w = w.vector, param = delta)
 #' lines(w.vector, y.vector, lwd = 2, col = 1)
-#'
-Afunction <- function(w, param){
+Afunction <- function(w, param) {
   delta <- param
-  k <- - delta
-  z2 <- (1 - w)^k/(w^k + (1 - w)^k)
-  z1 <- (w)^k/(w^k + (1 - w)^k)
-  out <- w*pbeta(z2, shape1 = 0.5, shape2 = 1/delta + 0.5) + (1-w)*pbeta(z1, shape1 = 0.5, shape2 = 1/delta + 0.5)
+  k <- -delta
+  z2 <- (1 - w)^k / (w^k + (1 - w)^k)
+  z1 <- (w)^k / (w^k + (1 - w)^k)
+  out <- w * pbeta(z2, shape1 = 0.5, shape2 = 1 / delta + 0.5) + (1 - w) * pbeta(z1, shape1 = 0.5, shape2 = 1 / delta + 0.5)
   return(out)
 }
-
-
-

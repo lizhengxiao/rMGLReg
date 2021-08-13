@@ -18,7 +18,7 @@
 #' 	}
 #' 	for \eqn{y_{j} >0}, being \eqn{\sigma_j>0, a>0, b_j>0}.
 #'
-#' 	- Since \eqn{Y_j} (\eqn{j=1,\ldots,d}) are conditionally independent given $\Theta$, the marginal distributions are obtained  by setting $d=1$ which leads to the densities in
+#' 	- Since \eqn{Y_j} (\eqn{j=1,\ldots,d}) are conditionally independent given \eqn{\Theta}, the marginal distributions are obtained  by setting $d=1$ which leads to the densities in
 #' 	\code{\link[rMGLReg]{dGLMGA}}.
 #'
 #' @return Density, for the bivariate GLMGA distribution with parameters sigma, a and b.

@@ -136,7 +136,7 @@ MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
         ll[i] <- f1[i] * f2[i] * dcop(U[i, ], param = delta[i])
       }
     }
-    res <- - sum((log(ll)))
+    res <- -sum((log(ll)))
     return(res)
   }
 

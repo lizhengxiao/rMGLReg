@@ -25,7 +25,7 @@ earthqCHI contains six columns:
 data(earthqCHI)
 }
 \description{
-The data set is collected from the ``China earthquake yearbook" .
+The data set is collected from the \verb{China earthquake yearbook}.
 This data set concerns the Chinese mainland, which contains risk information on 291 earthquake events with magnitude greater than 4.0 from 1990 to 2015.
 }
 \references{

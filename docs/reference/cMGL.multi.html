@@ -187,6 +187,32 @@
 <li><p><code>dcMGL180.multi</code>, <code>pcMGL180.multi</code> and <code>rcMGL180.multi</code> gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \(\delta&gt;0\).</p></li>
 </ul>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+<ul>
+<li><p>The MGL copula density function is given by</p></li>
+</ul>
+
+<p>\(
+c^{\text{MGL}}(u_1, \dots, u_d;a)=\frac{\Gamma(a)^{d-1}\Gamma(a+\frac{d}{2})}{\Gamma(a+\frac{1}{2})^d}\frac{\prod_{j=1}^{d}(t(u_j;a)+1)^{a+\frac{1}{2}}}{\left(\sum_{j=1}^{d}t(u_j;a)+1\right)^{a+\frac{d}{2}}},
+\quad (u_1, ..., u_d)\in \left[0,1\right]^d,
+\)</p>
+<p>where \(a = \frac{1}{\delta}\), and \(I_{m,n}()\)  denotes the beta cumulative distribution function (or regularized incomplete beta function)
+with parameters shape1 = m and shape2 = n
+implemented by R's <code><a href='https://rdrr.io/r/stats/Beta.html'>pbeta</a></code>.</p><ul>
+<li><p>The MGL copula distribution function has the form of</p></li>
+</ul>
+
+<p>$$
+ C^{\text{MGL}}(u_1, \dots, u_d;a) =\mathbb{E}_{\Theta}\left[\prod_{j=1}^{d}\text{erfc}\left(
+ \sqrt{t(u_j;a)\Theta}
+ \right)\right]
+ $$
+with \(\Theta \sim \text{gamma}(a,1)\) and
+$$
+ t(u_j;a)=\frac{I^{-1}_{\frac{1}{2},{a}}(1-u_j)}{1-I^{-1}_{\frac{1}{2},{a}}(1-u_j)}.
+ $$</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
