@@ -35,7 +35,7 @@ m.norm <- MGL.mle.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f,
                         copula = "Normal", method = "L-BFGS-B",
                         initpar = 0.2)
 m.t <- MGL.mle.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f,
-                      copula = "t", method = "L-BFGS-B",earthqCHI
+                      copula = "t", method = "L-BFGS-B",
                      initpar = c(0.1,3))
 m.gumbel <- MGL.mle.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f,
                             copula = "Gumbel",  method = "L-BFGS-B",
@@ -81,6 +81,6 @@ res.all <- round(cbind(recap(m.norm),
 out.com <- t(res.all)
 out.com <- out.com[order(out.com[,9], decreasing = T),]
 knitr::kable(out.com, digits = 3)
-round(out.com, 2)
+
 ```
 
