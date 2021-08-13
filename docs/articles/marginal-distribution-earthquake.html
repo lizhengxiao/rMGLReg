@@ -110,7 +110,8 @@
 <h3 class="hasAnchor">
 <a href="#marginal-distribution-for-y1" class="anchor"></a>marginal distribution for y1</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rMGLReg</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>warning <span class="op">=</span> <span class="cn">FALSE</span>, message <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rMGLReg</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com">data.table</a></span><span class="op">)</span>
 <span class="va">dtnew</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html">data.table</a></span><span class="op">(</span><span class="va">earthqCHI</span><span class="op">)</span>
 <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">dtnew</span><span class="op">$</span><span class="va">y1</span>
@@ -162,234 +163,11 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span>
 <span class="va">umin</span> <span class="op">&lt;-</span> <span class="fl">20</span>
 <span class="fu"><a href="https://rdrr.io/pkg/gamlss.tr/man/gen.trun.html">gen.trun</a></span><span class="op">(</span>par <span class="op">=</span> <span class="va">umin</span> <span class="op">+</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"right"</span>, name <span class="op">=</span> <span class="st">"tr"</span>, family <span class="op">=</span> <span class="st">"NBI"</span><span class="op">)</span>
-<span class="co">#&gt; A truncated family of distributions from NBI has been generated </span>
-<span class="co">#&gt;  and saved under the names:  </span>
-<span class="co">#&gt;  dNBItr pNBItr qNBItr rNBItr NBItr </span>
-<span class="co">#&gt; The type of truncation is right </span>
-<span class="co">#&gt;  and the truncation parameter is 21</span>
 <span class="va">dt2</span> <span class="op">&lt;-</span> <span class="va">dtnew</span><span class="op">[</span><span class="va">y2</span> <span class="op">&lt;=</span> <span class="va">umin</span><span class="op">]</span>
 <span class="va">m.NB</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gamlss/man/gamlss.html">gamlss</a></span><span class="op">(</span><span class="va">y2</span> <span class="op">~</span> <span class="fl">1</span>, family <span class="op">=</span> <span class="va">NBItr</span>, data <span class="op">=</span> <span class="va">dt2</span>, method <span class="op">=</span> <span class="fu">mixed</span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10000</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; GAMLSS-RS iteration 1: Global Deviance = 762.6964 </span>
-<span class="co">#&gt; GAMLSS-RS iteration 2: Global Deviance = 756.5612 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 1: Global Deviance = 756.5118 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 2: Global Deviance = 756.4672 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 3: Global Deviance = 756.4263 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 4: Global Deviance = 756.3886 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 5: Global Deviance = 756.3538 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 6: Global Deviance = 756.3215 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 7: Global Deviance = 756.2915 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 8: Global Deviance = 756.2635 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 9: Global Deviance = 756.2373 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 10: Global Deviance = 756.2127 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 11: Global Deviance = 756.1897 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 12: Global Deviance = 756.1679 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 13: Global Deviance = 756.1474 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 14: Global Deviance = 756.1281 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 15: Global Deviance = 756.1097 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 16: Global Deviance = 756.0923 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 17: Global Deviance = 756.0758 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 18: Global Deviance = 756.0601 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 19: Global Deviance = 756.0451 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 20: Global Deviance = 756.0309 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 21: Global Deviance = 756.0172 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 22: Global Deviance = 756.0042 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 23: Global Deviance = 755.9917 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 24: Global Deviance = 755.9798 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 25: Global Deviance = 755.9684 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 26: Global Deviance = 755.9574 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 27: Global Deviance = 755.9468 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 28: Global Deviance = 755.9366 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 29: Global Deviance = 755.9269 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 30: Global Deviance = 755.9175 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 31: Global Deviance = 755.9084 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 32: Global Deviance = 755.8996 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 33: Global Deviance = 755.8912 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 34: Global Deviance = 755.883 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 35: Global Deviance = 755.8751 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 36: Global Deviance = 755.8675 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 37: Global Deviance = 755.8601 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 38: Global Deviance = 755.8529 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 39: Global Deviance = 755.846 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 40: Global Deviance = 755.8393 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 41: Global Deviance = 755.8328 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 42: Global Deviance = 755.8264 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 43: Global Deviance = 755.8203 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 44: Global Deviance = 755.8143 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 45: Global Deviance = 755.8085 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 46: Global Deviance = 755.8029 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 47: Global Deviance = 755.7974 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 48: Global Deviance = 755.792 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 49: Global Deviance = 755.7868 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 50: Global Deviance = 755.7818 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 51: Global Deviance = 755.7768 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 52: Global Deviance = 755.772 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 53: Global Deviance = 755.7673 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 54: Global Deviance = 755.7628 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 55: Global Deviance = 755.7583 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 56: Global Deviance = 755.7539 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 57: Global Deviance = 755.7497 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 58: Global Deviance = 755.7455 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 59: Global Deviance = 755.7415 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 60: Global Deviance = 755.7375 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 61: Global Deviance = 755.7336 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 62: Global Deviance = 755.7298 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 63: Global Deviance = 755.7261 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 64: Global Deviance = 755.7225 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 65: Global Deviance = 755.7189 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 66: Global Deviance = 755.7154 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 67: Global Deviance = 755.712 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 68: Global Deviance = 755.7087 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 69: Global Deviance = 755.7054 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 70: Global Deviance = 755.7022 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 71: Global Deviance = 755.6991 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 72: Global Deviance = 755.696 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 73: Global Deviance = 755.693 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 74: Global Deviance = 755.69 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 75: Global Deviance = 755.6871 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 76: Global Deviance = 755.6843 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 77: Global Deviance = 755.6815 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 78: Global Deviance = 755.6787 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 79: Global Deviance = 755.6761 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 80: Global Deviance = 755.6734 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 81: Global Deviance = 755.6708 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 82: Global Deviance = 755.6683 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 83: Global Deviance = 755.6658 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 84: Global Deviance = 755.6633 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 85: Global Deviance = 755.6609 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 86: Global Deviance = 755.6585 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 87: Global Deviance = 755.6561 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 88: Global Deviance = 755.6538 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 89: Global Deviance = 755.6516 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 90: Global Deviance = 755.6494 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 91: Global Deviance = 755.6472 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 92: Global Deviance = 755.645 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 93: Global Deviance = 755.6429 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 94: Global Deviance = 755.6408 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 95: Global Deviance = 755.6388 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 96: Global Deviance = 755.6367 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 97: Global Deviance = 755.6347 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 98: Global Deviance = 755.6328 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 99: Global Deviance = 755.6308 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 100: Global Deviance = 755.6289 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 101: Global Deviance = 755.6271 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 102: Global Deviance = 755.6252 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 103: Global Deviance = 755.6234 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 104: Global Deviance = 755.6216 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 105: Global Deviance = 755.6198 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 106: Global Deviance = 755.6181 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 107: Global Deviance = 755.6164 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 108: Global Deviance = 755.6147 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 109: Global Deviance = 755.613 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 110: Global Deviance = 755.6114 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 111: Global Deviance = 755.6097 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 112: Global Deviance = 755.6081 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 113: Global Deviance = 755.6066 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 114: Global Deviance = 755.605 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 115: Global Deviance = 755.6035 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 116: Global Deviance = 755.602 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 117: Global Deviance = 755.6005 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 118: Global Deviance = 755.599 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 119: Global Deviance = 755.5975 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 120: Global Deviance = 755.5961 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 121: Global Deviance = 755.5946 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 122: Global Deviance = 755.5932 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 123: Global Deviance = 755.5919 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 124: Global Deviance = 755.5905 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 125: Global Deviance = 755.5891 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 126: Global Deviance = 755.5878 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 127: Global Deviance = 755.5865 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 128: Global Deviance = 755.5852 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 129: Global Deviance = 755.5839 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 130: Global Deviance = 755.5826 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 131: Global Deviance = 755.5814 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 132: Global Deviance = 755.5801 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 133: Global Deviance = 755.5789 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 134: Global Deviance = 755.5777 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 135: Global Deviance = 755.5765 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 136: Global Deviance = 755.5753 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 137: Global Deviance = 755.5741 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 138: Global Deviance = 755.5729 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 139: Global Deviance = 755.5718 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 140: Global Deviance = 755.5707 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 141: Global Deviance = 755.5695 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 142: Global Deviance = 755.5684 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 143: Global Deviance = 755.5673 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 144: Global Deviance = 755.5663 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 145: Global Deviance = 755.5652 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 146: Global Deviance = 755.5641 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 147: Global Deviance = 755.5631 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 148: Global Deviance = 755.562 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 149: Global Deviance = 755.561 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 150: Global Deviance = 755.56 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 151: Global Deviance = 755.559 </span>
-<span class="co">#&gt; GAMLSS-CG iteration 152: Global Deviance = 755.558</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">m.NB</span><span class="op">)</span>
-<span class="co">#&gt; ******************************************************************</span>
-<span class="co">#&gt; Family:  c("NBItr", "right truncated Negative Binomial type I") </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:  gamlss(formula = y2 ~ 1, family = NBItr, data = dt2,  </span>
-<span class="co">#&gt;     method = mixed(2, 10000)) </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Fitting method: mixed(2, 10000) </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; ------------------------------------------------------------------</span>
-<span class="co">#&gt; Mu link function:  log</span>
-<span class="co">#&gt; Mu Coefficients:</span>
-<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)</span>
-<span class="co">#&gt; (Intercept)    3.622      2.325   1.558    0.121</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; ------------------------------------------------------------------</span>
-<span class="co">#&gt; Sigma link function:  log</span>
-<span class="co">#&gt; Sigma Coefficients:</span>
-<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
-<span class="co">#&gt; (Intercept)   1.6957     0.1288   13.17   &lt;2e-16 ***</span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; ------------------------------------------------------------------</span>
-<span class="co">#&gt; No. of observations in the fit:  194 </span>
-<span class="co">#&gt; Degrees of Freedom for the fit:  2</span>
-<span class="co">#&gt;       Residual Deg. of Freedom:  192 </span>
-<span class="co">#&gt;                       at cycle:  152 </span>
-<span class="co">#&gt;  </span>
-<span class="co">#&gt; Global Deviance:     755.558 </span>
-<span class="co">#&gt;             AIC:     759.558 </span>
-<span class="co">#&gt;             SBC:     766.0937 </span>
-<span class="co">#&gt; ******************************************************************</span>
+<span class="co"># summary(m.NB)</span>
 <span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m.NB</span>, what <span class="op">=</span> <span class="st">"mu"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m.NB</span>, what <span class="op">=</span> <span class="st">"sigma"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">summary1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">m.NB</span><span class="op">)</span>
-<span class="co">#&gt; ******************************************************************</span>
-<span class="co">#&gt; Family:  c("NBItr", "right truncated Negative Binomial type I") </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:  gamlss(formula = y2 ~ 1, family = NBItr, data = dt2,  </span>
-<span class="co">#&gt;     method = mixed(2, 10000)) </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Fitting method: mixed(2, 10000) </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; ------------------------------------------------------------------</span>
-<span class="co">#&gt; Mu link function:  log</span>
-<span class="co">#&gt; Mu Coefficients:</span>
-<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)</span>
-<span class="co">#&gt; (Intercept)    3.622      2.325   1.558    0.121</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; ------------------------------------------------------------------</span>
-<span class="co">#&gt; Sigma link function:  log</span>
-<span class="co">#&gt; Sigma Coefficients:</span>
-<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
-<span class="co">#&gt; (Intercept)   1.6957     0.1288   13.17   &lt;2e-16 ***</span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; ------------------------------------------------------------------</span>
-<span class="co">#&gt; No. of observations in the fit:  194 </span>
-<span class="co">#&gt; Degrees of Freedom for the fit:  2</span>
-<span class="co">#&gt;       Residual Deg. of Freedom:  192 </span>
-<span class="co">#&gt;                       at cycle:  152 </span>
-<span class="co">#&gt;  </span>
-<span class="co">#&gt; Global Deviance:     755.558 </span>
-<span class="co">#&gt;             AIC:     759.558 </span>
-<span class="co">#&gt;             SBC:     766.0937 </span>
-<span class="co">#&gt; ******************************************************************</span>
+<span class="co"># summary1 &lt;- summary(m.NB)</span>
 
 <span class="va">mu.NB</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">m.NB</span><span class="op">)</span><span class="op">)</span>
 <span class="va">sigma.NB</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coefficients</a></span><span class="op">(</span><span class="va">m.NB</span>, what <span class="op">=</span> <span class="st">"sigma"</span><span class="op">)</span><span class="op">)</span>
@@ -446,43 +224,15 @@
   threshold <span class="op">=</span> <span class="va">umin</span>, method <span class="op">=</span> <span class="st">"MLE"</span>, use.phi <span class="op">=</span> <span class="cn">F</span>,
   type <span class="op">=</span> <span class="st">"GP"</span>, data <span class="op">=</span> <span class="va">dtnew</span>
 <span class="op">)</span>
-<span class="va">GPD.MLE</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; fevd(x = y2, data = dtnew, threshold = umin, scale.fun = ~1, </span>
-<span class="co">#&gt;     shape.fun = ~1, use.phi = F, type = "GP", method = "MLE")</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [1] "Estimation Method used: MLE"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Negative Log-Likelihood Value:  669.9007 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Estimated parameters:</span>
-<span class="co">#&gt;     scale     shape </span>
-<span class="co">#&gt; 56.582290  1.874784 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Standard Error Estimates:</span>
-<span class="co">#&gt;      scale      shape </span>
-<span class="co">#&gt; 14.2629288  0.2984979 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Estimated parameter covariance matrix.</span>
-<span class="co">#&gt;            scale       shape</span>
-<span class="co">#&gt; scale 203.431139 -1.90079151</span>
-<span class="co">#&gt; shape  -1.900792  0.08910101</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  AIC = 1343.801 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  BIC = 1348.951</span>
+<span class="co"># GPD.MLE</span>
 
 <span class="va">GPD.par</span> <span class="op">&lt;-</span> <span class="va">GPD.MLE</span><span class="op">$</span><span class="va">results</span><span class="op">$</span><span class="va">par</span>
 <span class="va">pars</span> <span class="op">&lt;-</span> <span class="va">GPD.MLE</span><span class="op">$</span><span class="va">results</span><span class="op">$</span><span class="va">par</span>
 <span class="va">GPD.hessian</span> <span class="op">&lt;-</span> <span class="va">GPD.MLE</span><span class="op">$</span><span class="va">results</span><span class="op">$</span><span class="va">hessian</span>
 <span class="va">GPD.se</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/solve.html">solve</a></span><span class="op">(</span><span class="va">GPD.hessian</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="va">GPD.Z</span> <span class="op">&lt;-</span> <span class="va">GPD.par</span> <span class="op">/</span> <span class="va">GPD.se</span> <span class="co">##  Z缁熻???</span>NA<span class="va">GPD.p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/fifelse.html">ifelse</a></span><span class="op">(</span><span class="va">GPD.Z</span> <span class="op">&gt;=</span> <span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">GPD.Z</span>, lower <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">GPD.Z</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span> <span class="co">## p???</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">GPD.par</span>, <span class="va">GPD.se</span>, <span class="va">GPD.p</span><span class="op">)</span>
-<span class="co">#&gt;         GPD.par     GPD.se        GPD.p</span>
-<span class="co">#&gt; scale 56.582290 14.2629020 7.275393e-05</span>
-<span class="co">#&gt; shape  1.874784  0.2984979 3.369967e-10</span>
+<span class="va">GPD.Z</span> <span class="op">&lt;-</span> <span class="va">GPD.par</span> <span class="op">/</span> <span class="va">GPD.se</span> <span class="co">##  </span>
+<span class="va">GPD.p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/fifelse.html">ifelse</a></span><span class="op">(</span><span class="va">GPD.Z</span> <span class="op">&gt;=</span> <span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">GPD.Z</span>, lower <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">GPD.Z</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span>
+<span class="co"># cbind(GPD.par, GPD.se, GPD.p)</span>
 
 <span class="va">scale</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">X1</span> <span class="op">%*%</span> <span class="va">pars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">X1</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 <span class="va">shape</span> <span class="op">&lt;-</span> <span class="va">X2</span> <span class="op">%*%</span> <span class="va">pars</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">X1</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">X1</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">X2</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
@@ -511,10 +261,8 @@
 
 
 <span class="va">v0</span> <span class="op">&lt;-</span> <span class="va">v1</span> <span class="op">+</span> <span class="va">v2</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="va">v0</span></code></pre></div>
-<p><img src="marginal-distribution-earthquake_files/figure-html/unnamed-chunk-2-1.png" width="768"></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
+<span class="va">v0</span>
+
 
 <span class="co"># ======================================================================================</span>
 <span class="co"># GPD and negative binom</span>
@@ -595,6 +343,12 @@
 <span class="va">dtnew</span><span class="op">$</span><span class="va">u1</span> <span class="op">&lt;-</span> <span class="va">u1</span>
 <span class="va">dtnew</span><span class="op">$</span><span class="va">u2</span> <span class="op">&lt;-</span> <span class="va">dtu2</span><span class="op">$</span><span class="va">u2</span>
 <span class="va">dtnew</span><span class="op">$</span><span class="va">u2_</span> <span class="op">&lt;-</span> <span class="va">dtu2</span><span class="op">$</span><span class="va">u2_</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">dtnew</span><span class="op">$</span><span class="va">u1</span>, <span class="va">dtnew</span><span class="op">$</span><span class="va">u2</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">dtnew</span><span class="op">$</span><span class="va">u1</span>, <span class="va">dtnew</span><span class="op">$</span><span class="va">u2_</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">dtnew</span><span class="op">$</span><span class="va">f1</span>, <span class="va">dtnew</span><span class="op">$</span><span class="va">f2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="scatterplot-of-the-uniform-transformed-data-of-economic-losses-and-the-number-of-casualties-for-different-time-intervals-indicated-by-the-color-" class="section level3">
 <h3 class="hasAnchor">
@@ -603,17 +357,8 @@
 <code class="sourceCode R">
 <span class="va">dtnew</span><span class="op">[</span>, <span class="va">magnitude.f</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">magnitude</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3.9</span>, <span class="fl">5.2</span>, <span class="fl">6</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span><span class="op">]</span>
 <span class="va">dtnew</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>corc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">u1</span>, <span class="va">u2</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">magnitude.f</span><span class="op">]</span>
-<span class="co">#&gt;    magnitude.f      corc</span>
-<span class="co">#&gt; 1:       (6,9] 0.6865428</span>
-<span class="co">#&gt; 2:   (3.9,5.2] 0.4753195</span>
-<span class="co">#&gt; 3:     (5.2,6] 0.6362073</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">dtnew</span><span class="op">$</span><span class="va">magnitude</span><span class="op">)</span>
-<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="co">#&gt;   4.000   5.000   5.400   5.547   6.000   8.100</span>
 <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">dtnew</span><span class="op">$</span><span class="va">magnitude.f</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; (3.9,5.2]   (5.2,6]     (6,9] </span>
-<span class="co">#&gt;       123       103        65</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/stefano-meschiari/latex2exp">latex2exp</a></span><span class="op">)</span>
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="va">dtnew</span>
 <span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>
@@ -657,7 +402,6 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"magnitude"</span>, shape <span class="op">=</span> <span class="st">"magnitude"</span><span class="op">)</span>
 
 <span class="va">m1</span></code></pre></div>
-<p><img src="marginal-distribution-earthquake_files/figure-html/unnamed-chunk-3-1.png" width="576"></p>
 </div>
 </div>
   </div>
