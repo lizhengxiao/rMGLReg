@@ -23,7 +23,24 @@ Density, for the bivariate GLMGA distribution with parameters sigma, a and b.
 \description{
 The bivariate GLMGA distribution
 }
+\details{
+\itemize{
+\item The multivariate GLMGA density is given by
+\deqn{
+	f(y_1,\dots,y_d)
+	  =\frac{\Gamma(a+\frac{d}{2})}{\Gamma(a)\Gamma(\frac{1}{2})^d\prod_{j=1}^{d}\sigma_j y_j}
+	\frac{\prod_{j=1}^{d}\left[(2b_j)^{\sigma_j}y_j\right]^{-\frac{1}{2\sigma_j}}}
+	{\left[\sum_{j=1}^{d}\left((2b_j)^{\sigma_j}y_j\right)^{-\frac{1}{\sigma_j}}+1\right]^{a+\frac{d}{2}}}
+	}
+for \eqn{y_{j} >0}, being \eqn{\sigma_j>0, a>0, b_j>0}.
+\itemize{
+\item Since \eqn{Y_j} (\eqn{j=1,\ldots,d}) are conditionally independent given \eqn{\Theta}, the marginal distributions are obtained  by setting $d=1$ which leads to the densities in
+\code{\link[rMGLReg]{dGLMGA}}.
+}
+}
+}
 \examples{
+# density function of MGLMGA distribution
 n.grid <- 20
 sigma <- c(0.5, 0.5)
 a <- 20

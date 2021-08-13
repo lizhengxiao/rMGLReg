@@ -45,7 +45,7 @@ Afunction(w = 0.7, param = 1.2)
 delta <- 0.7
 w.vector <- seq(0.0001, 0.9999, length.out = 100)
 y.vector <- Afunction(w = w.vector, param = delta)
-plot(w.vector, y.vector, lwd = 2, col = 3)
+plot(w.vector, y.vector, lwd = 2, col = 3, ylim = c(0.5, 1))
 
 delta <- 1
 w.vector <- seq(0.0001, 0.9999, length.out = 100)
@@ -61,5 +61,4 @@ delta <- 5
 w.vector <- seq(0.0001, 0.9999, length.out = 100)
 y.vector <- Afunction(w = w.vector, param = delta)
 lines(w.vector, y.vector, lwd = 2, col = 1)
-
 }

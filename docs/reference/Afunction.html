@@ -101,6 +101,9 @@
       <a href="../articles/counter-plot-MGLMGA.html">counter-plot-MGLMGA</a>
     </li>
     <li>
+      <a href="../articles/marginal-distribution-earthquake.html">marginal-distribution-earthquake</a>
+    </li>
+    <li>
       <a href="../articles/MGL-fitting-mixed.html">MGL-fitting-mixed</a>
     </li>
     <li>
@@ -190,7 +193,7 @@ $$</p></li>
 <span class='va'>delta</span> <span class='op'>&lt;-</span> <span class='fl'>0.7</span>
 <span class='va'>w.vector</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0.0001</span>, <span class='fl'>0.9999</span>, length.out <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
 <span class='va'>y.vector</span> <span class='op'>&lt;-</span> <span class='fu'>Afunction</span><span class='op'>(</span>w <span class='op'>=</span> <span class='va'>w.vector</span>, param <span class='op'>=</span> <span class='va'>delta</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>w.vector</span>, <span class='va'>y.vector</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>w.vector</span>, <span class='va'>y.vector</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='fl'>3</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='input'>
 <span class='va'>delta</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
 <span class='va'>w.vector</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0.0001</span>, <span class='fl'>0.9999</span>, length.out <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
@@ -206,8 +209,7 @@ $$</p></li>
 <span class='va'>w.vector</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0.0001</span>, <span class='fl'>0.9999</span>, length.out <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
 <span class='va'>y.vector</span> <span class='op'>&lt;-</span> <span class='fu'>Afunction</span><span class='op'>(</span>w <span class='op'>=</span> <span class='va'>w.vector</span>, param <span class='op'>=</span> <span class='va'>delta</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>w.vector</span>, <span class='va'>y.vector</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='img'><img src='Afunction-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+</div><div class='img'><img src='Afunction-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

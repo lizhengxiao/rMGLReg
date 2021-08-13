@@ -10,6 +10,10 @@ coverage](https://codecov.io/gh/lizhengxiao/rMGLReg/branch/main/graph/badge.svg)
 [![R-CMD-check](https://github.com/lizhengxiao/rMGLReg/workflows/R-CMD-check/badge.svg)](https://github.com/lizhengxiao/rMGLReg/actions)
 <!-- badges: end -->
 
+You can see `rMGLReg` in action at
+<https://lizhengxiao.github.io/rMGLReg/>: this is the output of
+Rdocumentation applied to the latest version of `rMGLReg`.
+
 The goal of R package: `rMGLReg` is to
 
 -   provide a nice visualization tool for interpreting the MGL copula
@@ -18,9 +22,10 @@ The goal of R package: `rMGLReg` is to
 -   show the maximum likelihood (ML) estimation method for the copula
     regression models with/without covariates.
 
-You can see `rMGLReg` in action at
-<https://lizhengxiao.github.io/rMGLReg/>: this is the output of
-Rdocumentation applied to the latest version of `rMGLReg`.
+-   contain code to reproduce the output of the proposed methods
+    described in the paper: [A new class of copula regression models for
+    modelling multivariate heavy-tailed
+    data](https://arxiv.org/abs/2108.05511).
 
 ## Installation
 
@@ -240,6 +245,7 @@ p0
 # simulated data
 set.seed(111)
 Nsim <- 1000
+d <- 10
 n <- 1000 # sample size
 beta.true <- c(-0.6, 0.5, 0.2) # true regression coefficients
 x1 <- rnorm(n, 0, 1)
@@ -251,13 +257,13 @@ for (i in 1:n){
   Usim[i, ] <- rcMGL.multi(n = 1, d = d, pars = delta.sim[i])
 }
 
-m.MGLMGA <- MGL.reg(U = Usim, copula = "MGL",
+m.MGLMGA <- MGL.reg.multi(U = Usim, copula = "MGL",
                                  X = X, method = "Nelder-Mead",
                                  initpar = c(-0.32, 0.001, 0.001)
   )
 m.MGLMGA
 #> $loglike
-#> [1] 124.6826
+#> [1] 729.0535
 #> 
 #> $copula
 #> $copula$name
@@ -265,20 +271,20 @@ m.MGLMGA
 #> 
 #> 
 #> $estimates
-#> [1] -0.6626620  0.5805884  0.2564613
+#> [1] -0.6091929  0.4555460  0.1676800
 #> 
 #> $se
-#> [1] 0.09881861 0.07807502 0.06916195
+#> [1] 0.03939535 0.03466884 0.03400156
 #> 
 #> $hessian
-#>            [,1]       [,2]       [,3]
-#> [1,] -185.65734 -143.47722  -63.21761
-#> [2,] -143.47722 -275.61829  -36.83389
-#> [3,]  -63.21761  -36.83389 -231.46060
+#>           [,1]       [,2]      [,3]
+#> [1,] -913.5135  -544.5927 -119.1106
+#> [2,] -544.5927 -1159.3980  -22.2301
+#> [3,] -119.1106   -22.2301 -883.3534
 #> 
 #> $AIC
-#> [1] -243.3653
+#> [1] -1452.107
 #> 
 #> $BIC
-#> [1] -228.642
+#> [1] -1437.384
 ```

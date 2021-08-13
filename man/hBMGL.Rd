@@ -56,6 +56,7 @@ Here
  \begin{align}
 	h_{2|1}^{\text{MGL180}}(u_2|u_1;\delta)&=1-h_{2|1}^{\text{MGL}}(1-u_2|1-u_1;\delta),\\
  h_{1|2}^{\text{MGL180}}(u_1|u_2;\delta)&=1-h_{1|2}^{\text{MGL}}(1-u_1|1-u_2;\delta).
+ \end{align}
  }
 }
 }

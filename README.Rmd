@@ -25,13 +25,18 @@ knitr::opts_chunk$set(
 )
 ```
 
+You can see ``rMGLReg`` in action at https://lizhengxiao.github.io/rMGLReg/: 
+this is the output of Rdocumentation applied to the latest version of ``rMGLReg``.
+
 The goal of R package: ``rMGLReg`` is to 
 
 - provide a nice visualization tool for interpreting the MGL copula and MGL-EV copula, along with its survival copulas.
 
 - show the maximum likelihood (ML) estimation method for the copula regression models with/without covariates.
 
-You can see ``rMGLReg`` in action at https://lizhengxiao.github.io/rMGLReg/: this is the output of Rdocumentation applied to the latest version of ``rMGLReg``.
+- contain code to reproduce the output of the proposed methods described in the paper: [A new class of copula regression models for modelling multivariate heavy-tailed data](https://arxiv.org/abs/2108.05511). 
+
+
 
 
 ## Installation
@@ -237,6 +242,7 @@ p0
 # simulated data
 set.seed(111)
 Nsim <- 1000
+d <- 10
 n <- 1000 # sample size
 beta.true <- c(-0.6, 0.5, 0.2) # true regression coefficients
 x1 <- rnorm(n, 0, 1)
@@ -248,7 +254,7 @@ for (i in 1:n){
   Usim[i, ] <- rcMGL.multi(n = 1, d = d, pars = delta.sim[i])
 }
 
-m.MGLMGA <- MGL.reg(U = Usim, copula = "MGL",
+m.MGLMGA <- MGL.reg.multi(U = Usim, copula = "MGL",
                                  X = X, method = "Nelder-Mead",
                                  initpar = c(-0.32, 0.001, 0.001)
   )
