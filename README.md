@@ -10,6 +10,10 @@ coverage](https://codecov.io/gh/lizhengxiao/rMGLReg/branch/main/graph/badge.svg)
 [![R-CMD-check](https://github.com/lizhengxiao/rMGLReg/workflows/R-CMD-check/badge.svg)](https://github.com/lizhengxiao/rMGLReg/actions)
 <!-- badges: end -->
 
+You can see `rMGLReg` in action at
+<https://lizhengxiao.github.io/rMGLReg/>: this is the output of
+Rdocumentation applied to the latest version of `rMGLReg`.
+
 The goal of R package: `rMGLReg` is to
 
 -   provide a nice visualization tool for interpreting the MGL copula
@@ -18,9 +22,10 @@ The goal of R package: `rMGLReg` is to
 -   show the maximum likelihood (ML) estimation method for the copula
     regression models with/without covariates.
 
-You can see `rMGLReg` in action at
-<https://lizhengxiao.github.io/rMGLReg/>: this is the output of
-Rdocumentation applied to the latest version of `rMGLReg`.
+-   contain code to reproduce the output of the proposed methods
+    described in the paper: [A new class of copula regression models for
+    modelling multivariate heavy-tailed
+    data](https://arxiv.org/abs/2108.05511).
 
 ## Installation
 

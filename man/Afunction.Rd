@@ -61,5 +61,4 @@ delta <- 5
 w.vector <- seq(0.0001, 0.9999, length.out = 100)
 y.vector <- Afunction(w = w.vector, param = delta)
 lines(w.vector, y.vector, lwd = 2, col = 1)
-
 }
