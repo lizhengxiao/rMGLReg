@@ -17,6 +17,12 @@ knitr::opts_chunk$set(
 
 ## MGL copula
 
+- To illustrate the dependence structure, we simulated copula realizations in scatter plots with $d=3$ from the MGL copula given with sample size $n=1,000$ for copula parameter $\delta=1.2$. 
+
+
+- Note the positive dependences and the tail asymmetry features among the three 
+	variables. 
+
 ```{r setup}
 library(rMGLReg)
 
