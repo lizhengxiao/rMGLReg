@@ -1,14 +1,14 @@
 #' @name BMGL
 #' @rdname  BMGL
 #' @title Bivarite MGL and survival MGL copula
-#' @description Density, distribution function, and random generation for the bivariate MGL copula with copula parameter \eqn{\delta}.
+#' @description Density, distribution function, and random generation for the bivariate MGL/survival MGL copula with copula parameter \eqn{\delta}.
 #' @param u1,u2 numeric vectors of equal length with values in \eqn{[0,1]}.
 #' @param pars copula parameter, denoted by \eqn{\delta >0}.
 #' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
 #' @md
 #' @return
-#' * \code{dcMGL.bivar}, \code{pcMGL.bivar} and \code{rcMGL.bivar} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
-#' * \code{dcMGL180.bivar}, \code{pcMGL180.bivar} and \code{rcMGL180.bivar} gives values of Density, distribution function, and random generation for the d-dimensional MGL copula with copula parameter \eqn{\delta>0}.
+#' * \code{dcMGL.bivar}, \code{pcMGL.bivar} and \code{rcMGL.bivar} gives values of density, distribution function, and random generation for the two dimensional MGL copula with copula parameter \eqn{\delta>0}.
+#' * \code{dcMGL180.bivar}, \code{pcMGL180.bivar} and \code{rcMGL180.bivar} gives values of density, distribution function, and random generation for the two dimensional survival MGL copula with copula parameter \eqn{\delta>0}.
 NULL
 
 
@@ -16,7 +16,8 @@ NULL
 
 #' @rdname  BMGL
 #' @export
-#' @examples
+#' @examples\
+#' density function
 #' dcMGL.bivar(u1 = 0.001, u2 = 0.999, pars = 1)
 dcMGL.bivar <- function(u1, u2, pars) {
   dim <- 2
@@ -40,6 +41,7 @@ dcMGL.bivar <- Vectorize(dcMGL.bivar)
 #' @rdname BMGL
 #' @export
 #' @examples
+#' distribution function
 #' pcMGL.bivar(u1 = c(0.6, 0.1, 0.7), u2 = c(0.3, 0.6, 0.9), pars = 5)
 pcMGL.bivar <- function(u1, u2, pars) {
   a <- 1 / pars
@@ -66,7 +68,9 @@ pcMGL.bivar <- Vectorize(pcMGL.bivar)
 
 #' @rdname BMGL
 #' @export
-#' @examples rcMGL.bivar(n = 200, pars = 0.8)
+#' @examples
+#' random generation
+#' rcMGL.bivar(n = 200, pars = 0.8)
 rcMGL.bivar <- function(n, pars) {
   Usim <- rcMGL.multi(n = n, pars = pars, d = 2)
   Usim
@@ -82,7 +86,8 @@ dcMGL180.bivar <- function(u1, u2, pars) {
 
 #' @rdname BMGL
 #' @export
-#' @examples pcMGL180.bivar(u1 = c(0.6, 0.1, 0.7), u2 = c(0.3, 0.6, 0.9), pars = 5)
+#' @examples
+#' pcMGL180.bivar(u1 = c(0.6, 0.1, 0.7), u2 = c(0.3, 0.6, 0.9), pars = 5)
 pcMGL180.bivar <- function(u1, u2, pars) {
   u1 + u2 - 1 + pcMGL.bivar(1 - u1, 1 - u2, pars)
 }
@@ -91,7 +96,8 @@ pcMGL180.bivar <- function(u1, u2, pars) {
 
 #' @rdname BMGL
 #' @export
-#' @examples rcMGL180.bivar(n = 200, pars = 0.8)
+#' @examples
+#' rcMGL180.bivar(n = 200, pars = 0.8)
 rcMGL180.bivar <- function(n, pars) {
   Usim <- rcMGL.multi(n = n, pars = pars, d = 2)
   1 - Usim
@@ -114,10 +120,11 @@ rcMGL180.bivar <- function(n, pars) {
 #'
 #' where \eqn{(U_1, U_2) \sim C}, and \eqn{C} is a bivariate copula distribution function with parameter(s) \eqn{\delta}. For more details see Aas et al. (2009).
 #' @md
-#' @return hcMGL.bivar returns a list with
+#' @return hcMGL.bivar/hcMGL180.bivar returns a list with
 #' * hfunc1: \eqn{\partial C(u_1,u_2) / \partial u_1,}
 #' * hfunc2: \eqn{\partial C(u_1,u_2) / \partial u_2,}
-#' @references Aas, K., C. Czado, A. Frigessi, and H. Bakken (2009). Pair-copula constructions of multiple dependence. Insurance: Mathematics and Economics 44 (2), 182-198.
+#' @references
+#' Zhengxiao Li, Jan Beirlant, Liang Yang. A new class of copula regression models for modelling multivariate heavy-tailed data. 2021, arXiv:2108.05511.
 NULL
 
 
