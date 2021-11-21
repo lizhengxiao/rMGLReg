@@ -1,0 +1,119 @@
+---
+title: "Simulation-study"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Simulation-study}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+### $d=2$ without covariates
+
+```{r}
+library(rMGLReg)
+set.seed(112)
+Usim <- rcMGL.multi(n = 1000, d = 2, pars = 2)
+plot(Usim)
+m.MGL <- MGL.mle(Usim,
+                  copula  = "MGL",
+                  initpar = c(2), hessian = TRUE)
+# estimation results
+m.MGL
+
+```
+
+
+
+
+
+### $d=10$ without covariates
+
+```{r}
+library(rMGLReg)
+set.seed(112)
+Usim <- rcMGL.multi(n = 500, d = 10, pars = 2)
+round(cor(Usim, method = "kendall"), 2)
+m.MGL <- MGL.mle(Usim,
+                  copula  = "MGL",
+                  initpar = c(2),
+                 hessian = TRUE)
+# estimation results
+m.MGL
+
+```
+
+### $d=2$ with covariates $x_1$ and $x_2$
+
+```{r}
+# simulated the data 
+set.seed(111)
+n <- 500
+beta.true <- c(-0.6, 0.5, 0.2)
+d <- 2
+x1 <- rnorm(n, 0, 1)
+x2 <- rnorm(n, 0, 1)
+X <- model.matrix(~ x1 + x2)
+delta.sim <- as.vector(exp(X%*%beta.true))
+summary(delta.sim)
+Usim <- matrix(0, nrow = n, ncol = d)
+for (i in 1:n){
+  Usim[i, ] <- rcMGL.multi(n = 1, d = d, pars = delta.sim[i])
+}
+plot(Usim)
+
+m.MGL <- MGL.reg(U = Usim,
+                 X = X,
+                  copula  = "MGL",
+                 hessian = TRUE,
+                  initpar = c(-0.6, 0.5, 0.2))
+# estimation results
+m.MGL
+
+```
+
+
+
+### $d=10$ with covariates $x_1$ and $x_2$
+
+```{r}
+# simulated the data 
+set.seed(111)
+n <- 500
+beta.true <- c(-0.6, 0.5, 0.2)
+d <- 10
+x1 <- rnorm(n, 0, 1)
+x2 <- rnorm(n, 0, 1)
+X <- model.matrix(~ x1 + x2)
+delta.sim <- as.vector(exp(X%*%beta.true))
+summary(delta.sim)
+
+Usim <- matrix(0, nrow = n, ncol = d)
+for (i in 1:n){
+  Usim[i, ] <- rcMGL.multi(n = 1, d = d, pars = delta.sim[i])
+}
+round(cor(Usim, method = "kendall"), 2)
+
+m.MGL <- MGL.reg(U = Usim,
+                 X = X,
+                  copula  = "MGL",
+                 hessian = TRUE,
+                  initpar = c(-0.6, 0.5, 0.2))
+# estimation results
+m.MGL
+
+```
+
+
+
+
+
+
+

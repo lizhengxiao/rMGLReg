@@ -7,7 +7,7 @@
 #' @param a  common parameter with length = 1.
 #' @param b vector of parameters with length = 2.
 #'
-#' @return Density, for the bivariate GLMGA distribution with parameters sigma, a and b.
+#' @return Density function of the bivariate GLMGA distribution with parameters sigma, a and b.
 #' @export
 #'
 #' @examples

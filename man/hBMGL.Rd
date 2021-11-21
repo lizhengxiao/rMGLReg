@@ -18,7 +18,7 @@ hcMGL180.bivar(u1, u2, pars)
 \item{pars}{numeric; single number or vector of size length(u1); copula parameter > 0.}
 }
 \value{
-hcMGL.bivar returns a list with
+hcMGL.bivar/hcMGL180.bivar returns a list with
 \itemize{
 \item hfunc1: \eqn{\partial C(u_1,u_2) / \partial u_1,}
 \item hfunc2: \eqn{\partial C(u_1,u_2) / \partial u_2,}
@@ -40,5 +40,5 @@ hcMGL.bivar(u1 = c(0.1, 0.001, 0.3), u2 = c(0, 0.9999, 0.88), pars = 2)
 hcMGL180.bivar(u1 = c(0.1, 0.001, 0.3), u2 = c(0, 0.9999, 0.88), pars = 2)
 }
 \references{
-Aas, K., C. Czado, A. Frigessi, and H. Bakken (2009). Pair-copula constructions of multiple dependence. Insurance: Mathematics and Economics 44 (2), 182-198.
+Zhengxiao Li, Jan Beirlant, Liang Yang. A new class of copula regression models for modelling multivariate heavy-tailed data. 2021, arXiv:2108.05511.
 }

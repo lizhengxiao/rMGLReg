@@ -32,10 +32,9 @@ hcMGLEV.bivar(u1, u2, param)
 \item \code{dcMGLEV.bivar}, \code{pcMGLEV.bivar} and \code{hMGLEV.bivar}  give values of density distribution and h-function for the 2-dimensional MGL copula with copula parameter \eqn{\delta>0}.
 \item \code{dcMGLEV180.bivar}, \code{pcMGLEV180.bivar} and \code{hMGLEV180.bivar}  give values of density and distribution and h-function for the 2-dimensional MGL copula with copula parameter \eqn{\delta>0}.
 \item \code{hMGLEV.bivar} and \code{hMGLEV180.bivar} return a list with
-}
-
 ** hfunc1: \eqn{\partial C(u_1,u_2) / \partial u_1,}
 ** hfunc2: \eqn{\partial C(u_1,u_2) / \partial u_2,}
+}
 }
 \description{
 Density, distribution function, and h-function the bivariate MGL-EV and survival MGL-EV copula with copula parameter delta.
@@ -57,5 +56,5 @@ hcMGLEV180.bivar(u1 = 0.5, u2 = 0.78, param = 1.8)
 hcMGLEV.bivar(u1 = 0.5, u2 = 0.78, param = 1.8)
 }
 \references{
-Aas, K., C. Czado, A. Frigessi, and H. Bakken (2009). Pair-copula constructions of multiple dependence. Insurance: Mathematics and Economics 44 (2), 182-198.
+#' Zhengxiao Li, Jan Beirlant, Liang Yang. A new class of copula regression models for modelling multivariate heavy-tailed data. 2021, arXiv:2108.05511.
 }

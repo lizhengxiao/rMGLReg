@@ -16,8 +16,8 @@ NULL
 
 #' @rdname  BMGL
 #' @export
-#' @examples\
-#' density function
+#' @examples
+#' # density function
 #' dcMGL.bivar(u1 = 0.001, u2 = 0.999, pars = 1)
 dcMGL.bivar <- function(u1, u2, pars) {
   dim <- 2
@@ -41,7 +41,7 @@ dcMGL.bivar <- Vectorize(dcMGL.bivar)
 #' @rdname BMGL
 #' @export
 #' @examples
-#' distribution function
+#' # distribution function
 #' pcMGL.bivar(u1 = c(0.6, 0.1, 0.7), u2 = c(0.3, 0.6, 0.9), pars = 5)
 pcMGL.bivar <- function(u1, u2, pars) {
   a <- 1 / pars
@@ -69,7 +69,7 @@ pcMGL.bivar <- Vectorize(pcMGL.bivar)
 #' @rdname BMGL
 #' @export
 #' @examples
-#' random generation
+#' # random generation
 #' rcMGL.bivar(n = 200, pars = 0.8)
 rcMGL.bivar <- function(n, pars) {
   Usim <- rcMGL.multi(n = n, pars = pars, d = 2)

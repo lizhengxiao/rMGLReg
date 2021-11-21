@@ -2,14 +2,21 @@
 #' @title Fitting bivariate MGL copula models
 #' @description \code{MGL.mle} is used to fit bivariate copula regression models via maximum likelihood (ML) method for two continuous variables.
 #' @param U two-dimenstional matrix with values in \eqn{[0,1]}.
-#' @param copula copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "Student-t".
+#' @param copula copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "t".
 #' @param hessian Logical. Should a numerically differentiated Hessian matrix be returned?
 #' @param initpar Initial values for the parameters to be optimized over.
 #' @param ... additional arguments, see \code{\link[stats]{nlm}} for more details.
 #' @importFrom stats nlm
 #' @md
 #' @details
-#' * copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
+#' The estimation method is performed via \code{\link[stats]{nlm}} function.
+#'
+#' copula:
+#' * "MGB2" is multivariate GB2.
+#' * "Normal" and "t" denote the Gaussian copula and Student-t copula respectively.
+#' * "MGL" and "MGL-EV" denote the MGL and MGL-EV copula respectively.
+#' * "MGL180" and "MGL-EV180" denote the survival MGL and survival MGL-EV copula respectively.
+#' * "Gumbel" is Gumbel copula.
 #'
 #' @return A list containing the following components:
 #' * loglike: the value of the estimated maximum of the loglikelihood function.
@@ -19,6 +26,16 @@
 #' * AIC, BIC: the goodness fit of the regression models.
 #' * hessian: the hessian at the estimated maximum of the loglikelihood (if requested).
 #'
+#' @references Zhang, F. Z. . "A generalized beta copula with applications in modeling multivariate long-tailed data." Insurance: Mathematics and Economics (2011).
+#'
+#' @examples
+#'   library(rMGLReg)
+#'   Usim <- rcMGL.bivar(n = 500, pars = 0.5)
+#'   m.MGL <- MGL.mle(Usim,
+#'   copula  = "MGL",
+#'   initpar = c(2))
+#'   # estimation results
+#'   m.MGL
 #' @export
 #'
 MGL.mle <- function(U, copula = c(
@@ -123,13 +140,24 @@ MGL.mle <- function(U, copula = c(
 
 
   # resopt
-  list(
-    loglike = -resopt$minimum,
-    copula = list(name = arg.cop$name),
-    estimates = resopt$estimate,
-    se = sqrt(diag(solve(resopt$hessian))),
-    hessian = -resopt$hessian,
-    AIC = 2 * length(resopt$estimate) + 2 * resopt$minimum,
-    BIC = log(nrow(U)) * length(resopt$estimate) + 2 * resopt$minimum
-  )
+  if (hessian == TRUE){
+    out <-   list(
+      loglike = -resopt$minimum,
+      copula = list(name = arg.cop$name),
+      estimates = resopt$estimate,
+      se = sqrt(diag(solve(resopt$hessian))),
+      hessian = -resopt$hessian,
+      AIC = 2 * length(resopt$estimate) + 2 * resopt$minimum,
+      BIC = log(nrow(U)) * length(resopt$estimate) + 2 * resopt$minimum
+    )
+  } else {
+    out <-   list(
+      loglike = -resopt$minimum,
+      copula = list(name = arg.cop$name),
+      estimates = resopt$estimate,
+      AIC = 2 * length(resopt$estimate) + 2 * resopt$minimum,
+      BIC = log(nrow(U)) * length(resopt$estimate) + 2 * resopt$minimum
+    )
+  }
+  out
 }
