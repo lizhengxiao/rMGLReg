@@ -29,13 +29,15 @@ collected from the Copenhagen Reinsurance Company and comprises 2167 fire losses
 
 
 ## Load the data
+```{r warning=FALSE}
+library(rMGLReg)
+library(fitdistrplus)
+library(splines)
+library(snpar)
+```
 
 
-```{r setup, echo = TRUE}
-  library(rMGLReg)
-  library(fitdistrplus)
-  library(splines)
-  library(snpar)
+```{r setup, eval = FALSE}
   data("danishmulti")
   dt <- data.table::data.table(danishmulti)
   dtnew <- dt[Building>0&Contents>0]
