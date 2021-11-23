@@ -1,7 +1,7 @@
 
-#' @title Fitting bivariate MGL copula models
+#' @title Fitting bivariate MGL copula models for two continuous data
 #' @description \code{MGL.mle} is used to fit bivariate copula regression models via maximum likelihood (ML) method for two continuous variables.
-#' @param U two-dimenstional matrix with values in \eqn{[0,1]}.
+#' @param U two-dimensional matrix with values in \eqn{[0,1]}.
 #' @param copula copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "t".
 #' @param hessian Logical. Should a numerically differentiated Hessian matrix be returned?
 #' @param initpar Initial values for the parameters to be optimized over.

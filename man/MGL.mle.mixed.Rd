@@ -2,7 +2,7 @@
 % Please edit documentation in R/MGL-mle-mixed.r
 \name{MGL.mle.mixed}
 \alias{MGL.mle.mixed}
-\title{Fitting bivariate MGL copula models}
+\title{Fitting bivariate MGL copula models for mixed data}
 \usage{
 MGL.mle.mixed(
   obs,
@@ -17,15 +17,15 @@ MGL.mle.mixed(
 )
 }
 \arguments{
-\item{obs}{two-dimenstional matrix for loss observations (y1, y2).}
+\item{obs}{two-dimensional matrix for loss observations (y1, y2).}
 
 \item{U}{two-dimenstional matrix for pseudo copula data with values in \eqn{[0,1]} for (F(y1), F(y2)).}
 
-\item{U_}{two-dimenstional matrix for pseudo copula data for the data (F(y1), F(y2-1)).}
+\item{U_}{two-dimensional matrix for pseudo copula data for the data (F(y1), F(y2-1)).}
 
 \item{f}{values of the density function for marginal distribution.}
 
-\item{copula}{copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "Student-t".}
+\item{copula}{copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "t".}
 
 \item{umin}{threshold value used in the semi-continuous data.}
 
@@ -47,14 +47,12 @@ A list containing the following components:
 }
 }
 \description{
-\code{MGL.mle.mixed} is used to fit bivariate mixed copula regression models via maximum likelihood (ML) method for continuous and semi-continuous variables..
+\code{MGL.mle.mixed} is used to fit bivariate mixed copula regression models via maximum likelihood (ML) method for continuous and semi-continuous variables.
 }
 \details{
-\itemize{
-\item Y1: continuous data.
-\item Y2: semi-continuous data where Y2>umin is continuous and Y2<=umin is discrete.
-\item copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
-}
+The estimation method is performed via \code{\link[stats]{nlm}} function.
+Y1: continuous variable
+Y2: semi-continuous variable when Y2>umin, it is continuous and Y2<=umin is discrete.
 
 For a portfolio of \eqn{n} observations \eqn{(y_{i1},y_{i2}; \; i=1,\ldots,n)}, the joint density function of \eqn{(Y_1,Y_2)} can be written as
 \deqn{
@@ -67,4 +65,30 @@ For a portfolio of \eqn{n} observations \eqn{(y_{i1},y_{i2}; \; i=1,\ldots,n)}, 
 }
 where the density \eqn{f_{Y_j}(\cdot)} and cdf \eqn{F_{Y_j}(\cdot)} of the marginal distributions  (\eqn{i=1,2}) are specified respectively. Here
 \eqn{h_{2|1}(u_1, u_2)=\partial C(u_1,u_2)/\partial u_1} is the \eqn{h}-function of bivariate copula.
+
+copula:
+\itemize{
+\item "MGB2" is multivariate GB2.
+\item "Normal" and "t" denote the Gaussian copula and Student-t copula respectively.
+\item "MGL" and "MGL-EV" denote the MGL and MGL-EV copula respectively.
+\item "MGL180" and "MGL-EV180" denote the survival MGL and survival MGL-EV copula respectively.
+\item "Gumbel" is Gumbel copula.#'
+}
+}
+\examples{
+library(rMGLReg)
+# load the Chinese earthquake data set
+u <- cbind(earthqCHI$u1, earthqCHI$u2) # cdf of marginal distribution
+u_ <- cbind(earthqCHI$u1, earthqCHI$u2_) # cdf of marginal distribution for Y1 and Y2 - 1
+y <- cbind(earthqCHI$y1, earthqCHI$y2)  # observations
+f <- cbind(earthqCHI$f1, earthqCHI$f2) # pdf of marginal distribution
+obs <- y
+U <- u
+U_ <- u_
+umin <- 20
+m.MGLMGA180 <- MGL.mle.mixed(obs = y, U = U, U_ = U_,
+umin = umin, f = f,
+copula = "MGL180",
+method = "L-BFGS-B", initpar = c(2))
+m.MGLMGA180
 }

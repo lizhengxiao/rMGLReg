@@ -134,12 +134,8 @@ p1 <- ggplot(data = dtplot, mapping = aes(y = logY1,
   scale_y_continuous(limits = c(-5, 5),
                      breaks = seq(-5, 5, by = 2.5))
 
-p1
-```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
-``` r
 p2 <- ggplot(data = dtplot, mapping = aes(y = U2, 
                                            x = U1)) + 
   newtheme +
@@ -152,12 +148,7 @@ p2 <- ggplot(data = dtplot, mapping = aes(y = U2,
   scale_y_continuous(limits = c(0, 1),
                      breaks = seq(0, 1, by = 0.2))
 
-p2
-```
 
-<img src="man/figures/README-unnamed-chunk-5-2.png" width="100%" />
-
-``` r
 library(patchwork)
 #> 
 #> 载入程辑包：'patchwork'
@@ -168,7 +159,7 @@ p0 <- p1 + p2 + plot_layout(ncol = 2)
 p0
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-3.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 This table reports the estimation results, AIC and BIC values of the
 survival MGL and the survival MGL-EV copula, along with four other

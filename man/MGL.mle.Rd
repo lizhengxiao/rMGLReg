@@ -2,7 +2,7 @@
 % Please edit documentation in R/MGL-mle.r
 \name{MGL.mle}
 \alias{MGL.mle}
-\title{Fitting bivariate MGL copula models}
+\title{Fitting bivariate MGL copula models for two continuous data}
 \usage{
 MGL.mle(
   U,
@@ -13,7 +13,7 @@ MGL.mle(
 )
 }
 \arguments{
-\item{U}{two-dimenstional matrix with values in \eqn{[0,1]}.}
+\item{U}{two-dimensional matrix with values in \eqn{[0,1]}.}
 
 \item{copula}{copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "t".}
 
