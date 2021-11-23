@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 -   [rMGLReg](#rmglreg)
     -   [Installation](#installation)
@@ -27,25 +28,46 @@ The goal of rMGLReg is to
 R package for a new beta-type copula: rMGLReg
 ================
 Zhengxiao Li
+=======
+>>>>>>> parent of 0dd254f (v2)
 
-<!-- # rMGLReg -->
+-   [rMGLReg](#rmglreg)
+    -   [Installation](#installation)
+    -   [Example](#example)
+        -   [Simuation from the proposed
+            copulas](#simuation-from-the-proposed-copulas)
+        -   [Plots of survival MGL-EV
+            copula](#plots-of-survival-mgl-ev-copula)
+        -   [*d* = 10-dimensional MGL regression
+            model](#d10-dimensional-mgl-regression-model)
+        -   [Case - Danish fire data set](#case---danish-fire-data-set)
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# rMGLReg
+
 <!-- badges: start -->
 
 [![Codecov test
-coverage](https://codecov.io/gh/lizhengxiao/rMGLReg/branch/main/graph/badge.svg)](https://codecov.io/gh/lizhengxiao/rMGLReg?branch=main)
+coverage](https://codecov.io/gh/lizhengxiao/rMGLReg/branch/main/graph/badge.svg)](https://app.codecov.io/gh/lizhengxiao/rMGLReg?branch=main)
 [![R-CMD-check](https://github.com/lizhengxiao/rMGLReg/workflows/R-CMD-check/badge.svg)](https://github.com/lizhengxiao/rMGLReg/actions)
 <!-- badges: end -->
 
+<<<<<<< HEAD
 You can see `rMGLReg` in action at
 <https://lizhengxiao.github.io/rMGLReg/>: this is the output of
 Rdocumentation applied to the latest version of `rMGLReg`.
 
 The goal of R package: `rMGLReg` is to
 >>>>>>> parent of 49cec11 (Merge pull request #20 from lizhengxiao/main)
+=======
+The goal of rMGLReg is to
+>>>>>>> parent of 0dd254f (v2)
 
 -   provide a nice visualization tool for interpreting the MGL copula
     and MGL-EV copula, along with its survival copulas.
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 -   show the maximum likelihood (ME) estimation method for the copula
     regression models with/without covariates.
@@ -61,21 +83,20 @@ library(devtools)
 devtools::install_github("lizhengxiao/rMGLReg")
 =======
 -   show the maximum likelihood (ML) estimation method for the copula
+=======
+-   show the maximum likelihood (ME) estimation method for the copula
+>>>>>>> parent of 0dd254f (v2)
     regression models with/without covariates.
-
--   contain code to reproduce the output of the proposed methods
-    described in the paper: [A new class of copula regression models for
-    modelling multivariate heavy-tailed
-    data](https://arxiv.org/abs/2108.05511).
 
 ## Installation
 
--   You can install the released version of `rMGLReg` by running the
-    following lines in R software:
+You can install the released version of rMGLReg by running the following
+lines in R software:
 
 ``` r
-# install.packages("devtools")
+install.packages("devtools")
 library(devtools)
+<<<<<<< HEAD
 # devtools::install_github("lizhengxiao/rMGLReg")
 devtools::install_github("lizhengxiao/rMGLReg", build_vignettes = TRUE, force = TRUE)
 ```
@@ -93,6 +114,9 @@ help(package = rMGLReg)
 ``` r
 browseVignettes(package  = "rMGLReg")
 >>>>>>> parent of 49cec11 (Merge pull request #20 from lizhengxiao/main)
+=======
+devtools::install_github("lizhengxiao/rMGLReg")
+>>>>>>> parent of 0dd254f (v2)
 ```
 
 ## Example
@@ -138,10 +162,14 @@ pairs(U, gap = 0, cex = 0.5)
 ```
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 =======
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 >>>>>>> parent of 49cec11 (Merge pull request #20 from lizhengxiao/main)
+=======
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+>>>>>>> parent of 0dd254f (v2)
 
 ### Plots of survival MGL-EV copula
 
@@ -271,10 +299,14 @@ p0
 ```
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" />
 =======
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" />
 >>>>>>> parent of 49cec11 (Merge pull request #20 from lizhengxiao/main)
+=======
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" />
+>>>>>>> parent of 0dd254f (v2)
 
 ### *d* = 10-dimensional MGL regression model
 
@@ -326,6 +358,9 @@ m.MGLMGA
 ```
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 0dd254f (v2)
 ### Case - Danish fire data set
 
 -   As the first example, we fit the bivariate copula and regression
@@ -550,6 +585,7 @@ lines(delta.est, col = 'red', lwd = 2)
 ```
 
 <img src="man/figures/README-unnamed-chunk-11-2.png" width="100%" />
+<<<<<<< HEAD
 =======
 <!-- ### Case - Danish fire data set -->
 <!-- - As the first example, we fit the bivariate copula and regression models to  -->
@@ -715,3 +751,5 @@ lines(delta.est, col = 'red', lwd = 2)
 <!-- lines(delta.est, col = 'red', lwd = 2) -->
 <!-- ``` -->
 >>>>>>> parent of 49cec11 (Merge pull request #20 from lizhengxiao/main)
+=======
+>>>>>>> parent of 0dd254f (v2)
