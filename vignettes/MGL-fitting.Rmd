@@ -7,8 +7,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Case I - modelling Danish fire insurance data without covariates
-
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -16,11 +14,30 @@ knitr::opts_chunk$set(
 )
 ```
 
+
+## Case I - modelling Danish fire insurance data without covariates
+
+- We fit the bivariate copula and  regression models to 
+the Danish fire insurance data set which was
+collected from the Copenhagen Reinsurance Company and comprises 2167 fire losses over the period 1980-1990.
+
+- The claims have been adjusted for inflation to reflect 1985 values and are expressed in millions of Danish Krone and can be found in the R package: fitdistrplus.
+
+- The total claims in the multivariate data set is divided into  building loss, contents loss and  profit loss.
+
+- The pseudo-copula data $(u_{i1}, u_{i2})$ ($i=1,...n$) is based on the kernel smoothing method.
+
+
+## Load the data
+```{r warning=FALSE}
+library(rMGLReg)
+library(fitdistrplus)
+library(splines)
+library(snpar)
+```
+
+
 ```{r setup, eval = FALSE}
-  library(rMGLReg)
-  library(fitdistrplus)
-  library(splines)
-  library(snpar)
   data("danishmulti")
   dt <- data.table::data.table(danishmulti)
   dtnew <- dt[Building>0&Contents>0]
@@ -36,37 +53,44 @@ knitr::opts_chunk$set(
              xgrid = y[,2],
              h = 0.2)$Fhat
   U <- cbind(u1, u2) # two-dim 
+  plot(U); plot(log(U))
 ```
 
+
+- We report the estimation results, AIC and BIC values of the survival MGL and the survival MGL-EV copula, along with four other families of copulas with
+positive upper tail indices,  the MGB2 copula,
+the Gumbel copula,  the Student $t$ copula, and the Gaussian copula.
+
+- The Gumbel copula is an extreme-value copula and also belongs to the
+Archimedean family, whereas the Student $t$ copula and Gaussian copula belongs to the elliptical copulas.
+
+
+## fitting the copula models
 
 
 ```{r, eval = FALSE}
 m.norm <- MGL.mle(U = U,
-                        copula  = "Normal",
+                        copula  = "Normal", hessian = TRUE,
                         initpar = 0.5)
 
 m.t <- MGL.mle(U = U,
-                     copula  = "t",
+                     copula  = "t", hessian = TRUE,
                      initpar = c(0.5, 4))
 m.gumbel <- MGL.mle(U = U,
-                     copula  = "Gumbel",
+                     copula  = "Gumbel", hessian = TRUE,
                           initpar = c(2))
-m.MGLMGA180 <- MGL.mle(U,
-                    copula  = "MGL180",
+m.MGLMGA180 <- MGL.mle(U = U,
+                    copula  = "MGL180", hessian = TRUE,
                              initpar = c(1))
-m.MGB2 <- MGL.mle(U,
-                      copula  = "MGB2",
+m.MGB2 <- MGL.mle(U = U,
+                      copula  = "MGB2", hessian = TRUE,
                         initpar = c(0.1, 2, 0.4))
-
-m.MGLEV180 <- MGL.mle(U,
-                         copula  = "MGL-EV180",
+m.MGLEV180 <- MGL.mle(U = U,
+                         copula  = "MGL-EV180", hessian = TRUE,
                          initpar = c(2))
 
 
 ```
-
-
-
 ```{r, eval = FALSE}
 recap <- function(x){
   res <- c(alpha = x$estimates,
@@ -89,11 +113,8 @@ res.all <- round(cbind(recap(m.norm),
 ), 4)
 out.com <- t(res.all)
 out.com <- out.com[order(out.com[,9], decreasing = T),]
-knitr::kable(out.com, digits = 3)
+knitr::kable(out.com, digits = 2)
 
 ```
-
-
-
 
 

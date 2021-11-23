@@ -1,12 +1,12 @@
 
-#' @title Fitting bivariate MGL copula models
-#' @description \code{MGL.mle.mixed} is used to fit bivariate mixed copula regression models via maximum likelihood (ML) method for continuous and semi-continuous variables..
+#' @title Fitting bivariate MGL copula models for mixed data
+#' @description \code{MGL.mle.mixed} is used to fit bivariate mixed copula regression models via maximum likelihood (ML) method for continuous and semi-continuous variables.
 #' @param U two-dimenstional matrix for pseudo copula data with values in \eqn{[0,1]} for (F(y1), F(y2)).
-#' @param copula copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "Student-t".
+#' @param copula copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "t".
 #' @param hessian Logical. Should a numerically differentiated Hessian matrix be returned?
 #' @param initpar Initial values for the parameters to be optimized over.
-#' @param U_ two-dimenstional matrix for pseudo copula data for the data (F(y1), F(y2-1)).
-#' @param obs two-dimenstional matrix for loss observations (y1, y2).
+#' @param U_ two-dimensional matrix for pseudo copula data for the data (F(y1), F(y2-1)).
+#' @param obs two-dimensional matrix for loss observations (y1, y2).
 #' @param f values of the density function for marginal distribution.
 #' @param umin threshold value used in the semi-continuous data.
 #' @param ... additional arguments, see \code{\link[stats]{nlm}} for more details.
@@ -19,10 +19,11 @@
 #' * se: the standard errors of the estimators.
 #' * AIC, BIC: the goodness fit of the regression models.
 #' * hessian: the hessian at the estimated maximum of the loglikelihood (if requested).
+#'
 #' @details
-#' * Y1: continuous data.
-#' * Y2: semi-continuous data where Y2>umin is continuous and Y2<=umin is discrete.
-#' * copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
+#' The estimation method is performed via \code{\link[stats]{nlm}} function.
+#' Y1: continuous variable
+#' Y2: semi-continuous variable when Y2>umin, it is continuous and Y2<=umin is discrete.
 #'
 #' For a portfolio of \eqn{n} observations \eqn{(y_{i1},y_{i2}; \; i=1,\ldots,n)}, the joint density function of \eqn{(Y_1,Y_2)} can be written as
 #' \deqn{
@@ -37,6 +38,29 @@
 #' \eqn{h_{2|1}(u_1, u_2)=\partial C(u_1,u_2)/\partial u_1} is the \eqn{h}-function of bivariate copula.
 #'
 #'
+#' copula:
+#' * "MGB2" is multivariate GB2.
+#' * "Normal" and "t" denote the Gaussian copula and Student-t copula respectively.
+#' * "MGL" and "MGL-EV" denote the MGL and MGL-EV copula respectively.
+#' * "MGL180" and "MGL-EV180" denote the survival MGL and survival MGL-EV copula respectively.
+#' * "Gumbel" is Gumbel copula.#'
+#'
+#' @examples
+#' library(rMGLReg)
+#' # load the Chinese earthquake data set
+#' u <- cbind(earthqCHI$u1, earthqCHI$u2) # cdf of marginal distribution
+#' u_ <- cbind(earthqCHI$u1, earthqCHI$u2_) # cdf of marginal distribution for Y1 and Y2 - 1
+#' y <- cbind(earthqCHI$y1, earthqCHI$y2)  # observations
+#' f <- cbind(earthqCHI$f1, earthqCHI$f2) # pdf of marginal distribution
+#' obs <- y
+#' U <- u
+#' U_ <- u_
+#' umin <- 20
+#' m.MGLMGA180 <- MGL.mle.mixed(obs = y, U = U, U_ = U_,
+#' umin = umin, f = f,
+#' copula = "MGL180",
+#' method = "L-BFGS-B", initpar = c(2))
+#' m.MGLMGA180
 #' @export
 #'
 MGL.mle.mixed <- function(obs, U, U_, f, copula = c(
@@ -187,13 +211,34 @@ MGL.mle.mixed <- function(obs, U, U_, f, copula = c(
   )
 
 
-  list(
-    loglike = -resopt$minimum,
-    copula = list(name = arg.cop$name),
-    estimates = resopt$estimate,
-    se = sqrt(diag(solve(resopt$hessian))),
-    hessian = -resopt$hessian,
-    AIC = 2 * length(resopt$estimate) + 2 * resopt$minimum,
-    BIC = log(nrow(U)) * length(resopt$estimate) + 2 * resopt$minimum
-  )
+  # list(
+  #   loglike = -resopt$minimum,
+  #   copula = list(name = arg.cop$name),
+  #   estimates = resopt$estimate,
+  #   se = sqrt(diag(solve(resopt$hessian))),
+  #   hessian = -resopt$hessian,
+  #   AIC = 2 * length(resopt$estimate) + 2 * resopt$minimum,
+  #   BIC = log(nrow(U)) * length(resopt$estimate) + 2 * resopt$minimum
+  # )
+  # resopt
+  if (hessian == TRUE){
+    out <-   list(
+      loglike = -resopt$minimum,
+      copula = list(name = arg.cop$name),
+      estimates = resopt$estimate,
+      se = sqrt(diag(solve(resopt$hessian))),
+      hessian = -resopt$hessian,
+      AIC = 2 * length(resopt$estimate) + 2 * resopt$minimum,
+      BIC = log(nrow(U)) * length(resopt$estimate) + 2 * resopt$minimum
+    )
+  } else {
+    out <-   list(
+      loglike = -resopt$minimum,
+      copula = list(name = arg.cop$name),
+      estimates = resopt$estimate,
+      AIC = 2 * length(resopt$estimate) + 2 * resopt$minimum,
+      BIC = log(nrow(U)) * length(resopt$estimate) + 2 * resopt$minimum
+    )
+  }
+  out
 }

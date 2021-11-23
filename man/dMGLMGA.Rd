@@ -18,7 +18,7 @@ dMGLMGA(y1, y2, sigma, a, b)
 \item{b}{vector of parameters with length = 2.}
 }
 \value{
-Density, for the bivariate GLMGA distribution with parameters sigma, a and b.
+Density function of the bivariate GLMGA distribution with parameters sigma, a and b.
 }
 \description{
 The bivariate GLMGA distribution

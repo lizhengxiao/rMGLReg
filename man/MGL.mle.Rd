@@ -2,7 +2,7 @@
 % Please edit documentation in R/MGL-mle.r
 \name{MGL.mle}
 \alias{MGL.mle}
-\title{Fitting bivariate MGL copula models}
+\title{Fitting bivariate MGL copula models for two continuous data}
 \usage{
 MGL.mle(
   U,
@@ -13,9 +13,9 @@ MGL.mle(
 )
 }
 \arguments{
-\item{U}{two-dimenstional matrix with values in \eqn{[0,1]}.}
+\item{U}{two-dimensional matrix with values in \eqn{[0,1]}.}
 
-\item{copula}{copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "Student-t".}
+\item{copula}{copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "MGB2", "Normal" , "t".}
 
 \item{hessian}{Logical. Should a numerically differentiated Hessian matrix be returned?}
 
@@ -38,7 +38,26 @@ A list containing the following components:
 \code{MGL.mle} is used to fit bivariate copula regression models via maximum likelihood (ML) method for two continuous variables.
 }
 \details{
+The estimation method is performed via \code{\link[stats]{nlm}} function.
+
+copula:
 \itemize{
-\item copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
+\item "MGB2" is multivariate GB2.
+\item "Normal" and "t" denote the Gaussian copula and Student-t copula respectively.
+\item "MGL" and "MGL-EV" denote the MGL and MGL-EV copula respectively.
+\item "MGL180" and "MGL-EV180" denote the survival MGL and survival MGL-EV copula respectively.
+\item "Gumbel" is Gumbel copula.
 }
+}
+\examples{
+  library(rMGLReg)
+  Usim <- rcMGL.bivar(n = 500, pars = 0.5)
+  m.MGL <- MGL.mle(Usim,
+  copula  = "MGL",
+  initpar = c(2))
+  # estimation results
+  m.MGL
+}
+\references{
+Zhang, F. Z. . "A generalized beta copula with applications in modeling multivariate long-tailed data." Insurance: Mathematics and Economics (2011).
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/MGLReg.r
 \name{MGL.reg}
 \alias{MGL.reg}
-\title{Fitting bivariate MGL and MGL-EV copula regression models}
+\title{Fitting bivariate/multivariate MGL and MGL-EV copula regression models.}
 \usage{
 MGL.reg(
   U,
@@ -14,7 +14,7 @@ MGL.reg(
 )
 }
 \arguments{
-\item{U}{two-dimenstional matrix with values in \eqn{[0,1]}.}
+\item{U}{two-dimensional matrix with values in \eqn{[0,1]}.}
 
 \item{X}{design matrix}
 
@@ -41,11 +41,34 @@ A list containing the following components:
 \code{MGL.reg} is used to fit bivariate MGL and MGL-EV copula regression models for two continuous variables.
 }
 \details{
+The estimation method is performed via \code{\link[stats]{optim}} function. Y1 and Y2 are both continuous variables.
+
+copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
 \itemize{
-\item Y1: continuous data.
-\item Y2: continuous data.
-\item copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
 \item For "Gumbel" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta) + 1.}
 \item For "MGL", "MGL180", "MGL-EV", "MGL-EV180" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta),} where \eqn{\beta} is the vector of coefficients to be estimated in the copula regression.
 }
+
+Note that the regression modelling can be extended to the high-dimensional case when copula is "MGL180" and "MGL".
+}
+\examples{
+# 10-dimensional regression models
+set.seed(111)
+d <- 10
+n <- 1000 # sample size
+beta.true <- c(-0.6, 0.5, 0.2) # true regression coefficients
+x1 <- rnorm(n, 0, 1)
+x2 <- rnorm(n, 0, 1)
+X <- model.matrix(~ x1 + x2) # design matrix
+delta.sim <- as.vector(exp(X\%*\%beta.true)) # true copula parameters
+Usim <- matrix(0, nrow = n, ncol = d)
+for (i in 1:n){
+  Usim[i, ] <- rcMGL.multi(n = 1, d = d, pars = delta.sim[i])
+}
+m.MGLMGA <- MGL.reg(U = Usim, copula = "MGL",
+                       X = X, method = "Nelder-Mead",
+                       initpar = c(-0.32, 0.001, 0.001)
+)
+m.MGLMGA
+
 }

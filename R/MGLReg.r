@@ -2,10 +2,10 @@
 
 
 
-#' Fitting bivariate MGL and MGL-EV copula regression models
+#' Fitting bivariate/multivariate MGL and MGL-EV copula regression models.
 #'
 #' @description \code{MGL.reg} is used to fit bivariate MGL and MGL-EV copula regression models for two continuous variables.
-#' @param U two-dimenstional matrix with values in \eqn{[0,1]}.
+#' @param U two-dimensional matrix with values in \eqn{[0,1]}.
 #' @param X design matrix
 #' @param copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "Gumbel".
 #' @param initpar Initial values for the parameters to be optimized over.
@@ -21,11 +21,34 @@
 #' * AIC, BIC: the goodness fit of the regression models.
 #' * hessian: the hessian at the estimated maximum of the loglikelihood (if requested).
 #' @details
-#' * Y1: continuous data.
-#' * Y2: continuous data.
-#' * copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
+#' The estimation method is performed via \code{\link[stats]{optim}} function. Y1 and Y2 are both continuous variables.
+#'
+#' copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
 #' * For "Gumbel" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta) + 1.}
 #' * For "MGL", "MGL180", "MGL-EV", "MGL-EV180" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta),} where \eqn{\beta} is the vector of coefficients to be estimated in the copula regression.
+#'
+#' Note that the regression modelling can be extended to the high-dimensional case when copula is "MGL180" and "MGL".
+#'
+#' @examples
+#' # 10-dimensional regression models
+#' set.seed(111)
+#' d <- 10
+#' n <- 1000 # sample size
+#' beta.true <- c(-0.6, 0.5, 0.2) # true regression coefficients
+#' x1 <- rnorm(n, 0, 1)
+#' x2 <- rnorm(n, 0, 1)
+#' X <- model.matrix(~ x1 + x2) # design matrix
+#' delta.sim <- as.vector(exp(X%*%beta.true)) # true copula parameters
+#' Usim <- matrix(0, nrow = n, ncol = d)
+#' for (i in 1:n){
+#'   Usim[i, ] <- rcMGL.multi(n = 1, d = d, pars = delta.sim[i])
+#' }
+#' m.MGLMGA <- MGL.reg(U = Usim, copula = "MGL",
+#'                        X = X, method = "Nelder-Mead",
+#'                        initpar = c(-0.32, 0.001, 0.001)
+#' )
+#' m.MGLMGA
+#'
 #' @export
 #'
 #'
@@ -100,38 +123,23 @@ MGL.reg <- function(U, X, copula = c(
   )
 
 
+  if (hessian == TRUE){
+  out <- list(
+          loglike = -resopt$value,
+          copula = list(name = copula),
+          estimates = resopt$par,
+          se = sqrt(diag(solve(resopt$hessian))),
+          hessian = -resopt$hessian,
+          AIC = 2 * length(resopt$par) + 2 * resopt$value,
+          BIC = log(nrow(U)) * length(resopt$par) + 2 * resopt$value)
+  } else {
+    out <- list(
+      loglike = -resopt$value,
+      copula = list(name = copula),
+      estimates = resopt$par,
+      AIC = 2 * length(resopt$par) + 2 * resopt$value,
+      BIC = log(nrow(U)) * length(resopt$par) + 2 * resopt$value)
+  }
+  out
 
-  list(
-    loglike = -resopt$value,
-    copula = list(name = copula),
-    estimates = resopt$par,
-    se = sqrt(diag(solve(resopt$hessian))),
-    hessian = -resopt$hessian,
-    AIC = 2 * length(resopt$par) + 2 * resopt$value,
-    BIC = log(nrow(U)) * length(resopt$par) + 2 * resopt$value
-  )
-
-  # resopt
-  # list(
-  #   loglike = -resopt$minimum,
-  #   copula = list(name = copula),
-  #   estimates = resopt$estimate,
-  #   se = sqrt(diag(solve(resopt$hessian))),
-  #   AIC = 2 * length(resopt$estimate) + 2 * resopt$minimum,
-  #   BIC = log(nrow(U)) * length(resopt$estimate) + 2 * resopt$minimum
-  # )
-  # modout <- function(m) {
-  #   Hessian <- -m$hessian
-  #   se <- sqrt(diag(solve(Hessian)))                  ## stardard error
-  #   Z <- m$par/se                                             ##  Z statistic
-  #   p <- ifelse(Z>=0, pnorm(Z, lower=F)*2, pnorm(Z)*2)           ## p value
-  #   summarytable <- data.frame(m$par, se, Z, p)
-  #   LL <- m$value
-  #   NLL <- -m$value  # - loglikelihood value
-  #   AIC <- 2*length(m$par) + 2*NLL
-  #   BIC <- log(nrow(U))*length(m$par) + 2*NLL
-  #   list(summary = summarytable, ll =  m$value, AIC = AIC, BIC = BIC)
-  # }
-  #
-  # modout(resopt)
 }

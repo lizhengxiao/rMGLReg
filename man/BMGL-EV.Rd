@@ -25,39 +25,23 @@ hcMGLEV.bivar(u1, u2, param)
 \arguments{
 \item{u1, u2}{numeric vectors of equal length with values in \eqn{[0,1]}.}
 
-\item{param}{copula parameter, denoted by \eqn{\delta>0}.}
+\item{param}{copula parameter, denoted by delta.}
 }
 \value{
 \itemize{
 \item \code{dcMGLEV.bivar}, \code{pcMGLEV.bivar} and \code{hMGLEV.bivar}  give values of density distribution and h-function for the 2-dimensional MGL copula with copula parameter \eqn{\delta>0}.
 \item \code{dcMGLEV180.bivar}, \code{pcMGLEV180.bivar} and \code{hMGLEV180.bivar}  give values of density and distribution and h-function for the 2-dimensional MGL copula with copula parameter \eqn{\delta>0}.
 \item \code{hMGLEV.bivar} and \code{hMGLEV180.bivar} return a list with
-\itemize{
-\item hfunc1: \eqn{\partial C(u_1,u_2) / \partial u_1,}.
-\item hfunc2: \eqn{\partial C(u_1,u_2) / \partial u_2,}.
-}
+** hfunc1: \eqn{\partial C(u_1,u_2) / \partial u_1,}
+** hfunc2: \eqn{\partial C(u_1,u_2) / \partial u_2,}
 }
 }
 \description{
-Density, distribution function, and h-function the bivariate MGL-EV and survival MGL-EV copula with copula parameter \eqn{\delta}.
+Density, distribution function, and h-function the bivariate MGL-EV and survival MGL-EV copula with copula parameter delta.
 }
 \details{
-\itemize{
-\item The extreme value copula \eqn{\bar{C}^{MGL-EV}} of the  survival MGL copula is given by
-\deqn{
-		\bar{C}^{MGL-EV}(u_1,u_2;\delta)=\exp\left[\log\left(u_1u_2\right)A_{\delta}\left(\frac{\log\left(u_2\right)}{\log\left(u_1u_2\right)}\right)\right],
-}
-where \eqn{A_{\delta}} is the Pickands dependence function implemented by R's \code{\link[rMGLReg]{Afunction}}.
-\item The cdf of the MGL-EV copula is also given by
-}
-
-\deqn{
-		C^{MGL-EV}(u_1, u_2; {\delta})=\frac{(u_1+u_2)\left(1-A_{\delta}\left(\frac{u_1}{u_1+u_2}\right)\right)}{2\left(1 - A_{\delta}\left(\frac{1}{2}\right)\right)}.
-}
-\itemize{
-\item The h-function is defined as the conditional distribution function of a bivariate copula, i.e.,
+The h-function is defined as the conditional distribution function of a bivariate copula, i.e.,
 \deqn{h_1(u_2|u_1,\delta) := P(U_2 \leq u_2 | U_1 = u_1) = \partial C(u_1,u_2) / \partial u_1,}
-}
 
 \deqn{h_2(u_1|u_2,\delta) := P(U_1 \leq u_1 | U_2 = u_2) := \partial C(u_1,u_2) / \partial u_2,}
 
@@ -72,5 +56,5 @@ hcMGLEV180.bivar(u1 = 0.5, u2 = 0.78, param = 1.8)
 hcMGLEV.bivar(u1 = 0.5, u2 = 0.78, param = 1.8)
 }
 \references{
-Aas, K., C. Czado, A. Frigessi, and H. Bakken (2009). Pair-copula constructions of multiple dependence. Insurance: Mathematics and Economics 44 (2), 182-198.
+#' Zhengxiao Li, Jan Beirlant, Liang Yang. A new class of copula regression models for modelling multivariate heavy-tailed data. 2021, arXiv:2108.05511.
 }
