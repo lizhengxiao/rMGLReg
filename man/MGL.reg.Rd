@@ -2,7 +2,7 @@
 % Please edit documentation in R/MGLReg.r
 \name{MGL.reg}
 \alias{MGL.reg}
-\title{Fitting bivariate MGL and MGL-EV copula regression models}
+\title{Fitting bivariate/multivariate MGL and MGL-EV copula regression models.}
 \usage{
 MGL.reg(
   U,
@@ -14,7 +14,7 @@ MGL.reg(
 )
 }
 \arguments{
-\item{U}{two-dimenstional matrix with values in \eqn{[0,1]}.}
+\item{U}{two-dimensional matrix with values in \eqn{[0,1]}.}
 
 \item{X}{design matrix}
 
@@ -65,7 +65,7 @@ Usim <- matrix(0, nrow = n, ncol = d)
 for (i in 1:n){
   Usim[i, ] <- rcMGL.multi(n = 1, d = d, pars = delta.sim[i])
 }
-m.MGLMGA <- MGL.reg.multi(U = Usim, copula = "MGL",
+m.MGLMGA <- MGL.reg(U = Usim, copula = "MGL",
                        X = X, method = "Nelder-Mead",
                        initpar = c(-0.32, 0.001, 0.001)
 )

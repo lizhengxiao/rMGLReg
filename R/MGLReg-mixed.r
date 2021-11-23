@@ -2,16 +2,16 @@
 
 
 
-#' Fitting bivariate mixed MGL and MGL-EV copula regression models
+#' Fitting bivariate mixed MGL and MGL-EV copula regression models.
 #'
 #' @description \code{MGL.reg.mixed} is used to fit bivariate MGL and MGL-EV copula regression models for continuous and semi-continuous variables.
-#' @param obs two-dimenstional matrix for observations
-#' @param U two-dimenstional matrix for pseudo copula data with values in \eqn{[0,1]} for (F(y1), F(y2)).
-#' @param U_ two-dimenstional matrix for pseudo copula data for the data (F(y1), F(y2-1)).
+#' @param obs two-dimensional matrix for observations.
+#' @param U two-dimensional matrix for pseudo copula data with values in \eqn{[0,1]} for (F(y1), F(y2)).
+#' @param U_ two-dimensional matrix for pseudo copula data for the data (F(y1), F(y2-1)).
 #' @param X design matrix.
 #' @param copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180"
-#' @param umin Threshold
-#' @param f values of the density function for marginal distribution.
+#' @param umin threshold value used in the semi-continuous data.
+#' @param f two-dimensional matrix for the density function of marginal distributions.
 #' @param initpar Initial values for the parameters to be optimized over.
 #' @param hessian Logical. Should a numerically differentiated Hessian matrix be returned?
 #' @param ... additional arguments, see \code{\link[stats]{optim}} for more details.
@@ -25,13 +25,39 @@
 #' * AIC, BIC: the goodness fit of the regression models.
 #' * hessian: the hessian at the estimated maximum of the loglikelihood (if requested).
 #' @details
+#' The estimation method is performed via \code{\link[stats]{optim}} function. Y1 and Y2 are both continuous variables.
 #' * Y1: continuous data.
 #' * Y2: semi-continuous data where Y2>umin is continuous and Y2<=umin is discrete.
-#' * copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
+#'
+#' copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
 #' * For "Gumbel" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta) + 1.}
 #' * For "MGL", "MGL180", "MGL-EV", "MGL-EV180" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta),} where \eqn{\beta} is the vector of coefficients to be estimated in the copula regression.
 #'
+#' @examples
+#' library(rMGLReg)
+#' u <- cbind(earthqCHI$u1, earthqCHI$u2)
+#' u_ <- cbind(earthqCHI$u1, earthqCHI$u2_)
+#' y <- cbind(earthqCHI$y1, earthqCHI$y2)
+#' f <- cbind(earthqCHI$f1, earthqCHI$f2)
+#' obs <- y
+#' U <- u
+#' U_ <- u_
+#' umin <- 20
+#' library(splines)
+#' X <- ns(earthqCHI$year, knots = quantile(earthqCHI$year, c(0.333, 0.667)), intercept = TRUE)
+#' m.MGL180 <- MGL.reg.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f, X = X,
+#' copula = "MGL180",
+#'                          method = "Nelder-Mead",
+#'                         control = list(maxit = 100000),
+#'                         initpar = c(0.64, 1.2, 1, -0.2))
 #'
+#' m.MGLEV180 <- MGL.reg.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f, X = X,
+#'                            copula = "MGL-EV180",
+#'                            method = "Nelder-Mead",
+#'                           control = list(maxit = 100000),
+#'                           initpar = c(-0.32, 1, 1, 1))
+#' m.MGL180
+#' m.MGLEV180
 #'
 #' @export
 #'

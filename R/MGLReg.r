@@ -2,10 +2,10 @@
 
 
 
-#' Fitting bivariate MGL and MGL-EV copula regression models
+#' Fitting bivariate/multivariate MGL and MGL-EV copula regression models.
 #'
 #' @description \code{MGL.reg} is used to fit bivariate MGL and MGL-EV copula regression models for two continuous variables.
-#' @param U two-dimenstional matrix with values in \eqn{[0,1]}.
+#' @param U two-dimensional matrix with values in \eqn{[0,1]}.
 #' @param X design matrix
 #' @param copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "Gumbel".
 #' @param initpar Initial values for the parameters to be optimized over.

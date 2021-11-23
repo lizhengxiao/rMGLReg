@@ -123,7 +123,7 @@ MGL.mle <- function(U, copula = c(
     if (all(arg.cop$lower < x && arg.cop$upper > x)) {
       logL <- log(dcop(U, param = x))
       # res <- -sum((logL))
-      remove.naninf <- function(x) x[!is.nan(x) & is.finite(x)]
+      remove.naninf <- function(z) z[!is.nan(z) & is.finite(z)]
       res <- -sum(remove.naninf(logL))
     } else {
       res <- 10000000000000
@@ -139,9 +139,9 @@ MGL.mle <- function(U, copula = c(
   )
 
 
-  # resopt
+  # results
   if (hessian == TRUE){
-    out <-   list(
+    out <-  list(
       loglike = -resopt$minimum,
       copula = list(name = arg.cop$name),
       estimates = resopt$estimate,

@@ -15,6 +15,12 @@ knitr::opts_chunk$set(
 ```
 
 
+## Case II - modelling Chinese earthquake loss data with covariates
+
+
+This example implements the MGL and MGL-EV copula mixed regression models of Zhengxiao Li et al. (2021, “MGL copulas”).
+
+
 ### survival MGL copual, survival MGL-EV and Gumbel copula regression
 ```{r setup, eval = FALSE}
 library(rMGLReg)

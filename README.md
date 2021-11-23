@@ -79,8 +79,10 @@ period 1980-1990.
 ``` r
   library(rMGLReg)
   library(fitdistrplus)
+#> Warning: 程辑包'fitdistrplus'是用R版本4.1.2 来建造的
 #> 载入需要的程辑包：MASS
 #> 载入需要的程辑包：survival
+#> Warning: 程辑包'survival'是用R版本4.1.2 来建造的
   library(splines)
   library(snpar)
   data("danishmulti")
