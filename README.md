@@ -8,14 +8,17 @@
             copula](#plots-of-survival-mgl-ev-copula)
         -   [*d* = 10-dimensional MGL regression
             model](#d10-dimensional-mgl-regression-model)
-        -   [Case I - Danish fire data
-            set](#case-i---danish-fire-data-set)
+        -   [Case - Danish fire data set](#case---danish-fire-data-set)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # rMGLReg
 
 <!-- badges: start -->
+
+[![Codecov test
+coverage](https://codecov.io/gh/lizhengxiao/rMGLReg/branch/main/graph/badge.svg)](https://app.codecov.io/gh/lizhengxiao/rMGLReg?branch=main)
+[![R-CMD-check](https://github.com/lizhengxiao/rMGLReg/workflows/R-CMD-check/badge.svg)](https://github.com/lizhengxiao/rMGLReg/actions)
 <!-- badges: end -->
 
 The goal of rMGLReg is to
@@ -259,7 +262,7 @@ m.MGLMGA
 #> [1] -1437.384
 ```
 
-### Case I - Danish fire data set
+### Case - Danish fire data set
 
 -   As the first example, we fit the bivariate copula and regression
     models to the Danish fire insurance data set which was collected
