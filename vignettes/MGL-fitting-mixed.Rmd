@@ -1,0 +1,102 @@
+---
+title: "MGL-fitting-mixed"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MGL-fitting-mixed}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Case II - modelling Chinese earthquake loss data without covariates
+
+
+- We consider an earthquake loss data set concerning the Chinese mainland, which contains risk information on 291 earthquake events with magnitude greater than 4.0 from 1990 to 2015.
+
+- The data set contains:
+   - year: occurrence year.
+   - y1: Economic Losses (adjusted). It is expressed in millions of Chinese Yuan (CNY) and are adjusted for inflation to reflect values in 2015.
+  - yraw: Economic Losses (original).
+  - death: the number of deaths from an earthquake event.
+  - inj: the number of injures from an earthquake event.
+  - magnitude, intensity : the magnitude and maximum intensity of an earthquake event.
+  - y2: casualties are defined as fatalities and injured people, which are due to damage to occupied buildings.
+  - u1: cdf of the marginal distribution evaluated at y1.
+  - u2: cdf of the marginal distribution evaluated at y2.
+  - u2_: cdf of the marginal distribution evaluated at y2-1.
+  - f1: pdf of the marginal distribution evaluated at y1.
+  - f2: pdf of the marginal distribution evaluated at y2.
+
+	
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Load the data
+```{r setup}
+library(rMGLReg)
+
+u <- cbind(earthqCHI$u1, earthqCHI$u2)
+u_ <- cbind(earthqCHI$u1, earthqCHI$u2_)
+y <- cbind(earthqCHI$y1, earthqCHI$y2)
+f <- cbind(earthqCHI$f1, earthqCHI$f2)
+
+obs <- y
+U <- u
+U_ <- u_
+umin <- 20
+plot(U)
+```
+
+## fitting the mixed copula models
+
+```{r, eval = FALSE}
+m.norm <- MGL.mle.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f,
+                        copula = "Normal", method = "L-BFGS-B",
+                        initpar = 0.2)
+m.t <- MGL.mle.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f,
+                      copula = "t", method = "L-BFGS-B",
+                     initpar = c(0.1,3))
+m.gumbel <- MGL.mle.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f,
+                            copula = "Gumbel",  method = "L-BFGS-B",
+                          initpar = c(2))
+m.MGLMGA180 <- MGL.mle.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f,
+                             copula = "MGL180",  method = "L-BFGS-B",
+                             initpar = c(2))
+m.MGB2 <- MGL.mle.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f,
+                        copula = "MGB2",  method = "L-BFGS-B",
+                        initpar = c(1, 4, 0.4))
+m.MGLEV180 <- MGL.mle.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f,
+                            copula = "MGL-EV180",  method = "L-BFGS-B",
+                            initpar = c(0.2))
+
+
+
+
+
+recap <- function(x){
+  res <- c(alpha = x$estimates,
+           se = x$se,
+           loglike = x$loglike,
+           AIC = x$AIC, BIC = x$BIC)
+  if(length(res) < 6)
+    res <- c(res[1], NA, NA,res[2], NA, NA, res[3:5])
+  if (length(res) > 6 & length(res) < 9)
+    res <- c(res[1:2], NA, res[3:4], NA, res[5:7])
+  res <- as.matrix(res)
+  colnames(res) <- x$copula$name
+  res}
+res.all <- round(cbind(recap(m.norm),
+                       recap(m.t),
+                       recap(m.gumbel),
+                       recap(m.MGLMGA180),
+                       recap(m.MGB2),
+                       recap(m.MGLEV180)
+), 4)
+out.com <- t(res.all)
+out.com <- out.com[order(out.com[,9], decreasing = T),]
+knitr::kable(out.com, digits = 3)
+round(out.com, 2)
+```

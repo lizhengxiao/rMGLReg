@@ -1,0 +1,12 @@
+^renv$
+^renv\.lock$
+^rMGLReg\.Rproj$
+^\.Rproj\.user$
+^README\.Rmd$
+^LICENSE\.md$
+^data-raw$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^codecov\.yml$
+^\.github$

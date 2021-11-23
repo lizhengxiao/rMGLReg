@@ -1,0 +1,646 @@
+---
+title: "counter-plot-MGLMGA"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{counter-plot-MGLMGA}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, eval = FALSE}
+library(rMGLReg)
+library(ggplot2)
+library(latex2exp)
+library(data.table)
+
+# =======================================================================
+# Case I:
+# sigma <- c(0.5, 0.5)
+# a <- 20
+# b <- c(5, 5)
+# =======================================================================
+
+n.grid <- 500
+sigma <- c(0.5, 0.5)
+a <- 20
+b <- c(5, 5)
+xgrid <- ygrid <- seq(0.01, 20, length.out = n.grid)
+grid <- expand.grid("u1" = xgrid, "u2" = ygrid)
+mtrx3d <- matrix(0, nrow = nrow(grid), ncol = 3)
+mtrx3d[,1] <- grid[,1]
+mtrx3d[,2] <- grid[,2]
+for(i in 1:nrow(mtrx3d)){
+  mtrx3d[i,3] = dMGLMGA(y1 = grid[i,1], y2 = grid[i,2], 
+                        sigma = sigma, 
+                        a = a, b = b)
+}
+head(mtrx3d)
+mtrx3d <- data.table(u1 = mtrx3d[,1], u2 = mtrx3d[,2], cu1u2 = mtrx3d[,3])
+bins <- 10
+
+sigma1 <- sigma[1]; sigma2 <- sigma[2]
+b1 <- b[1]; b2 <- b[2]
+Nsim <- 1000
+u1sim <- runif(Nsim, min = 0, max = 1)
+y1sim <- qGLMGA(u1sim, sigma = sigma1, a = a, b = b1)
+anew <- a + 0.5; b2new <- b2*(1 + y1sim^(-1/sigma1)/(2*b1))
+y2sim <- NA
+for(i in 1:Nsim){
+  y2sim[i] <- rGLMGA(1, sigma = sigma2, a = anew, b = b2new[i])
+}
+ysim <- data.table(y1 = y1sim, y2 = y2sim)
+
+v1 <- ggplot() + 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 20)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 8)) + 
+  theme_bw() + 
+  ggtitle(TeX(paste(sprintf('$\\sigma_1 = %g$', sigma[1]), 
+                    ',',
+                    sprintf('$\\sigma_2 = %g$', sigma[2]),',',
+                    sprintf('$\\a = %g$', a),',',
+                    sprintf('$\\b_1 = %g$', b[1]),',',
+                    sprintf('$\\b_2 = %g$', b[2])))
+              ) + 
+  theme(axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(margin = margin(t = 0.25, unit = "cm")),
+        axis.text.y = element_text(margin = margin(r = 0.25, unit = "cm"),
+                                   size = 10, 
+                                   vjust = 0.5, 
+                                   hjust = 0.5),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5)) + 
+  labs(x = TeX("$y_1$"), y = TeX("$y_2$"))  + 
+  geom_contour(data = mtrx3d, 
+               aes(x = u1, y = u2, z = cu1u2), 
+               bins = bins,
+               colour = 'black', weight = 3) + 
+  geom_point(data = ysim, aes(x = y1, y = y2), 
+             #shape = 1, 
+             size = 0.5, 
+             color = 'red') 
+
+
+# =======================================================================
+# Case II:
+# sigma <- c(0.5, 0.5)
+# a <- 20
+# b <- c(1, 5)
+# =======================================================================
+
+n.grid <- 500
+sigma <- c(0.5, 0.5)
+a <- 20
+b <- c(1, 5)
+xgrid <- ygrid <- seq(0.01, 20, length.out = n.grid)
+grid <- expand.grid("u1" = xgrid, "u2" = ygrid)
+mtrx3d <- matrix(0, nrow = nrow(grid), ncol = 3)
+mtrx3d[,1] <- grid[,1]
+mtrx3d[,2] <- grid[,2]
+for(i in 1:nrow(mtrx3d)){
+  mtrx3d[i,3] = dMGLMGA(y1 = grid[i,1], y2 = grid[i,2], 
+                        sigma = sigma, 
+                        a = a, b = b)
+}
+head(mtrx3d)
+mtrx3d <- data.table(u1 = mtrx3d[,1], u2 = mtrx3d[,2], cu1u2 = mtrx3d[,3])
+bins <- 10
+
+sigma1 <- sigma[1]; sigma2 <- sigma[2]
+b1 <- b[1]; b2 <- b[2]
+Nsim <- 1000
+u1sim <- runif(Nsim, min = 0, max = 1)
+y1sim <- qGLMGA(u1sim, sigma = sigma1, a = a, b = b1)
+anew <- a + 0.5; b2new <- b2*(1 + y1sim^(-1/sigma1)/(2*b1))
+y2sim <- NA
+for(i in 1:Nsim){
+  y2sim[i] <- rGLMGA(1, sigma = sigma2, a = anew, b = b2new[i])
+}
+ysim <- data.table(y1 = y1sim, y2 = y2sim)
+
+
+v2 <- ggplot() + 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 20)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 8)) + 
+  theme_bw() + 
+  ggtitle(TeX(paste(sprintf('$\\sigma_1 = %g$', sigma[1]), 
+                    ',',
+                    sprintf('$\\sigma_2 = %g$', sigma[2]),',',
+                    sprintf('$\\a = %g$', a),',',
+                    sprintf('$\\b_1 = %g$', b[1]),',',
+                    sprintf('$\\b_2 = %g$', b[2])))
+  ) + 
+  theme(axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(margin = margin(t = 0.25, unit = "cm")),
+        axis.text.y = element_text(margin = margin(r = 0.25, unit = "cm"),
+                                   size = 10, 
+                                   vjust = 0.5, 
+                                   hjust = 0.5),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5)) + 
+  labs(x = TeX("$y_1$"), y = TeX("$y_2$"))  + 
+  geom_contour(data = mtrx3d, 
+               aes(x = u1, y = u2, z = cu1u2), 
+               bins = bins,
+               colour = 'black', weight = 3) + 
+  geom_point(data = ysim, aes(x = y1, y = y2), 
+             #shape = 1, 
+             size = 0.5, 
+             color = 'red') 
+
+
+
+
+# =======================================================================
+# Case III:
+# sigma <- c(2, 0.5)
+# a <- 20
+# b <- c(5, 5)
+# =======================================================================
+
+n.grid <- 500
+sigma <- c(2, 0.5)
+a <- 20
+b <- c(5, 5)
+xgrid <- ygrid <- seq(0.01, 20, length.out = n.grid)
+grid <- expand.grid("u1" = xgrid, "u2" = ygrid)
+mtrx3d <- matrix(0, nrow = nrow(grid), ncol = 3)
+mtrx3d[,1] <- grid[,1]
+mtrx3d[,2] <- grid[,2]
+for(i in 1:nrow(mtrx3d)){
+  mtrx3d[i,3] = dMGLMGA(y1 = grid[i,1], y2 = grid[i,2], 
+                        sigma = sigma, 
+                        a = a, b = b)
+}
+head(mtrx3d)
+mtrx3d <- data.table(u1 = mtrx3d[,1], u2 = mtrx3d[,2], cu1u2 = mtrx3d[,3])
+bins <- 10
+
+sigma1 <- sigma[1]; sigma2 <- sigma[2]
+b1 <- b[1]; b2 <- b[2]
+Nsim <- 1000
+u1sim <- runif(Nsim, min = 0, max = 1)
+y1sim <- qGLMGA(u1sim, sigma = sigma1, a = a, b = b1)
+anew <- a + 0.5; b2new <- b2*(1 + y1sim^(-1/sigma1)/(2*b1))
+y2sim <- NA
+for(i in 1:Nsim){
+  y2sim[i] <- rGLMGA(1, sigma = sigma2, a = anew, b = b2new[i])
+}
+ysim <- data.table(y1 = y1sim, y2 = y2sim)
+
+v3 <- ggplot() + 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 20)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 8)) + 
+  theme_bw() + 
+  ggtitle(TeX(paste(sprintf('$\\sigma_1 = %g$', sigma[1]), 
+                    ',',
+                    sprintf('$\\sigma_2 = %g$', sigma[2]),',',
+                    sprintf('$\\a = %g$', a),',',
+                    sprintf('$\\b_1 = %g$', b[1]),',',
+                    sprintf('$\\b_2 = %g$', b[2])))
+  ) + 
+  theme(axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(margin = margin(t = 0.25, unit = "cm")),
+        axis.text.y = element_text(margin = margin(r = 0.25, unit = "cm"),
+                                   size = 10, 
+                                   vjust = 0.5, 
+                                   hjust = 0.5),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5)) + 
+  labs(x = TeX("$y_1$"), y = TeX("$y_2$"))  + 
+  geom_contour(data = mtrx3d, 
+               aes(x = u1, y = u2, z = cu1u2), 
+               bins = bins,
+               colour = 'black', weight = 3) + 
+  geom_point(data = ysim, aes(x = y1, y = y2), 
+             #shape = 1, 
+             size = 0.5, 
+             color = 'red') 
+
+
+
+# =======================================================================
+# Case IV:
+# sigma <- c(0.5, 0.5)
+# a <- 5
+# b <- c(5, 5)
+# =======================================================================
+n.grid <- 500
+sigma <- c(0.5, 0.5)
+a <- 5
+b <- c(5, 5)
+xgrid <- ygrid <- seq(0.01, 5, length.out = n.grid)
+grid <- expand.grid("u1" = xgrid, "u2" = ygrid)
+mtrx3d <- matrix(0, nrow = nrow(grid), ncol = 3)
+mtrx3d[,1] <- grid[,1]
+mtrx3d[,2] <- grid[,2]
+for(i in 1:nrow(mtrx3d)){
+  mtrx3d[i,3] = dMGLMGA(y1 = grid[i,1], y2 = grid[i,2], 
+                        sigma = sigma, 
+                        a = a, b = b)
+}
+head(mtrx3d)
+mtrx3d <- data.table(u1 = mtrx3d[,1], u2 = mtrx3d[,2], cu1u2 = mtrx3d[,3])
+bins <- 10
+sigma1 <- sigma[1]; sigma2 <- sigma[2]
+b1 <- b[1]; b2 <- b[2]
+Nsim <- 1000
+u1sim <- runif(Nsim, min = 0, max = 1)
+y1sim <- qGLMGA(u1sim, sigma = sigma1, a = a, b = b1)
+anew <- a + 0.5; b2new <- b2*(1 + y1sim^(-1/sigma1)/(2*b1))
+y2sim <- NA
+for(i in 1:Nsim){
+  y2sim[i] <- rGLMGA(1, sigma = sigma2, a = anew, b = b2new[i])
+}
+ysim <- data.table(y1 = y1sim, y2 = y2sim)
+
+
+
+v4 <- ggplot() + 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 8)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 4)) + 
+  theme_bw() + 
+  ggtitle(TeX(paste(sprintf('$\\sigma_1 = %g$', sigma[1]), 
+                    ',',
+                    sprintf('$\\sigma_2 = %g$', sigma[2]),',',
+                    sprintf('$\\a = %g$', a),',',
+                    sprintf('$\\b_1 = %g$', b[1]),',',
+                    sprintf('$\\b_2 = %g$', b[2])))
+  ) + 
+  theme(axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(margin = margin(t = 0.25, unit = "cm")),
+        axis.text.y = element_text(margin = margin(r = 0.25, unit = "cm"),
+                                   size = 10, 
+                                   vjust = 0.5, 
+                                   hjust = 0.5),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5)) + 
+  labs(x = TeX("$y_1$"), y = TeX("$y_2$"))  + 
+  geom_contour(data = mtrx3d, 
+               aes(x = u1, y = u2, z = cu1u2), 
+               bins = bins,
+               colour = 'black', weight = 3) + 
+  geom_point(data = ysim, aes(x = y1, y = y2), 
+             #shape = 1, 
+             size = 0.5, 
+             color = 'red') 
+
+
+
+
+
+# =======================================================================
+# Case V:
+# sigma <- c(0.5, 0.5)
+# a <- 5
+# b <- c(1, 5)
+# =======================================================================
+
+n.grid <- 500
+sigma <- c(0.5, 0.5)
+a <- 5
+b <- c(1, 5)
+xgrid <- ygrid <- seq(0.01, 8, length.out = n.grid)
+grid <- expand.grid("u1" = xgrid, "u2" = ygrid)
+mtrx3d <- matrix(0, nrow = nrow(grid), ncol = 3)
+mtrx3d[,1] <- grid[,1]
+mtrx3d[,2] <- grid[,2]
+for(i in 1:nrow(mtrx3d)){
+  mtrx3d[i,3] = dMGLMGA(y1 = grid[i,1], y2 = grid[i,2], 
+                        sigma = sigma, 
+                        a = a, b = b)
+}
+head(mtrx3d)
+mtrx3d <- data.table(u1 = mtrx3d[,1], u2 = mtrx3d[,2], cu1u2 = mtrx3d[,3])
+bins <- 10
+sigma1 <- sigma[1]; sigma2 <- sigma[2]
+b1 <- b[1]; b2 <- b[2]
+Nsim <- 1000
+u1sim <- runif(Nsim, min = 0, max = 1)
+y1sim <- qGLMGA(u1sim, sigma = sigma1, a = a, b = b1)
+anew <- a + 0.5; b2new <- b2*(1 + y1sim^(-1/sigma1)/(2*b1))
+y2sim <- NA
+for(i in 1:Nsim){
+  y2sim[i] <- rGLMGA(1, sigma = sigma2, a = anew, b = b2new[i])
+}
+ysim <- data.table(y1 = y1sim, y2 = y2sim)
+
+v5 <- ggplot() + 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 8)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 4)) + 
+  theme_bw() + 
+  ggtitle(TeX(paste(sprintf('$\\sigma_1 = %g$', sigma[1]), 
+                    ',',
+                    sprintf('$\\sigma_2 = %g$', sigma[2]),',',
+                    sprintf('$\\a = %g$', a),',',
+                    sprintf('$\\b_1 = %g$', b[1]),',',
+                    sprintf('$\\b_2 = %g$', b[2])))
+  ) + 
+  theme(axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(margin = margin(t = 0.25, unit = "cm")),
+        axis.text.y = element_text(margin = margin(r = 0.25, unit = "cm"),
+                                   size = 10, 
+                                   vjust = 0.5, 
+                                   hjust = 0.5),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5)) + 
+  labs(x = TeX("$y_1$"), y = TeX("$y_2$"))  + 
+  geom_contour(data = mtrx3d, 
+               aes(x = u1, y = u2, z = cu1u2), 
+               bins = bins,
+               colour = 'black', weight = 3) +
+  geom_point(data = ysim, aes(x = y1, y = y2), 
+             #shape = 1, 
+             size = 0.5, 
+             color = 'red') 
+
+# =======================================================================
+# Case VI:
+# sigma <- c(0.5, 0.5)
+# a <- 5
+# b <- c(5, 5)
+# =======================================================================
+
+n.grid <- 500
+sigma <- c(2, 0.5)
+a <- 5
+b <- c(5, 5)
+xgrid <- ygrid <- seq(0.01, 8, length.out = n.grid)
+grid <- expand.grid("u1" = xgrid, "u2" = ygrid)
+mtrx3d <- matrix(0, nrow = nrow(grid), ncol = 3)
+mtrx3d[,1] <- grid[,1]
+mtrx3d[,2] <- grid[,2]
+for(i in 1:nrow(mtrx3d)){
+  mtrx3d[i,3] = dMGLMGA(y1 = grid[i,1], y2 = grid[i,2], 
+                        sigma = sigma, 
+                        a = a, b = b)
+}
+head(mtrx3d)
+mtrx3d <- data.table(u1 = mtrx3d[,1], u2 = mtrx3d[,2], cu1u2 = mtrx3d[,3])
+bins <- 10
+sigma1 <- sigma[1]; sigma2 <- sigma[2]
+b1 <- b[1]; b2 <- b[2]
+Nsim <- 1000
+u1sim <- runif(Nsim, min = 0, max = 1)
+y1sim <- qGLMGA(u1sim, sigma = sigma1, a = a, b = b1)
+anew <- a + 0.5; b2new <- b2*(1 + y1sim^(-1/sigma1)/(2*b1))
+y2sim <- NA
+for(i in 1:Nsim){
+  y2sim[i] <- rGLMGA(1, sigma = sigma2, a = anew, b = b2new[i])
+}
+ysim <- data.table(y1 = y1sim, y2 = y2sim)
+
+v6 <- ggplot() + 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 8)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 4)) + 
+  theme_bw() + 
+  ggtitle(TeX(paste(sprintf('$\\sigma_1 = %g$', sigma[1]), 
+                    ',',
+                    sprintf('$\\sigma_2 = %g$', sigma[2]),',',
+                    sprintf('$\\a = %g$', a),',',
+                    sprintf('$\\b_1 = %g$', b[1]),',',
+                    sprintf('$\\b_2 = %g$', b[2])))
+  ) + 
+  theme(axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(margin = margin(t = 0.25, unit = "cm")),
+        axis.text.y = element_text(margin = margin(r = 0.25, unit = "cm"),
+                                   size = 10, 
+                                   vjust = 0.5, 
+                                   hjust = 0.5),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5)) + 
+  labs(x = TeX("$y_1$"), y = TeX("$y_2$"))  + 
+  geom_contour(data = mtrx3d, 
+               aes(x = u1, y = u2, z = cu1u2), 
+               bins = bins,
+               colour = 'black', weight = 3) + 
+  geom_point(data = ysim, aes(x = y1, y = y2), 
+             #shape = 1, 
+             size = 0.5, 
+             color = 'red') 
+
+
+# =======================================================================
+# Case 7:
+# sigma <- c(0.5, 0.5)
+# a <- 5
+# b <- c(5, 5)
+# =======================================================================
+n.grid <- 500
+sigma <- c(0.5, 0.5)
+a <- 1
+b <- c(5, 5)
+xgrid <- ygrid <- seq(0.01, 5, length.out = n.grid)
+grid <- expand.grid("u1" = xgrid, "u2" = ygrid)
+mtrx3d <- matrix(0, nrow = nrow(grid), ncol = 3)
+mtrx3d[,1] <- grid[,1]
+mtrx3d[,2] <- grid[,2]
+for(i in 1:nrow(mtrx3d)){
+  mtrx3d[i,3] = dMGLMGA(y1 = grid[i,1], y2 = grid[i,2], 
+                        sigma = sigma, 
+                        a = a, b = b)
+}
+head(mtrx3d)
+mtrx3d <- data.table(u1 = mtrx3d[,1], u2 = mtrx3d[,2], cu1u2 = mtrx3d[,3])
+bins <- 10
+
+sigma1 <- sigma[1]; sigma2 <- sigma[2]
+b1 <- b[1]; b2 <- b[2]
+Nsim <- 1000
+u1sim <- runif(Nsim, min = 0, max = 1)
+y1sim <- qGLMGA(u1sim, sigma = sigma1, a = a, b = b1)
+anew <- a + 0.5; b2new <- b2*(1 + y1sim^(-1/sigma1)/(2*b1))
+y2sim <- NA
+for(i in 1:Nsim){
+  y2sim[i] <- rGLMGA(1, sigma = sigma2, a = anew, b = b2new[i])
+}
+ysim <- data.table(y1 = y1sim, y2 = y2sim)
+
+v7 <- ggplot() + 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 1)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 1)) + 
+  theme_bw() + 
+  ggtitle(TeX(paste(sprintf('$\\sigma_1 = %g$', sigma[1]), 
+                    ',',
+                    sprintf('$\\sigma_2 = %g$', sigma[2]),',',
+                    sprintf('$\\a = %g$', a),',',
+                    sprintf('$\\b_1 = %g$', b[1]),',',
+                    sprintf('$\\b_2 = %g$', b[2])))
+  ) + 
+  theme(axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(margin = margin(t = 0.25, unit = "cm")),
+        axis.text.y = element_text(margin = margin(r = 0.25, unit = "cm"),
+                                   size = 10, 
+                                   vjust = 0.5, 
+                                   hjust = 0.5),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5)) + 
+  labs(x = TeX("$y_1$"), y = TeX("$y_2$"))  + 
+  geom_contour(data = mtrx3d, 
+               aes(x = u1, y = u2, z = cu1u2), 
+               bins = bins,
+               colour = 'black', weight = 3) + 
+  geom_point(data = ysim, aes(x = y1, y = y2), 
+             #shape = 1, 
+             size = 0.5, 
+             color = 'red') 
+
+
+
+
+# =======================================================================
+# Case 8:
+# sigma <- c(0.5, 0.5)
+# a <- 1
+# b <- c(1, 5)
+# =======================================================================
+
+n.grid <- 500
+sigma <- c(0.5, 0.5)
+a <- 1
+b <- c(1, 5)
+xgrid <- ygrid <- seq(0.01, 8, length.out = n.grid)
+grid <- expand.grid("u1" = xgrid, "u2" = ygrid)
+mtrx3d <- matrix(0, nrow = nrow(grid), ncol = 3)
+mtrx3d[,1] <- grid[,1]
+mtrx3d[,2] <- grid[,2]
+for(i in 1:nrow(mtrx3d)){
+  mtrx3d[i,3] = dMGLMGA(y1 = grid[i,1], y2 = grid[i,2], 
+                        sigma = sigma, 
+                        a = a, b = b)
+}
+head(mtrx3d)
+mtrx3d <- data.table(u1 = mtrx3d[,1], u2 = mtrx3d[,2], cu1u2 = mtrx3d[,3])
+bins <- 10
+
+sigma1 <- sigma[1]; sigma2 <- sigma[2]
+b1 <- b[1]; b2 <- b[2]
+Nsim <- 1000
+u1sim <- runif(Nsim, min = 0, max = 1)
+y1sim <- qGLMGA(u1sim, sigma = sigma1, a = a, b = b1)
+anew <- a + 0.5; b2new <- b2*(1 + y1sim^(-1/sigma1)/(2*b1))
+y2sim <- NA
+for(i in 1:Nsim){
+  y2sim[i] <- rGLMGA(1, sigma = sigma2, a = anew, b = b2new[i])
+}
+ysim <- data.table(y1 = y1sim, y2 = y2sim)
+
+
+v8 <- ggplot() + 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 1)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 1)) + 
+  theme_bw() + 
+  ggtitle(TeX(paste(sprintf('$\\sigma_1 = %g$', sigma[1]), 
+                    ',',
+                    sprintf('$\\sigma_2 = %g$', sigma[2]),',',
+                    sprintf('$\\a = %g$', a),',',
+                    sprintf('$\\b_1 = %g$', b[1]),',',
+                    sprintf('$\\b_2 = %g$', b[2])))
+  ) + 
+  theme(axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(margin = margin(t = 0.25, unit = "cm")),
+        axis.text.y = element_text(margin = margin(r = 0.25, unit = "cm"),
+                                   size = 10, 
+                                   vjust = 0.5, 
+                                   hjust = 0.5),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5)) + 
+  labs(x = TeX("$y_1$"), y = TeX("$y_2$"))  + 
+  geom_contour(data = mtrx3d, 
+               aes(x = u1, y = u2, z = cu1u2), 
+               bins = bins,
+               colour = 'black', weight = 3) + 
+  geom_point(data = ysim, aes(x = y1, y = y2), 
+             #shape = 1, 
+             size = 0.5, 
+             color = 'red') 
+
+
+
+# =======================================================================
+# Case VI:
+# sigma <- c(0.5, 0.5)
+# a <- 1
+# b <- c(5, 5)
+# =======================================================================
+
+n.grid <- 500
+sigma <- c(2, 0.5)
+a <- 1
+b <- c(5, 5)
+xgrid <- ygrid <- seq(0.01, 8, length.out = n.grid)
+grid <- expand.grid("u1" = xgrid, "u2" = ygrid)
+mtrx3d <- matrix(0, nrow = nrow(grid), ncol = 3)
+mtrx3d[,1] <- grid[,1]
+mtrx3d[,2] <- grid[,2]
+for(i in 1:nrow(mtrx3d)){
+  mtrx3d[i,3] = dMGLMGA(y1 = grid[i,1], y2 = grid[i,2], 
+                        sigma = sigma, 
+                        a = a, b = b)
+}
+head(mtrx3d)
+mtrx3d <- data.table(u1 = mtrx3d[,1], u2 = mtrx3d[,2], cu1u2 = mtrx3d[,3])
+bins <- 10
+
+sigma1 <- sigma[1]; sigma2 <- sigma[2]
+b1 <- b[1]; b2 <- b[2]
+Nsim <- 1000
+u1sim <- runif(Nsim, min = 0, max = 1)
+y1sim <- qGLMGA(u1sim, sigma = sigma1, a = a, b = b1)
+anew <- a + 0.5; b2new <- b2*(1 + y1sim^(-1/sigma1)/(2*b1))
+y2sim <- NA
+for(i in 1:Nsim){
+  y2sim[i] <- rGLMGA(1, sigma = sigma2, a = anew, b = b2new[i])
+}
+ysim <- data.table(y1 = y1sim, y2 = y2sim)
+
+v9 <- ggplot() + 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 1)) + 
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 1)) + 
+  theme_bw() + 
+  ggtitle(TeX(paste(sprintf('$\\sigma_1 = %g$', sigma[1]), 
+                    ',',
+                    sprintf('$\\sigma_2 = %g$', sigma[2]),',',
+                    sprintf('$\\a = %g$', a),',',
+                    sprintf('$\\b_1 = %g$', b[1]),',',
+                    sprintf('$\\b_2 = %g$', b[2])))
+  ) + 
+  theme(axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(margin = margin(t = 0.25, unit = "cm")),
+        axis.text.y = element_text(margin = margin(r = 0.25, unit = "cm"),
+                                   size = 10, 
+                                   vjust = 0.5, 
+                                   hjust = 0.5),
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(hjust = 0.5)) + 
+  labs(x = TeX("$y_1$"), y = TeX("$y_2$"))  + 
+  geom_contour(data = mtrx3d, 
+               aes(x = u1, y = u2, z = cu1u2), 
+               bins = bins,
+               colour = 'black', weight = 3) + 
+  geom_point(data = ysim, aes(x = y1, y = y2), 
+             #shape = 1, 
+             size = 0.5, 
+             color = 'red') 
+
+```
+
+
+```{r, eval = FALSE, fig.width=10, fig.height=3.5, fig.fullwidth=TRUE}
+library(patchwork)
+p1 <- v1 + v2 + v3 + plot_layout(ncol = 3)
+p2 <- v4 + v5 + v6 + plot_layout(ncol = 3)
+p3 <- v7 + v8 + v9 + plot_layout(ncol = 3)
+
+p1
+p2
+p3
+
+
+```
