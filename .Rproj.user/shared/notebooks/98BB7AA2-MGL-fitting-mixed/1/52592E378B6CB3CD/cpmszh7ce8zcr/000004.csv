@@ -1,0 +1,9 @@
+"0","m.t <- MGL.mle.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f,
+                      copula = ""t"", method = ""L-BFGS-B"",
+                     initpar = c(0.1,3))
+"
+"2","Error in aperm(X, c(s.call, s.ans)) : 
+  SET_STRING_ELT() can only be applied to a 'character vector', not a 'double'
+"
+"2","Warning: stack imbalance in '<-', 2 then 25
+"

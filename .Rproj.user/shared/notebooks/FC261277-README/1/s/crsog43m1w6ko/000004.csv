@@ -1,0 +1,7 @@
+"0","m.MGLMGA <- MGL.reg(U = Usim, copula = ""MGL"",
+                                 X = X, method = ""Nelder-Mead"",
+                                 initpar = c(-0.32, 0.001, 0.001)
+  )
+"
+"2","Error in fn(par, ...) : object 'X' not found
+"
