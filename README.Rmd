@@ -211,7 +211,7 @@ m.MGLMGA
 ```
 
 
-### Case I - Danish fire data set
+### Case - Danish fire data set
 
 - As the first example, we fit the bivariate copula and regression models to 
 the Danish fire insurance data set which was
