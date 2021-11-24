@@ -1,11 +1,11 @@
 Package: rMGLReg
 Title: What the Package Does (One Line, Title Case)
-Version: 0.2.0
+Version: 1.0.0
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Zhengxiao",
+           family = "Li",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "li_zhengxiao@uibe.edu.cn",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
@@ -15,7 +15,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Suggests: 
     copula,
-    covr,
     cubature,
     data.table,
     fitdistrplus,
