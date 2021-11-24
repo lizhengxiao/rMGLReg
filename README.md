@@ -152,14 +152,7 @@ head(mtrx3d)
 mtrx3d <- data.table(u1 = mtrx3d[,1], 
                      u2 = mtrx3d[,2], 
                      dcu1u2 = mtrx3d[,3])
-library(ggplot2)
-library(reshape2)
-#> 
-#> 载入程辑包：'reshape2'
-#> The following objects are masked from 'package:data.table':
-#> 
-#>     dcast, melt
-library(metR)
+
 p2 <- ggplot(mtrx3d, aes(u1, u2, z = dcu1u2)) + 
   scale_x_continuous(expand = c(0, 0), limits = c(0, 1)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, 1)) + 

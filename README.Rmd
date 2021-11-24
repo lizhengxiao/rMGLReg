@@ -102,7 +102,7 @@ library(metR)
 
 
 
-```{r}
+```{r warning=FALSE}
 # joint distribution function of survival MGL-EV copula
 n.grid <- 200
 par.copula <- 1
@@ -149,9 +149,7 @@ head(mtrx3d)
 mtrx3d <- data.table(u1 = mtrx3d[,1], 
                      u2 = mtrx3d[,2], 
                      dcu1u2 = mtrx3d[,3])
-library(ggplot2)
-library(reshape2)
-library(metR)
+
 p2 <- ggplot(mtrx3d, aes(u1, u2, z = dcu1u2)) + 
   scale_x_continuous(expand = c(0, 0), limits = c(0, 1)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, 1)) + 
@@ -206,7 +204,7 @@ p3 <- ggplot(data = dtplot,
 ```
 
 
-```{r, fig.align="center", fig.width=8, fig.height=2.5}
+```{r fig.align="center", fig.height=2.5, fig.width=8, warning=FALSE}
 library(patchwork)
 p0 <- p1 + p2 + p3 + plot_layout(ncol = 3)
 p0
