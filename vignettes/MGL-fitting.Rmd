@@ -29,16 +29,6 @@ collected from the Copenhagen Reinsurance Company and comprises 2167 fire losses
 
 
 ## Load the data
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-```{r setup, echo = TRUE}
-  library(rMGLReg)
-  library(fitdistrplus)
-  library(splines)
-  library(snpar)
-=======
 ```{r warning=FALSE}
 library(rMGLReg)
 library(fitdistrplus)
@@ -48,16 +38,6 @@ library(snpar)
 
 
 ```{r setup, eval = FALSE}
->>>>>>> parent of 49cec11 (Merge pull request #20 from lizhengxiao/main)
-=======
-
-
-```{r setup, echo = TRUE}
-  library(rMGLReg)
-  library(fitdistrplus)
-  library(splines)
-  library(snpar)
->>>>>>> parent of 0dd254f (v2)
   data("danishmulti")
   dt <- data.table::data.table(danishmulti)
   dtnew <- dt[Building>0&Contents>0]
