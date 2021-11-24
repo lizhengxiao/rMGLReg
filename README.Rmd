@@ -7,13 +7,6 @@ output:
 author: Zhengxiao Li
 ---
 
-<!-- # rMGLReg -->
-
-<!-- badges: start -->
-[![Codecov test coverage](https://codecov.io/gh/lizhengxiao/rMGLReg/branch/main/graph/badge.svg)](https://codecov.io/gh/lizhengxiao/rMGLReg?branch=main)
-[![R-CMD-check](https://github.com/lizhengxiao/rMGLReg/workflows/R-CMD-check/badge.svg)](https://github.com/lizhengxiao/rMGLReg/actions)
-<!-- badges: end -->
-
 
 
 ```{r, include = FALSE}
@@ -100,12 +93,16 @@ pairs(U, gap = 0, cex = 0.5)
 ```
 
 ### Plots of survival MGL-EV copula
-
-```{r}
+```{r warning=FALSE}
 library(data.table)
 library(ggplot2)
 library(latex2exp)
 library(metR)
+```
+
+
+
+```{r}
 # joint distribution function of survival MGL-EV copula
 n.grid <- 200
 par.copula <- 1

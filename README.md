@@ -2,14 +2,6 @@ R package for a new beta-type copula: rMGLReg
 ================
 Zhengxiao Li
 
-<!-- # rMGLReg -->
-<!-- badges: start -->
-
-[![Codecov test
-coverage](https://codecov.io/gh/lizhengxiao/rMGLReg/branch/main/graph/badge.svg)](https://codecov.io/gh/lizhengxiao/rMGLReg?branch=main)
-[![R-CMD-check](https://github.com/lizhengxiao/rMGLReg/workflows/R-CMD-check/badge.svg)](https://github.com/lizhengxiao/rMGLReg/actions)
-<!-- badges: end -->
-
 You can see `rMGLReg` in action at
 <https://lizhengxiao.github.io/rMGLReg/>: this is the output of
 Rdocumentation applied to the latest version of `rMGLReg`.
@@ -101,11 +93,12 @@ pairs(U, gap = 0, cex = 0.5)
 
 ``` r
 library(data.table)
-#> Warning: 程辑包'data.table'是用R版本4.1.2 来建造的
 library(ggplot2)
-#> Warning: 程辑包'ggplot2'是用R版本4.1.2 来建造的
 library(latex2exp)
 library(metR)
+```
+
+``` r
 # joint distribution function of survival MGL-EV copula
 n.grid <- 200
 par.copula <- 1
@@ -226,7 +219,7 @@ p0 <- p1 + p2 + p3 + plot_layout(ncol = 3)
 p0
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### *d* = 10-dimensional MGL regression model
 
