@@ -101,7 +101,9 @@ pairs(U, gap = 0, cex = 0.5)
 
 ``` r
 library(data.table)
+#> Warning: 程辑包'data.table'是用R版本4.1.2 来建造的
 library(ggplot2)
+#> Warning: 程辑包'ggplot2'是用R版本4.1.2 来建造的
 library(latex2exp)
 library(metR)
 # joint distribution function of survival MGL-EV copula
