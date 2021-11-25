@@ -1,0 +1,13 @@
+pandoc: 2.14.0.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  counter-plot-MGL-copula: counter-plot-MGL-copula.html
+  counter-plot-MGLMGA: counter-plot-MGLMGA.html
+  MGL-fitting-mixed: MGL-fitting-mixed.html
+  MGL-fitting: MGL-fitting.html
+  MGL-regression-mixed: MGL-regression-mixed.html
+  MGL-regression: MGL-regression.html
+  Simluation-study: Simluation-study.html
+last_built: 2021-11-25T05:07Z
+
