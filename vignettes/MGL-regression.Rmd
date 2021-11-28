@@ -133,6 +133,12 @@ p0
                          X = X,
                          initpar = c(-0.32, 0.001, 0.001)
   )
+  # MGB2 regression
+  m.MGB2 <- MGL.reg(U = U, copula = "MGB2",
+                         method = "Nelder-Mead",
+                         X = X,
+                         initpar = c(-0, 0.001, 0.001, 0.001, 0.001)
+  )
   
 ```
 

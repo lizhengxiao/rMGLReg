@@ -106,10 +106,9 @@ MGL.reg <- function(U, X, copula = c(
       delta <- exp(X %*% pars) + 1
       for (i in seq_len(nrow(X))) {ll[i] <- dcop(U[i, ], param = as.vector(delta[i]))}
     } else if (copula == "MGB2"){
-      npars <- ncol(X)+2
-      p1 <- exp(npars + 1)
-      p2 <- exp(npars + 2)
-      q <- exp(X%*%pars[npars])
+      p1 <- exp(pars[ncol(X) + 1])
+      p2 <- exp(pars[ncol(X) + 2])
+      q <- exp(X%*%pars[1:(ncol(X))])
       for (i in seq_len(nrow(X))) {ll[i] <- dcMGB2.bivar(u1 = U[i,1], u2 = U[i,2], pars1 = p1, pars2 = p2, pars3 = q[i])}
     } else {
       delta <- exp(X %*% pars)

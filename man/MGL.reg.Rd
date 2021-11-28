@@ -7,7 +7,7 @@
 MGL.reg(
   U,
   X,
-  copula = c("MGL", "MGL180", "MGL-EV", "MGL-EV180", "Gumbel"),
+  copula = c("MGL", "MGL180", "MGL-EV", "MGL-EV180", "Gumbel", "MGB2"),
   hessian = TRUE,
   initpar,
   ...
@@ -45,11 +45,11 @@ The estimation method is performed via \code{\link[stats]{optim}} function. Y1 a
 
 copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
 \itemize{
-\item For "Gumbel" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta) + 1.}
-\item For "MGL", "MGL180", "MGL-EV", "MGL-EV180" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta),} where \eqn{\beta} is the vector of coefficients to be estimated in the copula regression.
-}
-
+\item For "Gumbel" regression model, the copula parameter \deqn{\delta_i = \exp(X_i^T\beta) + 1,} where \eqn{{X}_{i}=(1,x_{i1}...,x_{ik})} denotes the vector of covariates and \eqn{\beta} is the vector of coefficients to be estimated in the copula regression.
+\item For "MGL", "MGL180", "MGL-EV", "MGL-EV180" regression model, the copula parameter \deqn{\delta_i = \exp(X_i^T\beta).}
+\item For "MGB2", the copula parameter \deqn{\q_i = \exp(X_i^T\beta)} and \deqn{(p_1,p_2)} are constant.
 Note that the regression modelling can be extended to the high-dimensional case when copula is "MGL180" and "MGL".
+}
 }
 \examples{
 # 10-dimensional regression models
