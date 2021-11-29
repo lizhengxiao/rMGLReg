@@ -65,7 +65,7 @@
 MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
                             "MGL", "MGL180", "MGL-EV",
                             "MGL-EV180",
-                            "Gumbel"
+                            "Gumbel", 'MGB2'
                           ),
                           umin = 0,
                           hessian = TRUE, initpar, ...) {
@@ -152,16 +152,35 @@ MGL.reg.mixed <- function(obs, U, U_, f, X, copula = c(
     ll <- 0
     if (copula == "Gumbel") {
       delta <- exp(X %*% pars) + 1
+      for (i in seq_len(nrow(X))) {
+        if (Obs2[i] <= umin) {
+          ll[i] <- f1[i] * (hcop(U[i, ], param = delta[i])$hfunc1 - hcop(U_[i, ], param = delta[i])$hfunc1)
+        } else {
+          ll[i] <- f1[i] * f2[i] * dcop(U[i, ], param = delta[i])
+        }
+      }
+    } else if(copula == "MGB2"){
+      p1 <- exp(pars[ncol(X) + 1])
+      p2 <- exp(pars[ncol(X) + 2])
+      q <- exp(X%*%pars[1:(ncol(X))])
+      for (i in seq_len(nrow(X))) {
+        if (Obs2[i] <= umin) {
+          ll[i] <- f1[i] * (hcMGB2.bivar(u1 = U[i,1], u2 = U[i,2], pars1 = p1, pars2 = p2, pars3 = q[i])$hfunc1 - hcMGB2.bivar(u1 = U[i,1], u2 = U_[i,2], pars1 = p1, pars2 = p2, pars3 = q[i])$hfunc1)
+        } else {
+          ll[i] <- f1[i] * f2[i] * dcMGB2.bivar(u1 = U[i,1], u2 = U[i,2], pars1 = p1, pars2 = p2, pars3 = q[i])
+        }
+      }
     } else {
       delta <- exp(X %*% pars)
-    }
-    for (i in seq_len(nrow(X))) {
-      if (Obs2[i] <= umin) {
-        ll[i] <- f1[i] * (hcop(U[i, ], param = delta[i])$hfunc1 - hcop(U_[i, ], param = delta[i])$hfunc1)
-      } else {
-        ll[i] <- f1[i] * f2[i] * dcop(U[i, ], param = delta[i])
+      for (i in seq_len(nrow(X))) {
+        if (Obs2[i] <= umin) {
+          ll[i] <- f1[i] * (hcop(U[i, ], param = delta[i])$hfunc1 - hcop(U_[i, ], param = delta[i])$hfunc1)
+        } else {
+          ll[i] <- f1[i] * f2[i] * dcop(U[i, ], param = delta[i])
+        }
       }
     }
+
     res <- - sum((log(ll)))
     return(res)
   }
