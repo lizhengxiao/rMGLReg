@@ -133,6 +133,12 @@ p0
                          X = X,
                          initpar = c(-0.32, 0.001, 0.001)
   )
+  # MGB2 regression
+  m.MGB2 <- MGL.reg(U = U, copula = "MGB2",
+                         method = "Nelder-Mead",
+                         X = X,
+                         initpar = c(-0, 0.001, 0.001, 0.001, 0.001)
+  )
   
 ```
 
@@ -146,7 +152,7 @@ p0
   BIC.copula <- rbind((m.MGL180)$BIC, (m.MGLEV180)$BIC, (m.gumbel)$BIC)
   table1 <- cbind(estimates.copula, sd.copula, ll.copula, AIC.copula, BIC.copula)
   
-  row.names(table1) <- c('MGL180', 'MGLEV180', 'Gumbel') 
+  row.names(table1) <- c('MGL180', 'MGLEV180', 'Gumbel', 'MGB2') 
   colnames(table1) <- c("estimates", "estimates","estimates", "se", "se","se",'loglike', 'AIC', 'BIC')
   knitr::kable(t(table1), digits = 3)
   

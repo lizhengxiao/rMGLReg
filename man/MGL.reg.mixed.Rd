@@ -10,7 +10,7 @@ MGL.reg.mixed(
   U_,
   f,
   X,
-  copula = c("MGL", "MGL180", "MGL-EV", "MGL-EV180", "Gumbel"),
+  copula = c("MGL", "MGL180", "MGL-EV", "MGL-EV180", "Gumbel", "MGB2"),
   umin = 0,
   hessian = TRUE,
   initpar,

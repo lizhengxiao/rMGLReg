@@ -53,7 +53,10 @@ m.gumbel <- MGL.reg.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f, X = X,
                              method = "Nelder-Mead",
                              initpar = c(-0.32, 1, 1, 1))
 
-
+m.MGB2 <- MGL.reg.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f, X = X,
+                             copula = "MGB2", 
+                             method = "Nelder-Mead",
+                             initpar = c(-0.32, 1, 1, 1, 0, 0))
 ```
 
 

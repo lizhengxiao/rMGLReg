@@ -7,7 +7,7 @@
 #' @description \code{MGL.reg} is used to fit bivariate MGL and MGL-EV copula regression models for two continuous variables.
 #' @param U two-dimensional matrix with values in \eqn{[0,1]}.
 #' @param X design matrix
-#' @param copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "Gumbel".
+#' @param copula 'MGL', 'MGL180', "MGL-EV", "MGL-EV180", "Gumbel", "MGB2".
 #' @param initpar Initial values for the parameters to be optimized over.
 #' @param hessian Logical. Should a numerically differentiated Hessian matrix be returned?
 #' @param ... additional arguments, see \code{\link[stats]{optim}} for more details.
@@ -24,9 +24,9 @@
 #' The estimation method is performed via \code{\link[stats]{optim}} function. Y1 and Y2 are both continuous variables.
 #'
 #' copula: "MGL180" and "MGLEV180" denote the survival MGL and survival MGL-EV copula respectively.
-#' * For "Gumbel" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta) + 1.}
-#' * For "MGL", "MGL180", "MGL-EV", "MGL-EV180" regression model, the copula parameter \deqn{\delta_i = \exp(X\beta),} where \eqn{\beta} is the vector of coefficients to be estimated in the copula regression.
-#'
+#' * For "Gumbel" regression model, the copula parameter \deqn{\delta_i = \exp(X_i^T\beta) + 1,} where \eqn{{X}_{i}=(1,x_{i1}...,x_{ik})} denotes the vector of covariates and \eqn{\beta} is the vector of coefficients to be estimated in the copula regression.
+#' * For "MGL", "MGL180", "MGL-EV", "MGL-EV180" regression model, the copula parameter \deqn{\delta_i = \exp(X_i^T\beta).}
+#' * For "MGB2", the copula parameter \deqn{\q_i = \exp(X_i^T\beta)} and \deqn{(p_1,p_2)} remain to be constant.
 #' Note that the regression modelling can be extended to the high-dimensional case when copula is "MGL180" and "MGL".
 #'
 #' @examples
@@ -55,8 +55,7 @@
 MGL.reg <- function(U, X, copula = c(
                       "MGL", "MGL180", "MGL-EV",
                       "MGL-EV180",
-                      "Gumbel"
-                    ),
+                      "Gumbel", "MGB2"),
                     hessian = TRUE, initpar, ...) {
   dcMGL.reg <- function(U, param) {
     dim <- length(U)
@@ -105,11 +104,15 @@ MGL.reg <- function(U, X, copula = c(
 
     if (copula == "Gumbel") {
       delta <- exp(X %*% pars) + 1
+      for (i in seq_len(nrow(X))) {ll[i] <- dcop(U[i, ], param = as.vector(delta[i]))}
+    } else if (copula == "MGB2"){
+      p1 <- exp(pars[ncol(X) + 1])
+      p2 <- exp(pars[ncol(X) + 2])
+      q <- exp(X%*%pars[1:(ncol(X))])
+      for (i in seq_len(nrow(X))) {ll[i] <- dcMGB2.bivar(u1 = U[i,1], u2 = U[i,2], pars1 = p1, pars2 = p2, pars3 = q[i])}
     } else {
       delta <- exp(X %*% pars)
-    }
-    for (i in seq_len(nrow(X))) {
-      ll[i] <- dcop(U[i, ], param = as.vector(delta[i]))
+      for (i in seq_len(nrow(X))) {ll[i] <- dcop(U[i, ], param = as.vector(delta[i]))}
     }
     res <- -sum((log(ll)))
     return(res)
