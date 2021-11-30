@@ -137,7 +137,7 @@ p0
   m.MGB2 <- MGL.reg(U = U, copula = "MGB2",
                          method = "Nelder-Mead",
                          X = X,
-                         initpar = c(-0, 0.001, 0.001, 0.001, 0.001)
+                         initpar = c(0.1, -0.5, -0.5, -0.5, -0.5)
   )
   
 ```
@@ -191,8 +191,6 @@ lines(delta.est, col = 'red', lwd = 2)
 
 # Surivial MGL-EV regression
 par.est <- m.MGLEV180$estimates
-agepred <- seq(from = 1980, to = 1990)
-Xcopula <-  ns(agepred, knots = quantile(dtnew$year, c(0.5)), intercept = T)
 delta.est <- exp(Xcopula%*%par.est)
 cov.est <- -solve(m.MGLEV180$hessian)
 beta.sim <- matrix(0, nrow = 100, ncol = 3)
@@ -239,7 +237,7 @@ lines(delta.est, col = 'red', lwd = 2)
 
 ```{r eval=FALSE, warning=FALSE, include=FALSE}
 # Survival MGL regression model
-# library(data.table)
+library(reshape2)
 par.est <- m.MGL180$estimates
 agepred <- seq(from = 1980, to = 1990)
 Xcopula <-  splines::ns(agepred, knots = quantile(dtnew$year, c(0.5)), intercept = T)
@@ -395,5 +393,5 @@ p4
 p <- p1 + p2 + p3 + p4
 p
 
-ggsave(p, file = 'C:/Users/Lee/Desktop/pic_name.pdf', width = 12, height = 8) 
+# ggsave(p, file = 'C:/Users/Lee/Desktop/pic_name.pdf', width = 12, height = 8) 
 ```
