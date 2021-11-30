@@ -145,15 +145,26 @@ p0
 ### Estimates and goodness fit 
 ```{r, eval = FALSE}
 
-  estimates.copula <- rbind((m.MGL180$estimates), (m.MGLEV180$estimates), (m.gumbel$estimates))
-  sd.copula <- rbind((m.MGL180$se), (m.MGLEV180$se), (m.gumbel$se))
-  ll.copula <- rbind((m.MGL180)$loglike, (m.MGLEV180)$loglike, (m.gumbel)$loglike)
-  AIC.copula <- rbind((m.MGL180)$AIC, (m.MGLEV180)$AIC, (m.gumbel)$AIC)
-  BIC.copula <- rbind((m.MGL180)$BIC, (m.MGLEV180)$BIC, (m.gumbel)$BIC)
+  estimates.copula <- rbind(c(m.MGL180$estimates, NA, NA), 
+                            c(m.MGLEV180$estimates, NA, NA), 
+                            c(m.gumbel$estimates, NA, NA),
+                            c(m.MGB2$estimates)
+                            )
+  sd.copula <- rbind(c(m.MGL180$se, NA, NA), 
+                     c(m.MGLEV180$se, NA, NA), 
+                     c(m.gumbel$se, NA, NA),
+                     c(m.MGB2$se)
+                     )
+  ll.copula <- rbind((m.MGL180)$loglike, (m.MGLEV180)$loglike, (m.gumbel)$loglike, (m.MGB2)$loglike)
+  AIC.copula <- rbind((m.MGL180)$AIC, (m.MGLEV180)$AIC, (m.gumbel)$AIC, (m.MGB2)$AIC)
+  BIC.copula <- rbind((m.MGL180)$BIC, (m.MGLEV180)$BIC, (m.gumbel)$BIC, (m.MGB2)$BIC)
   table1 <- cbind(estimates.copula, sd.copula, ll.copula, AIC.copula, BIC.copula)
   
   row.names(table1) <- c('MGL180', 'MGLEV180', 'Gumbel', 'MGB2') 
-  colnames(table1) <- c("estimates", "estimates","estimates", "se", "se","se",'loglike', 'AIC', 'BIC')
+  colnames(table1) <- c("estimates", "estimates","estimates", "estimates","estimates", 
+                        "se", "se","se","se","se",
+                        'loglike', 
+                        'AIC', 'BIC')
   knitr::kable(t(table1), digits = 3)
   
 ```
@@ -168,7 +179,7 @@ agepred <- seq(from = 1980, to = 1990)
 Xcopula <-  splines::ns(agepred, knots = quantile(dtnew$year, c(0.5)), intercept = T)
 delta.est <- exp(Xcopula%*%par.est)
 cov.est <- -solve(m.MGL180$hessian)
-beta.sim <- matrix(0, nrow = 100, ncol = 4)
+beta.sim <- matrix(0, nrow = 100, ncol = 3)
 delta.mat <- matrix(0, nrow = length(agepred), ncol = 100)
 beta.sim <- mvrnorm(100, mu = par.est, Sigma = cov.est)
 for(i in 1:100){
@@ -184,7 +195,7 @@ agepred <- seq(from = 1980, to = 1990)
 Xcopula <-  ns(agepred, knots = quantile(dtnew$year, c(0.5)), intercept = T)
 delta.est <- exp(Xcopula%*%par.est)
 cov.est <- -solve(m.MGLEV180$hessian)
-beta.sim <- matrix(0, nrow = 100, ncol = 4)
+beta.sim <- matrix(0, nrow = 100, ncol = 3)
 delta.mat <- matrix(0, nrow = length(agepred), ncol = 100)
 beta.sim <- mvrnorm(100, mu = par.est, Sigma = cov.est)
 for(i in 1:100){
@@ -198,7 +209,7 @@ par.est <- m.gumbel$estimates
 delta.est <- exp(Xcopula%*%par.est) + 1
 
 cov.est <- -solve(m.gumbel$hessian)
-beta.sim <- matrix(0, nrow = 100, ncol = 4)
+beta.sim <- matrix(0, nrow = 100, ncol = 3)
 delta.mat <- matrix(0, nrow = length(agepred), ncol = 100)
 beta.sim <- mvrnorm(100, mu = par.est, Sigma = cov.est)
 for(i in 1:100){
@@ -207,5 +218,182 @@ for(i in 1:100){
 matplot(delta.mat, col = 'gray', type = 'l', ylim = c(0, 2), main = 'Gumbel')
 lines(delta.est, col = 'red', lwd = 2)
 
+# MGB2 regression
+par.est <- m.MGB2$estimates
+delta.est <- exp(Xcopula%*%par.est[1:ncol(X)])
 
+cov.est <- -solve(m.MGB2$hessian)
+beta.sim <- matrix(0, nrow = 100, ncol = 5)
+delta.mat <- matrix(0, nrow = length(agepred), ncol = 100)
+pars.sim <- mvrnorm(100, mu = par.est, Sigma = cov.est)
+beta.sim <- pars.sim[,1:ncol(X)]
+for(i in 1:100){
+  delta.mat[,i] <- exp(Xcopula%*%beta.sim[i,])
+}
+matplot(delta.mat, col = 'gray', type = 'l', ylim = c(0, 4), main = 'MGB2')
+lines(delta.est, col = 'red', lwd = 2)
+
+
+```
+
+
+```{r eval=FALSE, warning=FALSE, include=FALSE}
+# Survival MGL regression model
+# library(data.table)
+par.est <- m.MGL180$estimates
+agepred <- seq(from = 1980, to = 1990)
+Xcopula <-  splines::ns(agepred, knots = quantile(dtnew$year, c(0.5)), intercept = T)
+delta.est <- exp(Xcopula%*%par.est)
+cov.est <- -solve(m.MGL180$hessian)
+beta.sim <- matrix(0, nrow = 100, ncol = 3)
+delta.mat <- matrix(0, nrow = length(agepred), ncol = 100)
+beta.sim <- mvrnorm(100, mu = par.est, Sigma = cov.est)
+for(i in 1:100){
+  delta.mat[,i] <- exp(Xcopula%*%beta.sim[i,])
+}
+data <- as.data.frame(delta.mat)
+# data <- data.table(data)
+#id variable for position in matrix
+data$id <- agepred
+#reshape to long format
+plot_data <- melt(data, id.var = "id")
+p1  <- ggplot() +
+  theme_bw() + xlab('Year') + ylab(expression(paste('Predicted', "  ",delta))) +
+  geom_line(data = plot_data, mapping = aes(y = value,
+                                            x = id,
+                                            group = variable),
+            size = 0.3, linetype = 1, col = 'gray') +
+  geom_path(aes_(x = agepred, y = delta.est),
+            size = 1, col = 'red'
+  ) +
+  scale_x_continuous(limits = c(1980, 1990),
+                     breaks = seq(1980, 1990, by = 2)) +
+  scale_y_continuous(limits = c(0, 2),
+                     breaks = seq(0, 2, by = 0.5)) +
+  # ggtitle("Survival MGL copula regression") +
+  facet_grid(. ~ "Survival MGL copula regression") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+p1
+
+
+
+# Surivial MGL-EV regression
+par.est <- m.MGLEV180$estimates
+agepred <- seq(from = 1980, to = 1990)
+Xcopula <-  ns(agepred, knots = quantile(dtnew$year, c(0.5)), intercept = T)
+delta.est <- exp(Xcopula%*%par.est)
+cov.est <- -solve(m.MGLEV180$hessian)
+beta.sim <- matrix(0, nrow = 100, ncol = 3)
+delta.mat <- matrix(0, nrow = length(agepred), ncol = 100)
+beta.sim <- mvrnorm(100, mu = par.est, Sigma = cov.est)
+for(i in 1:100){
+  delta.mat[,i] <- exp(Xcopula%*%beta.sim[i,])
+}
+
+data <- as.data.frame(delta.mat)
+#id variable for position in matrix
+data$id <- agepred
+#reshape to long format
+plot_data <- melt(data, id.var = "id")
+p2  <- ggplot() +
+  theme_bw() + xlab('Year') + ylab(expression(paste('Predicted', "  ",delta))) +
+  geom_line(data = plot_data, mapping = aes(y = value,
+                                            x = id,
+                                            group = variable),
+            size = 0.3, linetype = 1, col = 'gray') +
+  geom_path(aes_(x = agepred, y = delta.est),
+            size = 1, col = 'red'
+  ) +
+  scale_x_continuous(limits = c(1980, 1990),
+                     breaks = seq(1980, 1990, by = 2)) +
+  scale_y_continuous(limits = c(0, 2),
+                     breaks = seq(0, 2, by = 0.5)) +
+  # ggtitle("Survival MGL-EV copula regression") +
+  facet_grid(. ~ "Survival MGL-EV copula regression") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+p2
+
+
+# Gumbel regression
+par.est <- m.gumbel$estimates
+delta.est <- exp(Xcopula%*%par.est) + 1
+
+cov.est <- -solve(m.gumbel$hessian)
+beta.sim <- matrix(0, nrow = 100, ncol = 3)
+delta.mat <- matrix(0, nrow = length(agepred), ncol = 100)
+beta.sim <- mvrnorm(100, mu = par.est, Sigma = cov.est)
+for(i in 1:100){
+  delta.mat[,i] <- exp(Xcopula%*%beta.sim[i,]) + 1
+}
+data <- as.data.frame(delta.mat)
+#id variable for position in matrix
+data$id <- agepred
+#reshape to long format
+plot_data <- melt(data, id.var = "id")
+p3  <- ggplot() +
+  theme_bw() + xlab('Year') + ylab(expression(paste('Predicted', "  ",delta))) +
+  geom_line(data = plot_data, mapping = aes(y = value,
+                                            x = id,
+                                            group = variable),
+            size = 0.3, linetype = 1, col = 'gray') +
+  geom_path(aes_(x = agepred, y = delta.est),
+            size = 1, col = 'red'
+  ) +
+  scale_x_continuous(limits = c(1980, 1990),
+                     breaks = seq(1980, 1990, by = 2)) +
+  scale_y_continuous(limits = c(0, 2),
+                     breaks = seq(0, 2, by = 0.5)) +
+  # scale_y_continuous(limits = c(1, 1.6),
+  #                    breaks = seq(1, 1.6, by = 0.2)) +
+
+  # ggtitle("Gumbel copula regression") +
+  facet_grid(. ~ "Gumbel copula regression") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+p3
+
+
+# MGB2 regression
+par.est <- m.MGB2$estimates
+delta.est <- exp(Xcopula%*%par.est[1:ncol(X)])
+cov.est <- -solve(m.MGB2$hessian)
+beta.sim <- matrix(0, nrow = 100, ncol = 5)
+delta.mat <- matrix(0, nrow = length(agepred), ncol = 100)
+pars.sim <- mvrnorm(100, mu = par.est, Sigma = cov.est)
+beta.sim <- pars.sim[,1:ncol(X)]
+for(i in 1:100){
+  delta.mat[,i] <- exp(Xcopula%*%beta.sim[i,])
+}
+
+
+data <- as.data.frame(delta.mat)
+#id variable for position in matrix
+data$id <- agepred
+#reshape to long format
+plot_data <- melt(data, id.var = "id")
+p4  <- ggplot() +
+  theme_bw() + xlab('Year') + ylab(expression(paste('Predicted', "  ", q))) +
+  geom_line(data = plot_data, mapping = aes(y = value,
+                                            x = id,
+                                            group = variable),
+            size = 0.3, linetype = 1, col = 'gray') +
+  geom_path(aes_(x = agepred, y = delta.est),
+            size = 1, col = 'red'
+  ) +
+  scale_x_continuous(limits = c(1980, 1990),
+                     breaks = seq(1980, 1990, by = 2)) +
+  scale_y_continuous(limits = c(0, 2),
+                     breaks = seq(0, 2, by = 0.5)) +
+  facet_grid(. ~ "MGB2 copula regression") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+p4
+
+
+p <- p1 + p2 + p3 + p4
+p
+
+ggsave(p, file = 'C:/Users/Lee/Desktop/pic_name.pdf', width = 12, height = 8) 
 ```
