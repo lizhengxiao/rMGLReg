@@ -395,3 +395,20 @@ p
 
 # ggsave(p, file = 'C:/Users/Lee/Desktop/pic_name.pdf', width = 12, height = 8) 
 ```
+
+
+
+
+
+<!-- ```{r} -->
+<!-- par.est <- m.MGB2$estimates -->
+<!-- agepred <- seq(from = 1980, to = 1990) -->
+<!-- Xcopula <-  ns(agepred, knots = quantile(dtnew$year, c(0.5)), intercept = T) -->
+<!-- delta.est <- exp(Xcopula%*%par.est[1:ncol(Xcopula)]) -->
+<!-- cbind(agepred, delta.est) -->
+
+<!-- dt1984 <- dtnew[year == 1984] -->
+<!-- dt1990 <- dtnew[year == 1990] -->
+
+
+<!-- ``` -->
