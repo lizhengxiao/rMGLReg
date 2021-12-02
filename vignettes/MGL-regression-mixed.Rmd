@@ -306,5 +306,5 @@ p <- p1 + p2 + p3 + p4
 p
 
 
-ggsave(p, file = 'C:/Users/Lee/Desktop/pic2_name.pdf', width = 12, height = 8) 
+# ggsave(p, file = 'C:/Users/Lee/Desktop/pic2_name.pdf', width = 12, height = 8) 
 ```
