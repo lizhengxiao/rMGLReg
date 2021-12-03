@@ -401,14 +401,67 @@ p
 
 
 <!-- ```{r} -->
-<!-- par.est <- m.MGB2$estimates -->
+<!-- # For year 1984 and year 1990 -->
+<!-- dtnew$u1 <- U[,1] -->
+<!-- dtnew$u2 <- U[,2] -->
+<!-- dtnew$y1 <- y1 -->
+<!-- dtnew$y2 <- y2 -->
+<!-- dt1984 <- dtnew[year == 1984] -->
+<!-- dt1990 <- dtnew[year == 1990] -->
+<!-- index.1984 <- 5 -->
+<!-- index.1990 <- 11 -->
+<!-- agepred <- seq(from = 1980, to = 1990) -->
+<!-- # cbind(agepred, delta.est) -->
+
+
+
+<!-- # =========================================== -->
+<!-- # (0.95 - 1) tail fitting  -->
+<!-- # =========================================== -->
+<!-- library(copula) -->
+<!-- library(fCopulae) -->
+<!-- library(cubature) -->
+<!-- # Gumbel regression in Year 1984 -->
+<!-- par.est <- m.gumbel$estimates -->
 <!-- agepred <- seq(from = 1980, to = 1990) -->
 <!-- Xcopula <-  ns(agepred, knots = quantile(dtnew$year, c(0.5)), intercept = T) -->
 <!-- delta.est <- exp(Xcopula%*%par.est[1:ncol(Xcopula)]) -->
-<!-- cbind(agepred, delta.est) -->
+<!-- delta.1984 <- delta.est[index.1984] -->
 
-<!-- dt1984 <- dtnew[year == 1984] -->
-<!-- dt1990 <- dtnew[year == 1990] -->
+<!-- XY <- cbind(dt1984$u1, dt1984$u2) -->
 
+<!-- pgumcop <- function(U, param) as.numeric(pevCopula(U, type = "gumbel", param = param[1])) -->
+<!-- error_c_gumbel <- function(U, param){ -->
+<!--   u1 <- U[1] -->
+<!--   u2 <- U[2] -->
+<!--   empc <- C.n(u = cbind(u1, u2), X = XY) -->
+<!--   fitc <- do.call(pgumcop, args = list(U = cbind(u1, u2), param = param)) -->
+<!--   out <- (fitc - empc)^2 -->
+<!--   out -->
+<!-- } -->
+<!-- p_gumbel <- cuhre(f = error_c_gumbel, -->
+<!--                   param = delta.1984, -->
+<!--                   lowerLimit = c(0.95, 0.95), -->
+<!--                   upperLimit = c(1, 1))$integral -->
+<!-- p_gumbel -->
+
+<!-- # MGL180 regression in Year 1984 -->
+<!-- par.est <- m.MGL180$estimates -->
+<!-- delta.est <- exp(Xcopula%*%par.est[1:ncol(Xcopula)]) -->
+<!-- delta.1984 <- delta.est[index.1984] -->
+
+<!-- error_c_MGL180 <- function(U, param){ -->
+<!--   u1 <- U[1] -->
+<!--   u2 <- U[2] -->
+<!--   empc <- C.n(u = cbind(u1, u2), X = XY) -->
+<!--   fitc <- do.call(pcMGL180.bivar,  -->
+<!--                   args = list(u1 = u1, u2 = u2, pars = param)) -->
+<!--   out <- (fitc - empc)^2 -->
+<!--   out -->
+<!-- } -->
+<!-- p_MGL180 <- cuhre(f = error_c_MGL180, -->
+<!--                   param = delta.1984, -->
+<!--                   lowerLimit = c(0.95, 0.95), -->
+<!--                   upperLimit = c(1, 1))$integral -->
 
 <!-- ``` -->
