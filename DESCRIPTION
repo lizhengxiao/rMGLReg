@@ -25,6 +25,8 @@ Suggests:
     renv,
     reshape2,
     rmarkdown,
+    MASS,
+    survival,
     snpar,
     testthat (>= 3.0.0),
     VineCopula
