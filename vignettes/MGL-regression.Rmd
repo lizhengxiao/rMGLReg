@@ -137,7 +137,7 @@ p0
   m.MGB2 <- MGL.reg(U = U, copula = "MGB2",
                          method = "Nelder-Mead",
                          X = X,
-                         initpar = c(-0, 0.001, 0.001, 0.001, 0.001)
+                         initpar = c(0.1, -0.5, -0.5, -0.5, -0.5)
   )
   
 ```
@@ -191,8 +191,6 @@ lines(delta.est, col = 'red', lwd = 2)
 
 # Surivial MGL-EV regression
 par.est <- m.MGLEV180$estimates
-agepred <- seq(from = 1980, to = 1990)
-Xcopula <-  ns(agepred, knots = quantile(dtnew$year, c(0.5)), intercept = T)
 delta.est <- exp(Xcopula%*%par.est)
 cov.est <- -solve(m.MGLEV180$hessian)
 beta.sim <- matrix(0, nrow = 100, ncol = 3)
@@ -239,7 +237,7 @@ lines(delta.est, col = 'red', lwd = 2)
 
 ```{r eval=FALSE, warning=FALSE, include=FALSE}
 # Survival MGL regression model
-# library(data.table)
+library(reshape2)
 par.est <- m.MGL180$estimates
 agepred <- seq(from = 1980, to = 1990)
 Xcopula <-  splines::ns(agepred, knots = quantile(dtnew$year, c(0.5)), intercept = T)
@@ -395,5 +393,75 @@ p4
 p <- p1 + p2 + p3 + p4
 p
 
-ggsave(p, file = 'C:/Users/Lee/Desktop/pic_name.pdf', width = 12, height = 8) 
+# ggsave(p, file = 'C:/Users/Lee/Desktop/pic_name.pdf', width = 12, height = 8) 
 ```
+
+
+
+
+
+<!-- ```{r} -->
+<!-- # For year 1984 and year 1990 -->
+<!-- dtnew$u1 <- U[,1] -->
+<!-- dtnew$u2 <- U[,2] -->
+<!-- dtnew$y1 <- y1 -->
+<!-- dtnew$y2 <- y2 -->
+<!-- dt1984 <- dtnew[year == 1984] -->
+<!-- dt1990 <- dtnew[year == 1990] -->
+<!-- index.1984 <- 5 -->
+<!-- index.1990 <- 11 -->
+<!-- agepred <- seq(from = 1980, to = 1990) -->
+<!-- # cbind(agepred, delta.est) -->
+
+
+
+<!-- # =========================================== -->
+<!-- # (0.95 - 1) tail fitting  -->
+<!-- # =========================================== -->
+<!-- library(copula) -->
+<!-- library(fCopulae) -->
+<!-- library(cubature) -->
+<!-- # Gumbel regression in Year 1984 -->
+<!-- par.est <- m.gumbel$estimates -->
+<!-- agepred <- seq(from = 1980, to = 1990) -->
+<!-- Xcopula <-  ns(agepred, knots = quantile(dtnew$year, c(0.5)), intercept = T) -->
+<!-- delta.est <- exp(Xcopula%*%par.est[1:ncol(Xcopula)]) -->
+<!-- delta.1984 <- delta.est[index.1984] -->
+
+<!-- XY <- cbind(dt1984$u1, dt1984$u2) -->
+
+<!-- pgumcop <- function(U, param) as.numeric(pevCopula(U, type = "gumbel", param = param[1])) -->
+<!-- error_c_gumbel <- function(U, param){ -->
+<!--   u1 <- U[1] -->
+<!--   u2 <- U[2] -->
+<!--   empc <- C.n(u = cbind(u1, u2), X = XY) -->
+<!--   fitc <- do.call(pgumcop, args = list(U = cbind(u1, u2), param = param)) -->
+<!--   out <- (fitc - empc)^2 -->
+<!--   out -->
+<!-- } -->
+<!-- p_gumbel <- cuhre(f = error_c_gumbel, -->
+<!--                   param = delta.1984, -->
+<!--                   lowerLimit = c(0.95, 0.95), -->
+<!--                   upperLimit = c(1, 1))$integral -->
+<!-- p_gumbel -->
+
+<!-- # MGL180 regression in Year 1984 -->
+<!-- par.est <- m.MGL180$estimates -->
+<!-- delta.est <- exp(Xcopula%*%par.est[1:ncol(Xcopula)]) -->
+<!-- delta.1984 <- delta.est[index.1984] -->
+
+<!-- error_c_MGL180 <- function(U, param){ -->
+<!--   u1 <- U[1] -->
+<!--   u2 <- U[2] -->
+<!--   empc <- C.n(u = cbind(u1, u2), X = XY) -->
+<!--   fitc <- do.call(pcMGL180.bivar,  -->
+<!--                   args = list(u1 = u1, u2 = u2, pars = param)) -->
+<!--   out <- (fitc - empc)^2 -->
+<!--   out -->
+<!-- } -->
+<!-- p_MGL180 <- cuhre(f = error_c_MGL180, -->
+<!--                   param = delta.1984, -->
+<!--                   lowerLimit = c(0.95, 0.95), -->
+<!--                   upperLimit = c(1, 1))$integral -->
+
+<!-- ``` -->
