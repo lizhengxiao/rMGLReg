@@ -36,7 +36,7 @@ U_ <- u_
 umin <- 20
 
 library(splines)
-X <- ns(earthqCHI$year, knots = quantile(earthqCHI$year, c(0.333, 0.667)), intercept = T)
+X <- splines::ns(earthqCHI$year, knots = quantile(earthqCHI$year, c(0.333, 0.667)), intercept = T)
 
 m.MGL180 <- MGL.reg.mixed(obs = y, U = U, U_ = U_, umin = umin, f = f, X = X,
                              copula = "MGL180", 

@@ -23,6 +23,7 @@ Suggests:
     patchwork,
     qpdf,
     renv,
+    reshape2,
     rmarkdown,
     snpar,
     testthat (>= 3.0.0),
