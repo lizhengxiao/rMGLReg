@@ -29,7 +29,7 @@ collected from the Copenhagen Reinsurance Company and comprises 2167 fire losses
 
 
 ## Load the data
-```{r warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 library(rMGLReg)
 library(fitdistrplus)
 library(splines)
