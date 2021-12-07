@@ -34,6 +34,7 @@ Imports:
     stats,
     pracma,
     fCopula,
+    VineCopula,
     cubature,
     fitdistrplus,
     ggplot2,
@@ -41,7 +42,8 @@ Imports:
     patchwork,
     survival,
     snpar,
-    MASS
+    MASS,
+    reshape2
 Depends: 
     R (>= 2.10)
 VignetteBuilder: knitr
