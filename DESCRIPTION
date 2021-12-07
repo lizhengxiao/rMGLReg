@@ -21,7 +21,6 @@ Suggests:
     knitr,
     latex2exp,
     patchwork,
-    qpdf,
     renv,
     reshape2,
     rmarkdown,
@@ -34,7 +33,15 @@ Config/testthat/edition: 3
 Imports: 
     stats,
     pracma,
-    fCopulae
+    fCopula,
+    cubature,
+    fitdistrplus,
+    ggplot2,
+    latex2exp,
+    patchwork,
+    survival,
+    snpar,
+    MASS
 Depends: 
     R (>= 2.10)
 VignetteBuilder: knitr
