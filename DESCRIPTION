@@ -1,49 +1,40 @@
 Package: rMGLReg
-Title: What the Package Does (One Line, Title Case)
-Version: 2.0.0
+Title: MGL copula regressions
+Version: 2.1.0
 Authors@R: 
     person(given = "Zhengxiao",
            family = "Li",
            role = c("aut", "cre"),
            email = "li_zhengxiao@uibe.edu.cn",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: This package is designed for modelling multivariate loss data using MGL copula regressions.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Suggests: 
-    cubature,
     data.table,
     fitdistrplus,
     ggplot2,
     knitr,
     latex2exp,
+    metR,
     patchwork,
     renv,
     reshape2,
     rmarkdown,
-    MASS,
-    survival,
-    snpar,
-    testthat (>= 3.0.0),
-    VineCopula
+    testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 
     stats,
     pracma,
-    fCopula,
+    fCopulae,
     VineCopula,
     cubature,
-    fitdistrplus,
-    ggplot2,
-    latex2exp,
-    patchwork,
     survival,
     snpar,
-    MASS,
-    reshape2
+    MASS
 Depends: 
     R (>= 2.10)
 VignetteBuilder: knitr
